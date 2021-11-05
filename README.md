@@ -24,9 +24,9 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
-### server
+# server
 
-## Compile and start the server
+### Compile and start the server
 ```
 npm run dev:server
 ```
