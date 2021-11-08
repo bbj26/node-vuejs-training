@@ -1,11 +1,17 @@
 const express = require('express')
 const app = express()
 const PORT = 4101 || process.env.PORT
-require('dotenv/config')
-const itemsRouter = require('./router')
+const router = require('./router')
+require('dotenv').config()
+
+const mongoose = require('mongoose')
+const db = process.env.DB_CONNECTION;
+mongoose.connect(db)
+  .then(console.log('Successfully connected to remote MongoDB.'))
+  .catch((err => console.log('Problem with connection to DB. ' + err)))
 
 app.use(express.json())
-app.use('/', itemsRouter)
+app.use('/', router)
 
 app.get('/', (req, res) => {
   res.send('You accessed simple Node.js/Express server')

@@ -1,30 +1,27 @@
-const Item = require('../models/items')
+const Item = require('../models/item')
 
-const fetchItems = (req, res) => {
-  Item.find({}, (err, data) => {
-    if (!err) {
-      res.send(data)
-    } else {
-      console.log(err);
-    }
-  })
+const fetchItems = async (req, res) => {
+  const items = await Item.find({})
+  try {
+    res.json(items)
+  } catch (error) {
+    console.log(error)
+  }
 }
 
-const createItem = (req, res) => {
+const createItem = async (req, res) => {
   let itemData = {
     name: req.body.name,
     createdAt: req.body.createdAt
   }
   let item = new Item(itemData);
 
-  item.save((err, savedItem) => {
-    if (err) {
-      console.log(err)
-    } else {
-      res.status(200).json({ code: 200, message: 'Item added successfully', addedItem: savedItem })
-    }
-  })
-
+  const savedItem = await item.save()
+  try {
+    res.status(201).json({ code: 200, message: 'Item added successfully', saved: savedItem})
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 module.exports = {
