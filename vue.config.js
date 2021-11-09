@@ -1,6 +1,14 @@
 module.exports = {
     devServer: {
-      port: 4100
+      port: 4100,
+      proxy: {
+        "/api": {
+          target: "http://localhost:4101/items",
+          changeOrigin: true,
+          logLevel: "debug",
+          pathRewrite: { "/api": "/" }
+        }
+      }
     },
     pages: {
       index: {

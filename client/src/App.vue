@@ -1,5 +1,9 @@
 <template>
-<ListItems />
+<div>
+  <ListItems />
+  <router-view></router-view>
+</div>
+
 </template>
 
 <script>

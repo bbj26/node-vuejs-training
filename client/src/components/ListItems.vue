@@ -1,7 +1,11 @@
 <template>
 <ul id="items-list">
   <li v-for="item in items" :key="item.name">
-    {{ item.name }} created at: {{item.createdAt}}
+    <div class="itemInfo">
+      <div>ID: {{item._id}}</div> 
+      <div>NAME: {{item.name}}</div> 
+      <div>CREATED:{{item.createdAt}}</div> 
+    </div>
   </li>
 </ul>
 </template>
@@ -39,5 +43,10 @@ li {
 }
 a {
   color: #42b983;
+}
+
+.itemInfo {
+  margin-bottom: 25px;
+  border: 1px solid black;
 }
 </style>
