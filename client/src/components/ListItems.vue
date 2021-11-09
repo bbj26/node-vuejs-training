@@ -1,13 +1,16 @@
 <template>
-<ul id="items-list">
-  <li v-for="item in items" :key="item.name">
-    <div class="itemInfo">
-      <div>ID: {{item._id}}</div> 
-      <div>NAME: {{item.name}}</div> 
-      <div>CREATED:{{item.createdAt}}</div> 
-    </div>
-  </li>
-</ul>
+  <div>
+    <h1 style="text-decoration: underline">All items</h1>
+    <ul id="items-list">
+      <li v-for="item in items" :key="item.name">
+        <div class="itemInfo">
+          <div class="itemField">id: {{item._id}}</div> 
+          <div class="itemField">name: {{item.name}}</div> 
+          <div class="itemField">created:{{item.createdAt}}</div> 
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -17,7 +20,7 @@ export default {
   name: 'ListItems',
   data () {
     return {
-      items: ['marko', 'luka', 'ivan'],
+      items: [],
       errors: []
     }
   },
@@ -30,10 +33,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
+<style scoped> 
 ul {
   list-style-type: none;
   padding: 0;
@@ -41,12 +41,14 @@ ul {
 li {
   margin: 0 10px;
 }
-a {
-  color: #42b983;
+.itemInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
-.itemInfo {
-  margin-bottom: 25px;
-  border: 1px solid black;
+.itemField {
+  margin-right: 25px;
+  padding: 5px;
 }
 </style>
