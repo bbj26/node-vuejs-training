@@ -22,7 +22,7 @@ export default {
     }
   },
   mounted: function() {
-    axios.get('http://localhost:4101/items')
+    axios.get('/api')
       .then(response => this.items = response.data)
       .catch(error => console.log(error))
   }
