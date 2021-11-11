@@ -3,7 +3,7 @@ module.exports = {
       port: 4100,
       proxy: {
         "/api": {
-          target: "http://localhost:4101/items",
+          target: "http://localhost:4101",
           changeOrigin: true,
           logLevel: "debug",
           pathRewrite: { "/api": "/" }

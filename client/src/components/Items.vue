@@ -3,10 +3,10 @@
     <h1 style="text-decoration: underline">All items</h1>
     <ul id="items-list">
       <li v-for="item in items" :key="item.name">
-        <div class="itemInfo">
-          <div class="itemField">id: {{item._id}}</div> 
-          <div class="itemField">name: {{item.name}}</div> 
-          <div class="itemField">created:{{item.createdAt}}</div> 
+        <div class="item-info">
+          <div class="item-field">id: {{item._id}}</div> 
+          <div class="item-field">name: {{item.name}}</div> 
+          <div class="item-field">created:{{item.createdAt}}</div> 
         </div>
       </li>
     </ul>
@@ -14,25 +14,24 @@
 </template>
 
 <script>
-import  axios from 'axios';
+import api from '../../api/item'
 
 export default {
   name: 'Items',
   data () {
     return {
       items: [],
-      errors: []
+      error: null,
     }
   },
-  mounted: function() {
-    axios.get('/api')
-      .then(response => this.items = response.data)
-      .catch(error => console.log(error))
+  mounted() {
+   api.getItems()
+   .then(res => this.items = res.data)
+   .catch(err => this.errors = err)
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped> 
 ul {
   list-style-type: none;
@@ -41,13 +40,13 @@ ul {
 li {
   margin: 0 10px;
 }
-.itemInfo {
+.item-info {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
 
-.itemField {
+.item-field {
   margin-right: 25px;
   padding: 5px;
 }
