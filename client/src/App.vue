@@ -1,6 +1,6 @@
 <template>
 <div>
-  <ListItems />
+  <Items />
   <router-view></router-view>
 </div>
 
@@ -8,11 +8,11 @@
 
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
-import ListItems from './components/ListItems.vue'
+import Items from './components/Items.vue'
 export default {
   name: 'App',
   components: {
-    ListItems
+    Items
   }
 }
 </script>
