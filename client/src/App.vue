@@ -1,13 +1,10 @@
 <template>
-<div>
-  <Items />
-  <router-view></router-view>
-</div>
-
+  <div>
+    <Items />
+  </div>
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
 import Items from './components/Items.vue'
 export default {
   name: 'App',
