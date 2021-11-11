@@ -1,9 +1,9 @@
 <template>
   <div>
     <h1 style="text-decoration: underline">All items</h1>
-    <ul id="items-list">
-      <li v-for="item in items" :key="item.name">
-        <div class="item-info">
+    <ul class="items-list">
+      <li v-for="(item, i) in items" :key="i">
+        <div class="item-info" v-bind:style=" i % 2 == 0 ? 'background-color: beige;' : 'background-color: white;' ">
           <div class="item-field">id: {{item._id}}</div> 
           <div class="item-field">name: {{item.name}}</div> 
           <div class="item-field">created:{{item.createdAt}}</div> 
@@ -44,10 +44,13 @@ li {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  border: 1px solid black;
 }
 
 .item-field {
   margin-right: 25px;
   padding: 5px;
+  min-width: 300px;
+  text-align: left;
 }
 </style>
