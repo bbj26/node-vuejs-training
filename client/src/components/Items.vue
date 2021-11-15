@@ -1,15 +1,22 @@
 <template>
-  <div>
-    <h1 style="text-decoration: underline">All items</h1>
-    <ul class="items-list">
-      <li v-for="(item, i) in items" :key="i">
-        <div class="item-info" v-bind:style=" i % 2 == 0 ? 'background-color: beige;' : 'background-color: white;' ">
-          <div class="item-field">id: {{item._id}}</div> 
-          <div class="item-field">name: {{item.name}}</div> 
-          <div class="item-field">created:{{item.createdAt}}</div> 
-        </div>
-      </li>
-    </ul>
+  <div class="va-table-responsive">
+    <h1 class="display-3">ALL ITEMS</h1>
+    <table class="va-table va-table--striped va-table--clickable mx-auto">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Created</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="item in items" :key="item._id">
+        <td>{{item._id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.createdAt}}</td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -32,25 +39,8 @@ export default {
 }
 </script>
 
-<style scoped> 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  margin: 0 10px;
-}
-.item-info {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  border: 1px solid black;
-}
-
-.item-field {
-  margin-right: 25px;
-  padding: 5px;
-  min-width: 300px;
-  text-align: left;
-}
+<style scoped>
+  .va-table-responsive {
+    overflow: auto;
+  }
 </style>
