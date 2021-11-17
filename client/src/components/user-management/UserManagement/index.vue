@@ -11,17 +11,25 @@
       <button @click="deleteEmployee(employee._id)">Delete</button>
     </div>
   </div>
+  <AddUserForm />
 </template>
 
 <script>
 import api from "../../../../api/employee";
+import AddUserForm from '../AddUserForm'
 export default {
+  components: {
+    AddUserForm
+  },
   data() {
     return {
       employees: [],
     };
   },
   created() {
+    this.fetchEmployees();
+  },
+  updated() {
     this.fetchEmployees();
   },
   methods: {
