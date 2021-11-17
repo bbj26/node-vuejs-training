@@ -4,7 +4,13 @@
     <div class="container">
       <form>
         <label for="name">Name</label>
-        <input type="text" id="name" name="name" placeholder="Full name..." v-model="employeeName" />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Full name..."
+          v-model="employeeName"
+        />
         <button type="submit" @click.prevent="createEmployee">Create</button>
       </form>
     </div>
@@ -12,23 +18,24 @@
 </template>
 
 <script>
-import api from '../../../../api/employee'
+import api from "../../../../api/employee";
 export default {
   data() {
     return {
-      employeeName: '',
+      employeeName: "",
     };
   },
   methods: {
     createEmployee() {
-      if (this.employeeName !== '') {
-        api.createEmployee({name: this.employeeName})
+      if (this.employeeName !== "") {
+        api
+          .createEmployee({ name: this.employeeName })
           .then(() => {
-            this.employeeName = ''
+            this.employeeName = "";
           })
-          .catch(err => console.log(err.msg))
+          .catch((err) => console.log(err.msg));
       }
-    }
+    },
   },
 };
 </script>
