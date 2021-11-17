@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import NotFound from '../components/NotFound.vue'
-import Dashboard from '../components/dashboard/Dashboard.vue'
-import UserManagement from '../components/user-management/UserManagement.vue'
+import Dashboard from '../components/dashboard/Dashboard'
+import UserManagement from '../components/user-management/UserManagement'
 const routes = [
   {
     path: "/",

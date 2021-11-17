@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import Employees from "./Employees.vue";
+import Employees from '../Employees';
 export default {
   components: {
     Employees,
