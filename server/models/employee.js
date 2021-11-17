@@ -5,12 +5,7 @@ const employeeSchema = new Schema({
   name: {
     type: String,
     required: true
-  },
-  tasks: {
-    type: Array,
-    default: [],
-    required: true
   }
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('employee', employeeSchema, 'employees');
