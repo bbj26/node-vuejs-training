@@ -13,6 +13,7 @@ router.post('/employees', employeeController.createEmployee)
 router.delete('/employees/:id', employeeController.deleteEmployee)
 
 router.get('/tasks', taskController.fetchTasks)
+router.get('/tasks/:id', taskController.fetchEmployeeTasks)
 router.post('/tasks/:id', taskController.createTask)
 
 module.exports = router

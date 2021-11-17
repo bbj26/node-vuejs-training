@@ -9,6 +9,16 @@ const fetchTasks = async (req, res) => {
   }
 }
 
+const fetchEmployeeTasks = async (req, res) => {
+  let employeeId = req.params.id
+  try {
+    const tasks = await Task.find({ employeeId: employeeId})
+    res.status(200).json(tasks)
+  } catch (error) {
+    es.status(404).json({ code: 404, msg: error })
+  }
+}
+
 const createTask = async (req, res) => {
   let taskData = {
     name: req.body.name,
@@ -27,5 +37,6 @@ const createTask = async (req, res) => {
 
 module.exports = {
   fetchTasks,
+  fetchEmployeeTasks,
   createTask
 }
