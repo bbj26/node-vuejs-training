@@ -8,5 +8,6 @@ router.post('/items', itemController.createItem)
 
 router.get('/employees', employeeController.fetchEmployees)
 router.post('/employees', employeeController.createEmployee)
+router.delete('/employees/:id', employeeController.deleteEmployee)
 
 module.exports = router

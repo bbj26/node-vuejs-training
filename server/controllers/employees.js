@@ -23,7 +23,18 @@ const createEmployee = async (req, res) => {
   }
 }
 
+const deleteEmployee = async (req, res) => {
+  try {
+    await Employee.findByIdAndRemove(req.params.id)
+    res.status(200).json({ code: 200, message: 'Employee successfully deleted' })
+  } catch (error) {
+    res.status(400).json({ code: 400, msg: error })
+  }
+
+}
+
 module.exports = {
   fetchEmployees,
-  createEmployee
+  createEmployee,
+  deleteEmployee
 }
