@@ -1,9 +1,10 @@
 <template>
   <h1 @click="logTasks">Employee Tasks</h1>
   <div v-if="tasks !== []">
-    <div v-for="task in tasks" :key="task">
-      {{ task.name }} {{ task.deadline }} {{ task.completed }}
-      {{ task.createdAt }}
+    <div v-for="task in tasks" :key="task._id">
+      <div>{{ task.name }}</div>
+      <div>{{ task.deadline }}</div>
+      <div>{{ task.completed }}</div> 
       <input
         type="checkbox"
         v-model="task.completed"
@@ -22,13 +23,15 @@ export default {
   data() {
     return {
       error: null,
+      taskDeadline: null
     };
   },
   methods: {
     deleteTask(id) {
       api
         .deleteTask(id)
-        .then(() => {
+        .then((res) => {
+          console.log(res.data)
           this.emitDeleteTaskEvent();
         })
         .catch((err) => (this.error = err));
@@ -39,8 +42,7 @@ export default {
     toggleCompletedTask(taskId) {
       api
         .toggleCompleteTask(taskId)
-        .then((res) => console.log(res.data))
-        .catch((err) => console.log(err));
+        .catch((err) => this.error = err);
     },
   },
 };

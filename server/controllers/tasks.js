@@ -36,14 +36,13 @@ const createTask = async (req, res) => {
 }
 
 const deleteTask = async (req, res) => {
-  let taskId = req.params.id
+  let taskId = req.params.taskId
   try {
     await Task.findByIdAndDelete(taskId)
     res.status(200).json({ code: 200, msg: 'Task successfully deleted' })
   } catch (error) {
     res.status(400).json({ code: 400, msg: error })
   }
-
 }
 
 const completeTask = async (req, res) => {
