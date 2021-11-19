@@ -1,4 +1,5 @@
 const Employee = require('../models/employee')
+const Task = require('../models/task')
 
 const fetchEmployees = async (req, res) => {
   try {
@@ -25,12 +26,12 @@ const createEmployee = async (req, res) => {
 
 const deleteEmployee = async (req, res) => {
   try {
+    await Task.deleteMany({ "employeeId": req.params.id })
     await Employee.findByIdAndRemove(req.params.id)
     res.status(200).json({ code: 200, message: 'Employee successfully deleted' })
   } catch (error) {
     res.status(400).json({ code: 400, msg: error })
   }
-
 }
 
 module.exports = {

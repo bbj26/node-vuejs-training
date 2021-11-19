@@ -16,7 +16,6 @@
 
 <script>
 import api from "../../../../api/employee";
-import tasksApi from "../../../../api/task";
 import AddUserForm from "../AddUserForm";
 export default {
   components: {
@@ -25,6 +24,7 @@ export default {
   data() {
     return {
       employees: [],
+      errors: [],
     };
   },
   created() {
@@ -43,14 +43,12 @@ export default {
         .catch((err) => this.errors.push(err.msg));
     },
     deleteEmployee(employeeId) {
-      tasksApi
-        .deleteEmployeeTasks(employeeId)
-        .then(
-          api.deleteEmployee(employeeId).then(() => {
-            this.fetchEmployees();
-          })
-        )
-        .catch((err) => console.log(err.msg));
+      api
+        .deleteEmployee(employeeId)
+        .then(() => {
+          this.fetchEmployees();
+        })
+        .catch((err) => this.errors.push(err.msg));
     },
   },
 };
