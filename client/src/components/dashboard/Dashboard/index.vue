@@ -16,6 +16,7 @@ export default {
   data() {
     return {
       employees: [],
+      error: null,
     };
   },
   created() {
@@ -24,7 +25,7 @@ export default {
       .then((res) => {
         this.employees = res.data;
       })
-      .catch((err) => this.errors.push(err.msg));
+      .catch((err) => (this.error = err));
   },
 };
 </script>

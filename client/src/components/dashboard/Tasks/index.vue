@@ -13,15 +13,23 @@
 import api from "../../../../api/task";
 export default {
   props: ["tasks"],
+  emits: ["deleteTaskEvent"],
   data() {
-    return {};
+    return {
+      error: null,
+    };
   },
   methods: {
     deleteTask(id) {
       api
         .deleteTask(id)
-        .then((res) => console.log(res.data))
-        .catch((err) => console.log(err));
+        .then(() => {
+          this.emitDeleteTaskEvent();
+        })
+        .catch((err) => (this.error = err));
+    },
+    emitDeleteTaskEvent() {
+      this.$emit("deleteTaskEvent");
     },
   },
 };

@@ -11,7 +11,10 @@
       </div>
     </div>
   </div>
-  <Tasks :tasks="employeeTasks" />
+  <Tasks
+    :tasks="employeeTasks"
+    @deleteTaskEvent="fetchEmployeeTasks(employeeId)"
+  />
 </template>
 
 <script>
@@ -26,10 +29,12 @@ export default {
     return {
       employeeTasks: [],
       errors: [],
+      employeeId: "",
     };
   },
   methods: {
     fetchEmployeeTasks(id) {
+      this.employeeId = id;
       tasksApi
         .fetchEmployeeTasks(id)
         .then((res) => (this.employeeTasks = res.data))
