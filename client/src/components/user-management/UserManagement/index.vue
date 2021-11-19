@@ -1,5 +1,6 @@
 <template>
   <h1>User management</h1>
+  <AddUserForm />
   <h3>Employees</h3>
   <div v-if="employees.length > 0">
     <div
@@ -11,15 +12,14 @@
       <button @click="deleteEmployee(employee._id)">Delete</button>
     </div>
   </div>
-  <AddUserForm />
 </template>
 
 <script>
 import api from "../../../../api/employee";
-import AddUserForm from '../AddUserForm'
+import AddUserForm from "../AddUserForm";
 export default {
   components: {
-    AddUserForm
+    AddUserForm,
   },
   data() {
     return {

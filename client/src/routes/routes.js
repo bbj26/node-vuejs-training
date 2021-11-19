@@ -4,7 +4,7 @@ import Dashboard from '../components/dashboard/Dashboard'
 import UserManagement from '../components/user-management/UserManagement'
 const routes = [
   {
-    path: "/",
+    path: "/dashboard",
     name: "Dashboard",
     component: Dashboard
   },
