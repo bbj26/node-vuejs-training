@@ -46,10 +46,21 @@ const deleteTask = async (req, res) => {
 
 }
 
+const completeTask = async (req, res) => {
+  try {
+    let task = await Task.findById(req.params.id);
+    task.completed = !task.completed;
+    await Task.findByIdAndUpdate(req.params.id, { $set: task })
+    res.status(200).json({ code: 200, msg: 'Task successfully updated' })
+  } catch (error) {
+    res.status(404).json({ code: 404, msg: error });
+  }
+}
 
 module.exports = {
   fetchTasks,
   fetchEmployeeTasks,
   createTask,
-  deleteTask
+  deleteTask,
+  completeTask
 }
