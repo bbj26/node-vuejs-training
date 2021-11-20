@@ -7,6 +7,7 @@
         type="text"
         id="name"
         name="name"
+        class="name"
         placeholder="Task name..."
         v-model="taskName"
       />
@@ -15,15 +16,18 @@
         type="date"
         id="deadline"
         name="deadline"
-        placeholder="Task completion deadline..."
+        class="deadline"
         v-model="taskDeadline"
+        :min="today"
+        max="2099-12-31"
       />
-      <label for="cars">Assign to:</label>
 
+      <label for="cars">Assign to:</label>
       <select
         v-if="employees"
         name="emloyees"
         id="employees"
+        class="employees"
         v-model="employeeId"
       >
         <option
@@ -45,10 +49,15 @@ export default {
   props: ["employees"],
   data() {
     return {
+      error: null,
       taskName: "",
       taskDeadline: null,
       employeeId: "",
+      today: null,
     };
+  },
+  created() {
+    this.today = this.getToday();
   },
   methods: {
     createTask() {
@@ -61,7 +70,19 @@ export default {
           this.taskName = "";
           this.taskDeadline = null;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => (this.error = err));
+    },
+    getToday() {
+      var today = new Date();
+      var day = today.getDate();
+      var month = today.getMonth() + 1;
+      var year = today.getFullYear();
+
+      day = day < 10 ? "0" + day : day;
+      month = month < 10 ? "0" + month : month;
+
+      today = year + "-" + month + "-" + day;
+      return today;
     },
   },
 };
@@ -80,5 +101,16 @@ export default {
 .task-form input {
   padding: 5px;
   margin: 5px;
+}
+
+.name,
+.deadline,
+.employees {
+  width: 250px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 5px 10px;
 }
 </style>

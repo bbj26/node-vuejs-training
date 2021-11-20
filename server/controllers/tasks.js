@@ -15,7 +15,7 @@ const fetchEmployeeTasks = async (req, res) => {
     const tasks = await Task.find({ employeeId: employeeId })
     res.status(200).json(tasks)
   } catch (error) {
-    es.status(404).json({ code: 404, msg: error })
+    res.status(404).json({ code: 404, msg: error })
   }
 }
 
