@@ -1,7 +1,7 @@
 <template>
   <h1>Dashboard</h1>
-  <Employees :employees="employees" />
   <AddTaskForm :employees="employees" />
+  <Employees :employees="employees" />
 </template>
 
 <script>

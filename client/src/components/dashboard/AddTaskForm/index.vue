@@ -1,44 +1,46 @@
 <template>
-  <div class="container">
+  <div>
     <form class="task-form">
       <h3>Create new task</h3>
-      <label for="name">Name</label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        class="name"
-        placeholder="Task name..."
-        v-model="taskName"
-      />
-      <label for="deadline">Deadline</label>
-      <input
-        type="date"
-        id="deadline"
-        name="deadline"
-        class="deadline"
-        v-model="taskDeadline"
-        :min="today"
-        max="2099-12-31"
-      />
+      <div class="container">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="name"
+          placeholder="Task name..."
+          v-model="taskName"
+        />
+        <label for="deadline">Deadline</label>
+        <input
+          type="date"
+          id="deadline"
+          name="deadline"
+          class="deadline"
+          v-model="taskDeadline"
+          :min="today"
+          max="2099-12-31"
+        />
 
-      <label for="cars">Assign to:</label>
-      <select
-        v-if="employees"
-        name="emloyees"
-        id="employees"
-        class="employees"
-        v-model="employeeId"
-      >
-        <option
-          v-for="employee in employees"
-          :key="employee._id"
-          :value="employee._id"
+        <label for="cars">Assign to:</label>
+        <select
+          v-if="employees"
+          name="emloyees"
+          id="employees"
+          class="employees"
+          v-model="employeeId"
         >
-          {{ employee.name }}
-        </option>
-      </select>
-      <button type="submit" @click.prevent="createTask">Create</button>
+          <option
+            v-for="employee in employees"
+            :key="employee._id"
+            :value="employee._id"
+          >
+            {{ employee.name }}
+          </option>
+        </select>
+        <button type="submit" @click.prevent="createTask">Create</button>
+      </div>
     </form>
   </div>
 </template>
@@ -97,20 +99,24 @@ export default {
   margin: 30px;
   padding: 30px;
 }
-
 .task-form input {
   padding: 5px;
   margin: 5px;
 }
-
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
 .name,
 .deadline,
 .employees {
   width: 250px;
 }
-
 button {
-  margin-top: 10px;
+  margin: 5px 20px;
   padding: 5px 10px;
 }
 </style>

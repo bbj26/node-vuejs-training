@@ -1,7 +1,6 @@
 <template>
-  <h1>Employee Tasks</h1>
   <div v-if="tasks !== []">
-    <div v-for="task in tasks" :key="task._id">
+    <div v-for="task in tasks" :key="task._id" class="task">
       <div class="title">{{ task.name }}</div>
       <div class="deadline">{{ formatDate(task.deadline) }}</div>
       <input
@@ -11,7 +10,7 @@
         @click="toggleCompletedTask(task._id)"
         class="completed"
       />
-      <button class="btn" @click.prevent="deleteTask(task._id)">Delete</button>
+      <button class="btn" @click.prevent="deleteTask(task._id)">DELETE</button>
     </div>
   </div>
 </template>
@@ -66,9 +65,25 @@ export default {
 <style scoped>
 .title,
 .completed,
-.deadline,
+.deadline {
+  padding: 3px 10px;
+  margin: 5px;
+  min-width: 150px;
+  max-width: 150px;
+  text-align: left;
+}
 .btn {
   padding: 3px 10px;
   margin: 5px;
+  min-width: 100px;
+  color: red;
+}
+.task {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid green;
 }
 </style>
