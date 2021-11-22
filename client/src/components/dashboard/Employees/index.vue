@@ -2,6 +2,9 @@
   <div class="container">
     <div v-if="employees !== []" class="employees">
       <h3>Employees</h3>
+      <div>
+        <va-divider class="mt-2 mb-2" />
+      </div>
       <div
         class="employee-list"
         v-for="employee in employees"
@@ -21,6 +24,15 @@
     </div>
     <div class="tasks">
       <h1>Tasks</h1>
+      <div class="labels">
+        <div class="t-label">Name</div>
+        <div class="t-label">Deadline</div>
+        <div class="t-label">Completed</div>
+        <div class="t-label-action">Action</div>
+      </div>
+      <div>
+        <va-divider class="mt-0 mb-2" />
+      </div>
       <Tasks
         :tasks="employeeTasks"
         :completedTasks="tasksCompleted"
@@ -35,7 +47,13 @@
 import tasksApi from "../../../../api/task";
 import Tasks from "../Tasks/index.vue";
 export default {
-  props: ["employees"],
+  props: ["employees", "needToUpdateTasks"],
+  watch: {
+    needToUpdateTasks: function () {
+      console.log("should update");
+      this.fetchEmployeeTasks(this.needToUpdateTasks.empId);
+    },
+  },
   components: {
     Tasks,
   },
@@ -83,16 +101,38 @@ export default {
   justify-content: space-evenly;
   align-items: flex-start;
 }
-.employees,
-.tasks {
+.labels {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 5px 0px;
+}
+.t-label {
+  padding: 3px 10px;
+  margin: 5px;
+  min-width: 150px;
+  max-width: 150px;
+  text-align: left;
+}
+.t-label-action {
+  padding: 3px 10px;
+  margin: 5px;
+  min-width: 80px;
+  text-align: left;
+}
+.employees {
   min-width: 200px;
-  width: 2 fr;
-  border: 1px solid red;
+  width: 1 fr;
   padding: 30px;
+  border-right: 1px solid grey;
+  min-height: 500px;
 }
 .tasks {
+  width: 3 fr;
   min-width: 650px;
-  border: 1px solid blue;
+  padding: 30px;
 }
 .employee {
   padding: 5px;
@@ -100,6 +140,6 @@ export default {
 }
 .marked {
   font-weight: bold;
-  color: blue;
+  color: #0c689e;
 }
 </style>

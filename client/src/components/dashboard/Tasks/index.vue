@@ -45,9 +45,7 @@ export default {
       this.$emit("deleteTaskEvent");
     },
     toggleCompletedTask(taskId) {
-      api
-        .toggleCompleteTask(taskId)
-        .catch((err) => (this.error = err));
+      api.toggleCompleteTask(taskId).catch((err) => (this.error = err));
     },
     isDeadlineValid(deadLine) {
       let deadline = new Date(deadLine);
@@ -99,6 +97,7 @@ export default {
 }
 .total-completed {
   color: lightsalmon;
+  padding: 10px;
 }
 .done {
   color: green;

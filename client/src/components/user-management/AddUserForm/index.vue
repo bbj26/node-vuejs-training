@@ -1,7 +1,7 @@
 <template>
   <div class="form-container">
-    <h3>Create new employee</h3>
     <div class="container">
+      <h3>Create new employee</h3>
       <form>
         <label for="name">Name</label>
         <input
@@ -42,8 +42,7 @@ export default {
 
 <style scoped>
 .form-container {
-  padding: 30px;
-  margin: 30px;
+  padding: 10px;
 }
 
 input[type="text"] {
@@ -58,7 +57,7 @@ input[type="text"] {
 }
 
 button {
-  background-color: #04aa6d;
+  background-color: #0c689e;
   color: white;
   padding: 12px 20px;
   border: none;
@@ -66,14 +65,14 @@ button {
   cursor: pointer;
 }
 
-input[type="submit"]:hover {
-  background-color: #45a049;
+button:hover {
+  background-color: #06506d;
 }
 
 .container {
   border-radius: 5px;
   background-color: #f2f2f2;
-  padding: 20px;
+  padding: 10px;
 }
 
 .container form {

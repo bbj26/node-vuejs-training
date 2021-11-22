@@ -96,8 +96,10 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 30px;
-  padding: 30px;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f2f2f2;
 }
 .task-form input {
   padding: 5px;
@@ -116,7 +118,16 @@ export default {
   width: 250px;
 }
 button {
-  margin: 5px 20px;
-  padding: 5px 10px;
+  background-color: #0c689e;
+  color: white;
+  padding: 12px 20px;
+  margin: 0px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #06506d;
 }
 </style>

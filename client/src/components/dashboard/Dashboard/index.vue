@@ -1,10 +1,19 @@
 <template>
   <h1>Dashboard</h1>
+  <div>
+    <va-divider class="mt-3 mb-0" />
+  </div>
   <div class="loading-icon flex lg6 xs12 py-4" v-if="isLoading">
     <va-progress-circle indeterminate />
   </div>
   <AddTaskForm :employees="employees" />
+  <div>
+    <va-divider class="mt-0 mb-2" />
+  </div>
   <Employees :employees="employees" />
+  <div>
+    <va-divider class="mt-3 mb-3" />
+  </div>
 </template>
 
 <script>
