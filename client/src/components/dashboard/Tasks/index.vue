@@ -15,7 +15,6 @@
   </div>
   <div
     :class="checkCompletedTasks() ? 'done total-completed' : 'total-completed'"
-    v-if="completedTasks"
   >
     {{ completedTasks }} out of {{ totalTasks }} tasks completed
   </div>
