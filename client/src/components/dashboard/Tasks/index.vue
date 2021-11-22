@@ -13,12 +13,18 @@
       <button class="btn" @click.prevent="deleteTask(task._id)">DELETE</button>
     </div>
   </div>
+  <div
+    :class="checkCompletedTasks() ? 'done total-completed' : 'total-completed'"
+    v-if="completedTasks"
+  >
+    {{ completedTasks }} out of {{ totalTasks }} tasks completed
+  </div>
 </template>
 
 <script>
 import api from "../../../../api/task";
 export default {
-  props: ["tasks"],
+  props: ["tasks", "completedTasks", "totalTasks"],
   emits: ["deleteTaskEvent"],
   data() {
     return {
@@ -39,7 +45,9 @@ export default {
       this.$emit("deleteTaskEvent");
     },
     toggleCompletedTask(taskId) {
-      api.toggleCompleteTask(taskId).catch((err) => (this.error = err));
+      api
+        .toggleCompleteTask(taskId)
+        .catch((err) => (this.error = err));
     },
     isDeadlineValid(deadLine) {
       let deadline = new Date(deadLine);
@@ -58,6 +66,9 @@ export default {
       date = `${day}.${month}.${year}`;
       return date;
     },
+    checkCompletedTasks() {
+      return this.totalTasks === this.completedTasks;
+    },
   },
 };
 </script>
@@ -75,7 +86,7 @@ export default {
 .btn {
   padding: 3px 10px;
   margin: 5px;
-  min-width: 100px;
+  min-width: 80px;
   color: red;
 }
 .task {
@@ -84,6 +95,12 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border: 1px solid green;
+  margin: 5px 0px;
+}
+.total-completed {
+  color: lightsalmon;
+}
+.done {
+  color: green;
 }
 </style>

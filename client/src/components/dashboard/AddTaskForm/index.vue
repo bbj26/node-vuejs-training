@@ -23,7 +23,7 @@
           max="2099-12-31"
         />
 
-        <label for="cars">Assign to:</label>
+        <label for="employees">Assign to:</label>
         <select
           v-if="employees"
           name="emloyees"

@@ -23,6 +23,8 @@
       <h1>Tasks</h1>
       <Tasks
         :tasks="employeeTasks"
+        :completedTasks="tasksCompleted"
+        :totalTasks="totalTasks"
         @deleteTaskEvent="fetchEmployeeTasks(employeeId)"
       />
     </div>
@@ -42,6 +44,8 @@ export default {
       employeeTasks: [],
       errors: [],
       employeeId: "",
+      tasksCompleted: 0,
+      totalTasks: 0,
     };
   },
   methods: {
@@ -49,7 +53,16 @@ export default {
       this.employeeId = id;
       tasksApi
         .fetchEmployeeTasks(id)
-        .then((res) => (this.employeeTasks = res.data))
+        .then((res) => {
+          this.employeeTasks = res.data;
+          this.tasksCompleted = this.employeeTasks
+            .reduce(
+              (accumulator, currentValue) => accumulator.concat(currentValue),
+              []
+            )
+            .filter((task) => task.completed).length;
+          this.totalTasks = this.employeeTasks.length;
+        })
         .catch((err) => (this.errors = err));
     },
     markActiveEmployee(evt) {

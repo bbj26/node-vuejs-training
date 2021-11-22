@@ -1,6 +1,9 @@
 <template>
   <h1>User management</h1>
   <AddUserForm />
+  <div class="loading-icon flex lg6 xs12 py-4" v-if="isLoading">
+    <va-progress-circle indeterminate />
+  </div>
   <h3>Employees</h3>
   <div v-if="employees.length > 0">
     <div
@@ -25,6 +28,7 @@ export default {
     return {
       employees: [],
       errors: [],
+      isLoading: false,
     };
   },
   created() {
@@ -35,12 +39,17 @@ export default {
   },
   methods: {
     fetchEmployees() {
+      this.isLoading = true;
       api
         .getEmployees()
         .then((res) => {
           this.employees = res.data;
+          this.isLoading = false;
         })
-        .catch((err) => this.errors.push(err.msg));
+        .catch((err) => {
+          this.errors.push(err.msg);
+          this.isLoading = false;
+        });
     },
     deleteEmployee(employeeId) {
       api
@@ -53,3 +62,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.loading-icon {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 400px;
+}
+</style>
