@@ -6,11 +6,11 @@
   <div class="loading-icon flex lg6 xs12 py-4" v-if="isLoading">
     <va-progress-circle indeterminate />
   </div>
-  <AddTaskForm :employees="employees" />
+  <AddTaskForm :employees="employees" @taskCreated="notifyEmployee" />
   <div>
     <va-divider class="mt-0 mb-2" />
   </div>
-  <Employees :employees="employees" />
+  <Employees :employees="employees" ref="employeesComponent" />
   <div>
     <va-divider class="mt-3 mb-3" />
   </div>
@@ -30,6 +30,7 @@ export default {
       employees: [],
       error: null,
       isLoading: false,
+      updateEmployee: null,
     };
   },
   created() {
@@ -44,6 +45,11 @@ export default {
         this.error = err;
         this.isLoading = false;
       });
+  },
+  methods: {
+    notifyEmployee(empId) {
+      this.$refs.employeesComponent.fetchEmployeeTasks(empId);
+    },
   },
 };
 </script>

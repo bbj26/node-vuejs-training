@@ -49,6 +49,7 @@
 import api from "../../../../api/task";
 export default {
   props: ["employees"],
+  emits: ["taskCreated"],
   data() {
     return {
       error: null,
@@ -71,6 +72,7 @@ export default {
         .then(() => {
           this.taskName = "";
           this.taskDeadline = null;
+          this.$emit("taskCreated", this.employeeId);
         })
         .catch((err) => (this.error = err));
     },

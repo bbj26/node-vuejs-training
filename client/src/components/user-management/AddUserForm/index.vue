@@ -44,7 +44,6 @@ export default {
 .form-container {
   padding: 10px;
 }
-
 input[type="text"] {
   width: 40%;
   padding: 12px;
@@ -55,7 +54,6 @@ input[type="text"] {
   margin-bottom: 16px;
   resize: vertical;
 }
-
 button {
   background-color: #0c689e;
   color: white;
@@ -64,17 +62,14 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
-
 button:hover {
   background-color: #06506d;
 }
-
 .container {
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 10px;
 }
-
 .container form {
   display: flex;
   flex-direction: column;

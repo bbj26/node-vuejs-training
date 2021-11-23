@@ -47,13 +47,7 @@
 import tasksApi from "../../../../api/task";
 import Tasks from "../Tasks/index.vue";
 export default {
-  props: ["employees", "needToUpdateTasks"],
-  watch: {
-    needToUpdateTasks: function () {
-      console.log("should update");
-      this.fetchEmployeeTasks(this.needToUpdateTasks.empId);
-    },
-  },
+  props: ["employees"],
   components: {
     Tasks,
   },
