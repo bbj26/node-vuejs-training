@@ -46,10 +46,9 @@
 </template>
 
 <script>
-import api from "../../../../api/task";
+import store from "../../../store/index";
 export default {
   props: ["employees"],
-  emits: ["taskCreated"],
   data() {
     return {
       error: null,
@@ -64,15 +63,15 @@ export default {
   },
   methods: {
     createTask() {
-      api
-        .createTask(this.employeeId, {
+      store
+        .dispatch("createTask", {
+          empId: this.employeeId,
           name: this.taskName,
           deadline: this.taskDeadline,
         })
         .then(() => {
           this.taskName = "";
           this.taskDeadline = null;
-          this.$emit("taskCreated", this.employeeId);
         })
         .catch((err) => (this.error = err));
     },

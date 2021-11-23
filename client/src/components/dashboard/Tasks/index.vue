@@ -12,7 +12,7 @@
       />
       <button
         class="btn"
-        @click.prevent="deleteTask(task._id)"
+        @click.prevent="deleteTask(task._id, task.employeeId)"
         :disabled="!isDeadlineValid(task.deadline)"
       >
         DELETE
@@ -28,6 +28,7 @@
 
 <script>
 import api from "../../../../api/task";
+import store from "../../../store/index";
 export default {
   props: ["tasks", "completedTasks", "totalTasks"],
   emits: ["deleteTaskEvent"],
@@ -38,16 +39,13 @@ export default {
     };
   },
   methods: {
-    deleteTask(id) {
-      api
-        .deleteTask(id)
-        .then(() => {
-          this.emitDeleteTaskEvent();
-        })
-        .catch((err) => (this.error = err));
+    deleteTask(id, empId) {
+      store
+        .dispatch("deleteTask", { taskId: id })
+        .then(() => this.emitDeleteTaskEvent(empId));
     },
-    emitDeleteTaskEvent() {
-      this.$emit("deleteTaskEvent");
+    emitDeleteTaskEvent(empId) {
+      this.$emit("deleteTaskEvent", empId);
     },
     toggleCompletedTask(taskId) {
       api.toggleCompleteTask(taskId).catch((err) => (this.error = err));

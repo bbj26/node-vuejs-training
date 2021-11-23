@@ -6,7 +6,7 @@
   <div class="loading-icon flex lg6 xs12 py-4" v-if="$store.getters.isLoading">
     <va-progress-circle indeterminate />
   </div>
-  <AddTaskForm :employees="employees" @taskCreated="notifyEmployee" />
+  <AddTaskForm :employees="employees" />
   <div>
     <va-divider class="mt-0 mb-2" />
   </div>
@@ -28,9 +28,9 @@ export default {
   data() {
     return {
       employees: [],
+      tasks: [],
       error: null,
       isLoading: false,
-      updateEmployee: null,
     };
   },
   created() {
@@ -38,11 +38,9 @@ export default {
     store
       .dispatch("fetchEmployees")
       .then(() => (this.employees = store.getters.employees));
-  },
-  methods: {
-    notifyEmployee(empId) {
-      this.$refs.employeesComponent.fetchEmployeeTasks(empId);
-    },
+    store
+      .dispatch("fetchAllTasks")
+      .then(() => (this.tasks = store.getters.tasks));
   },
 };
 </script>

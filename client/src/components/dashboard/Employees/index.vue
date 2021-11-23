@@ -14,8 +14,8 @@
           <a
             :class="'emp'"
             @click="
-              fetchEmployeeTasks(employee._id);
               markActiveEmployee($event);
+              fetchEmployeeTasks(employee._id);
             "
             >{{ employee.name }}</a
           >
@@ -37,15 +37,15 @@
         :tasks="employeeTasks"
         :completedTasks="tasksCompleted"
         :totalTasks="totalTasks"
-        @deleteTaskEvent="fetchEmployeeTasks(employeeId)"
+        @deleteTaskEvent="refreshTasks"
       />
     </div>
   </div>
 </template>
 
 <script>
-import tasksApi from "../../../../api/task";
 import Tasks from "../Tasks/index.vue";
+import store from "../../../store/index";
 export default {
   props: ["employees"],
   components: {
@@ -61,21 +61,18 @@ export default {
     };
   },
   methods: {
-    fetchEmployeeTasks(id) {
-      this.employeeId = id;
-      tasksApi
-        .fetchEmployeeTasks(id)
-        .then((res) => {
-          this.employeeTasks = res.data;
-          this.tasksCompleted = this.employeeTasks
-            .reduce(
-              (accumulator, currentValue) => accumulator.concat(currentValue),
-              []
-            )
-            .filter((task) => task.completed).length;
-          this.totalTasks = this.employeeTasks.length;
-        })
-        .catch((err) => (this.errors = err));
+    fetchEmployeeTasks(employeeId) {
+      this.employeeTasks = store.getters.employeeTasks(employeeId);
+      this.tasksCompleted = this.employeeTasks
+        .reduce(
+          (accumulator, currentValue) => accumulator.concat(currentValue),
+          []
+        )
+        .filter((task) => task.completed).length;
+      this.totalTasks = this.employeeTasks.length;
+    },
+    refreshTasks(employeeId) {
+      this.employeeTasks = store.getters.employeeTasks(employeeId);
     },
     markActiveEmployee(evt) {
       let employees = document.querySelectorAll(".emp");
