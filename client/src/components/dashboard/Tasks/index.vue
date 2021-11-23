@@ -10,7 +10,13 @@
         @click="toggleCompletedTask(task._id)"
         class="completed"
       />
-      <button class="btn" @click.prevent="deleteTask(task._id)" :disabled="!isDeadlineValid(task.deadline)">DELETE</button>
+      <button
+        class="btn"
+        @click.prevent="deleteTask(task._id)"
+        :disabled="!isDeadlineValid(task.deadline)"
+      >
+        DELETE
+      </button>
     </div>
   </div>
   <div

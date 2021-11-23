@@ -3,7 +3,7 @@
   <div>
     <va-divider class="mt-3 mb-0" />
   </div>
-  <div class="loading-icon flex lg6 xs12 py-4" v-if="isLoading">
+  <div class="loading-icon flex lg6 xs12 py-4" v-if="$store.getters.isLoading">
     <va-progress-circle indeterminate />
   </div>
   <AddTaskForm :employees="employees" @taskCreated="notifyEmployee" />
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import employeeApi from "../../../../api/employee";
+import { useStore } from "vuex";
 import Employees from "../Employees/index.vue";
 import AddTaskForm from "../AddTaskForm/index.vue";
 export default {
@@ -34,17 +34,10 @@ export default {
     };
   },
   created() {
-    this.isLoading = true;
-    employeeApi
-      .getEmployees()
-      .then((res) => {
-        this.employees = res.data;
-        this.isLoading = false;
-      })
-      .catch((err) => {
-        this.error = err;
-        this.isLoading = false;
-      });
+    const store = useStore();
+    store
+      .dispatch("fetchEmployees")
+      .then(() => (this.employees = store.getters.employees));
   },
   methods: {
     notifyEmployee(empId) {
