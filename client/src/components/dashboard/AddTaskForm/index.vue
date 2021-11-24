@@ -3,7 +3,7 @@
     <form class="task-form">
       <h3>Create new task</h3>
       <div class="container">
-        <label for="name">Name</label>
+        <label for="name" class="label">Name</label>
         <input
           type="text"
           id="name"
@@ -12,7 +12,7 @@
           placeholder="Task name..."
           v-model="taskName"
         />
-        <label for="deadline">Deadline</label>
+        <label for="deadline" class="label">Deadline</label>
         <input
           type="date"
           id="deadline"
@@ -22,8 +22,7 @@
           :min="today"
           max="2099-12-31"
         />
-
-        <label for="employees">Assign to:</label>
+        <label for="employees" class="label">Assign to:</label>
         <select
           v-if="employees"
           name="emloyees"
@@ -47,6 +46,7 @@
 
 <script>
 import store from "../../../store/index";
+import moment from "moment";
 export default {
   props: ["employees"],
   data() {
@@ -72,20 +72,12 @@ export default {
         .then(() => {
           this.taskName = "";
           this.taskDeadline = null;
+          this.employeeId = "";
         })
         .catch((err) => (this.error = err));
     },
     getToday() {
-      var today = new Date();
-      var day = today.getDate();
-      var month = today.getMonth() + 1;
-      var year = today.getFullYear();
-
-      day = day < 10 ? "0" + day : day;
-      month = month < 10 ? "0" + month : month;
-
-      today = year + "-" + month + "-" + day;
-      return today;
+      return moment().format("YYYY-MM-DD");
     },
   },
 };
@@ -102,9 +94,14 @@ export default {
   border-radius: 5px;
   background-color: #f2f2f2;
 }
-.task-form input {
+.task-form input, select {
   padding: 5px;
   margin: 5px;
+  min-height: 40px;
+}
+.label {
+  padding: 5px;
+  margin-left: 10px;
 }
 .container {
   display: flex;

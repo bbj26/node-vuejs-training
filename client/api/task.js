@@ -5,19 +5,19 @@ function fetchAllTasks() {
 }
 
 function fetchEmployeeTasks(employeeId) {
-  return axios.get('/api/tasks/' + employeeId)
+  return axios.get(`/api/tasks/${employeeId}`)
 }
 
 function createTask(employeeId, taskData) {
-  return axios.post('/api/tasks/' + employeeId, taskData)
+  return axios.post(`/api/tasks/${employeeId}`, taskData)
 }
 
 function deleteTask(taskId) {
-  return axios.delete('/api/tasks/' + taskId)
+  return axios.delete(`/api/tasks/${taskId}`)
 }
 
 function toggleCompleteTask(taskId) {
-  return axios.post('/api/tasks/complete/' + taskId);
+  return axios.post(`/api/tasks/complete/${taskId}`);
 }
 
 export default {

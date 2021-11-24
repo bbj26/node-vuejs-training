@@ -7,7 +7,7 @@
   <div class="mt-0 mb-2">
     <va-divider />
   </div>
-  <div class="loading-icon flex lg6 xs12 py-4" v-if="isLoading">
+  <div class="loading-icon flex lg6 xs12 py-4" v-if="$store.state.isLoading">
     <va-progress-circle indeterminate />
   </div>
   <div class="employees-legend">
@@ -20,10 +20,10 @@
   <div class="mt-1 mb-1">
     <va-divider />
   </div>
-  <div v-if="employees.length > 0" class="employees">
+  <div v-if="$store.state.employees.length > 0" class="employees">
     <div
       class="employee-list"
-      v-for="employee in employees"
+      v-for="employee in $store.state.employees"
       :key="employee._id"
     >
       {{ employee.name }}
@@ -33,46 +33,21 @@
 </template>
 
 <script>
-import api from "../../../../api/employee";
+import store from '../../../store/index';
 import AddUserForm from "../AddUserForm";
 export default {
   components: {
     AddUserForm,
   },
-  data() {
-    return {
-      employees: [],
-      errors: [],
-      isLoading: false,
-    };
-  },
   created() {
-    this.fetchEmployees();
-  },
-  updated() {
     this.fetchEmployees();
   },
   methods: {
     fetchEmployees() {
-      this.isLoading = true;
-      api
-        .getEmployees()
-        .then((res) => {
-          this.employees = res.data;
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          this.errors.push(err.msg);
-          this.isLoading = false;
-        });
+      store.dispatch('fetchEmployees')
     },
     deleteEmployee(employeeId) {
-      api
-        .deleteEmployee(employeeId)
-        .then(() => {
-          this.fetchEmployees();
-        })
-        .catch((err) => this.errors.push(err.msg));
+      store.dispatch('deleteEmployee', {empId: employeeId})
     },
   },
 };

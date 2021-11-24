@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import api from "../../../../api/employee";
+import store from "../../../store/index";
 export default {
   data() {
     return {
@@ -28,12 +28,7 @@ export default {
   methods: {
     createEmployee() {
       if (this.employeeName !== "") {
-        api
-          .createEmployee({ name: this.employeeName })
-          .then(() => {
-            this.employeeName = "";
-          })
-          .catch((err) => console.log(err.msg));
+        store.dispatch("createEmployee", { name: this.employeeName });
       }
     },
   },

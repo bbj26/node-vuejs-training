@@ -9,7 +9,7 @@ function createEmployee(employeeName) {
 }
 
 function deleteEmployee(employeeId) {
-  return axios.delete('/api/employees/' + employeeId)
+  return axios.delete(`/api/employees/${employeeId}`)
 }
 export default {
   getEmployees,

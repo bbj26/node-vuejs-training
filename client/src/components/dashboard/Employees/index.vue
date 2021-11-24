@@ -7,18 +7,13 @@
       </div>
       <div
         class="employee-list"
-        v-for="employee in employees"
-        :key="employee._id"
+        v-for="(employee,index) in employees"
+        :key="index"
       >
         <div class="employee">
-          <a
-            :class="'emp'"
-            @click="
-              markActiveEmployee($event);
-              fetchEmployeeTasks(employee._id);
-            "
-            >{{ employee.name }}</a
-          >
+          <a :class="{marked: employee._id === employeeId}" @click="getEmployeeId(employee._id)" >{{
+            employee.name
+          }}</a>
         </div>
       </div>
     </div>
@@ -34,10 +29,9 @@
         <va-divider class="mt-0 mb-2" />
       </div>
       <Tasks
-        :tasks="employeeTasks"
-        :completedTasks="tasksCompleted"
-        :totalTasks="totalTasks"
-        @deleteTaskEvent="refreshTasks"
+        :tasks="$store.getters.employeeTasks(employeeId)"
+        :completedTasks="$store.getters.completedTasks(employeeId)"
+        :totalTasks="$store.getters.totalTasks(employeeId)"
       />
     </div>
   </div>
@@ -45,7 +39,6 @@
 
 <script>
 import Tasks from "../Tasks/index.vue";
-import store from "../../../store/index";
 export default {
   props: ["employees"],
   components: {
@@ -53,33 +46,18 @@ export default {
   },
   data() {
     return {
-      employeeTasks: [],
-      errors: [],
       employeeId: "",
-      tasksCompleted: 0,
-      totalTasks: 0,
     };
   },
+  created() {
+    if (this.employees && this.employees.length > 0) {
+      let id = this.employees[0]._id
+      this.employeeId = id
+    }
+  },
   methods: {
-    fetchEmployeeTasks(employeeId) {
-      this.employeeTasks = store.getters.employeeTasks(employeeId);
-      this.tasksCompleted = this.employeeTasks
-        .reduce(
-          (accumulator, currentValue) => accumulator.concat(currentValue),
-          []
-        )
-        .filter((task) => task.completed).length;
-      this.totalTasks = this.employeeTasks.length;
-    },
-    refreshTasks(employeeId) {
-      this.employeeTasks = store.getters.employeeTasks(employeeId);
-    },
-    markActiveEmployee(evt) {
-      let employees = document.querySelectorAll(".emp");
-      employees.forEach((emp) => {
-        emp.classList.remove("marked");
-      });
-      evt.target.classList.add("marked");
+    getEmployeeId(employeeId) {
+      this.employeeId = employeeId;
     },
   },
 };

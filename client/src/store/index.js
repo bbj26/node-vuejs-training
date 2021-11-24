@@ -40,6 +40,30 @@ const store = createStore({
           context.commit('SET_LOADING_FALSE');
         });
     },
+    async createEmployee(context, payload) {
+      context.commit('SET_LOADING_TRUE');
+      return await employeesApi.createEmployee(payload)
+        .then(() => {
+          context.commit('SET_LOADING_FALSE');
+          context.dispatch('fetchEmployees');
+        })
+        .catch(err => {
+          console.log(err);
+          context.commit('SET_LOADING_FALSE');
+        })
+    },
+    async deleteEmployee(context, payload) {
+      context.commit('SET_LOADING_TRUE');
+      return await employeesApi.deleteEmployee(payload.empId)
+        .then(() => {
+          context.dispatch('fetchEmployees');
+          context.commit('SET_LOADING_FALSE');
+        })
+        .catch(err => {
+          console.log(err);
+          context.commit('SET_LOADING_FALSE');
+        })
+    },
     async fetchAllTasks(context) {
       context.commit('SET_LOADING_TRUE');
       let tasks = [];
@@ -82,15 +106,14 @@ const store = createStore({
     }
   },
   getters: {
-    isLoading: state => (state.isLoading ? true : false),
-    employees: state => {
-      return state.employees;
-    },
-    tasks: state => {
-      return state.tasks;
-    },
     employeeTasks: (state) => (employeeId) => {
       return state.tasks.filter(task => task.employeeId === employeeId)
+    },
+    totalTasks: (state) => (employeeId) => {
+      return state.tasks.filter(task => task.employeeId === employeeId).length
+    },
+    completedTasks: (state) => (employeeId) => {
+      return state.tasks.filter(task => task.employeeId === employeeId).filter((task) => task.completed === true).length;
     }
   }
 });

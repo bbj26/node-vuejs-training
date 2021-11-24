@@ -3,21 +3,21 @@
   <div>
     <va-divider class="mt-3 mb-0" />
   </div>
-  <div class="loading-icon flex lg6 xs12 py-4" v-if="$store.getters.isLoading">
+  <div class="loading-icon flex lg6 xs12 py-4" v-if="$store.state.isLoading">
     <va-progress-circle indeterminate />
   </div>
-  <AddTaskForm :employees="employees" />
+  <AddTaskForm :employees="$store.state.employees" />
   <div>
     <va-divider class="mt-0 mb-2" />
   </div>
-  <Employees :employees="employees" ref="employeesComponent" />
+  <Employees :employees="$store.state.employees" />
   <div>
     <va-divider class="mt-3 mb-3" />
   </div>
 </template>
 
 <script>
-import { useStore } from "vuex";
+import store from "../../../store/index";
 import Employees from "../Employees/index.vue";
 import AddTaskForm from "../AddTaskForm/index.vue";
 export default {
@@ -28,19 +28,12 @@ export default {
   data() {
     return {
       employees: [],
-      tasks: [],
-      error: null,
-      isLoading: false,
+      defaultEmployeeId: null
     };
   },
   created() {
-    const store = useStore();
-    store
-      .dispatch("fetchEmployees")
-      .then(() => (this.employees = store.getters.employees));
-    store
-      .dispatch("fetchAllTasks")
-      .then(() => (this.tasks = store.getters.tasks));
+    store.dispatch("fetchEmployees");
+    store.dispatch("fetchAllTasks");
   },
 };
 </script>

@@ -1,27 +1,25 @@
 <template>
-  <div v-if="tasks !== []">
+  <div v-if="tasks !== [] && (!error)">
     <div v-for="task in tasks" :key="task._id" class="task">
       <div class="title">{{ task.name }}</div>
       <div class="deadline">{{ formatDate(task.deadline) }}</div>
       <input
         type="checkbox"
-        :disabled="!isDeadlineValid(task.deadline)"
+        :disabled="isExpired(task.deadline)"
         v-model="task.completed"
         @click="toggleCompletedTask(task._id)"
         class="completed"
       />
       <button
         class="btn"
-        @click.prevent="deleteTask(task._id, task.employeeId)"
-        :disabled="!isDeadlineValid(task.deadline)"
+        @click.prevent="deleteTask(task._id)"
+        :disabled="isExpired(task.deadline)"
       >
         DELETE
       </button>
     </div>
   </div>
-  <div
-    :class="checkCompletedTasks() ? 'done total-completed' : 'total-completed'"
-  >
+  <div :class="isAllCompleted() ? 'done total-completed' : 'total-completed'">
     {{ completedTasks }} out of {{ totalTasks }} tasks completed
   </div>
 </template>
@@ -29,45 +27,31 @@
 <script>
 import api from "../../../../api/task";
 import store from "../../../store/index";
+import moment from "moment";
+
 export default {
   props: ["tasks", "completedTasks", "totalTasks"],
-  emits: ["deleteTaskEvent"],
   data() {
     return {
       error: null,
-      taskDeadline: null,
     };
   },
   methods: {
-    deleteTask(id, empId) {
-      store
-        .dispatch("deleteTask", { taskId: id })
-        .then(() => this.emitDeleteTaskEvent(empId));
-    },
-    emitDeleteTaskEvent(empId) {
-      this.$emit("deleteTaskEvent", empId);
+    deleteTask(id) {
+      store.dispatch("deleteTask", { taskId: id });
     },
     toggleCompletedTask(taskId) {
       api.toggleCompleteTask(taskId).catch((err) => (this.error = err));
     },
-    isDeadlineValid(deadLine) {
+    isExpired(deadLine) {
       let deadline = new Date(deadLine);
       let now = new Date();
-      return now > deadline ? false : true;
+      return now > deadline ? true : false;
     },
     formatDate(deadline) {
-      let date = new Date(deadline);
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1;
-      let day = date.getDate();
-
-      month = month < 10 ? "0" + month : month;
-      day = day < 10 ? "0" + day : day;
-
-      date = `${day}.${month}.${year}`;
-      return date;
+      return moment(deadline).format("DD.MM.YYYY.");
     },
-    checkCompletedTasks() {
+    isAllCompleted() {
       return this.totalTasks === this.completedTasks;
     },
   },

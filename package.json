@@ -27,6 +27,7 @@
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "moment": "^2.29.1",
     "mongoose": "^6.0.12",
     "package-json-merge": "^0.0.1",
     "vue": "^3.0.0",
