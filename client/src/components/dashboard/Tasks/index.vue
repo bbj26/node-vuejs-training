@@ -1,5 +1,5 @@
 <template>
-  <div v-if="tasks !== [] && !error">
+  <div v-if="tasks.length && !error">
     <div v-for="task in tasks" :key="task._id" class="task">
       <div class="title">{{ task.name }}</div>
       <div class="deadline">{{ formatDate(task.deadline) }}</div>
@@ -12,7 +12,7 @@
       />
       <va-button
         color="danger"
-        @click.prevent="deleteTask(task._id)"
+        @click.prevent="removeTask(task._id)"
         :disabled="isExpired(task.deadline)"
       >
         DELETE
@@ -26,8 +26,8 @@
 
 <script>
 import api from '../../../../api/task';
-import store from '../../../store/index';
 import moment from 'moment';
+import { mapActions } from 'vuex';
 
 export default {
   props: ['tasks', 'completedTasks', 'totalTasks'],
@@ -37,8 +37,9 @@ export default {
     };
   },
   methods: {
-    deleteTask(id) {
-      store.dispatch('deleteTask', { taskId: id });
+    ...mapActions(['deleteTask']),
+    removeTask(id) {
+      this.deleteTask({ taskId: id });
     },
     toggleCompletedTask(taskId) {
       api.toggleCompleteTask(taskId).catch((err) => (this.error = err));

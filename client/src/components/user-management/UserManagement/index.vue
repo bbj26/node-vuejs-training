@@ -3,7 +3,7 @@
   <va-divider class="mt-3 mb-0" />
   <add-user-form />
   <va-divider class="mt-0 mb-2" />
-  <div class="loading-icon flex lg6 xs12 py-4" v-if="$store.state.isLoading">
+  <div class="loading-icon flex lg6 xs12 py-4" v-if="isLoading">
     <va-progress-circle indeterminate />
   </div>
   <div class="employees-legend">
@@ -14,10 +14,10 @@
     </div>
   </div>
   <va-divider class="mt-1 mb-1" />
-  <div v-if="$store.state.employees.length > 0" class="employees">
+  <div v-if="employees.length > 0" class="employees">
     <div
       class="employee-list"
-      v-for="employee in $store.state.employees"
+      v-for="employee in employees"
       :key="employee._id"
     >
       {{ employee.name }}
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import store from '../../../store/index';
+import { mapActions, mapState } from 'vuex';
 import AddUserForm from '../AddUserForm';
 export default {
   components: {
@@ -39,12 +39,19 @@ export default {
   created() {
     this.fetchEmployees();
   },
+  computed: {
+    ...mapState(['employees', 'isLoading']),
+  },
   methods: {
+    ...mapActions({
+      getEmployees: 'fetchEmployees',
+      removeEmployee: 'deleteEmployee',
+    }),
     fetchEmployees() {
-      store.dispatch('fetchEmployees');
+      this.getEmployees();
     },
     deleteEmployee(employeeId) {
-      store.dispatch('deleteEmployee', { empId: employeeId });
+      this.removeEmployee({ empId: employeeId });
     },
   },
 };

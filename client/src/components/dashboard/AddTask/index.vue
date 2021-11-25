@@ -7,13 +7,14 @@
         <va-input class="name" v-model="task.name" placeholder="Task name..." />
         <label for="deadline" class="label">Deadline</label>
         <va-date-input
+          :clearable="true"
           v-model="task.deadline"
           class="deadline"
           placeholder="Task deadline..."
         />
         <va-button
           type="submit"
-          @click.prevent="createTask"
+          @click.prevent="addTask"
           :disabled="!task.name.length || !task.deadline || !employeeId"
         >
           Create
@@ -24,30 +25,32 @@
 </template>
 
 <script>
-import store from '../../../store/index';
+import { mapActions } from 'vuex';
 export default {
-  props: ['employees', 'employeeId'],
+  props: ['employeeId'],
   data() {
     return {
       error: null,
       task: {
         name: '',
-        deadline: null,
+        deadline: new Date(),
         employeeId: '',
       },
     };
   },
   methods: {
-    createTask() {
+    ...mapActions([
+      'createTask'
+    ]),
+    addTask() {
       this.task.employeeId = this.employeeId;
-      store
-        .dispatch('createTask', this.task)
+      this.createTask(this.task)
         .then(() => this.resetForm())
         .catch((err) => (this.error = err));
     },
     resetForm() {
       this.task.name = '';
-      this.task.deadline = null;
+      this.task.deadline = new Date();
     },
   },
 };

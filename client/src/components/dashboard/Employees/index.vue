@@ -28,16 +28,18 @@
       </div>
       <va-divider class="mt-0 mb-2" />
       <tasks
-        :tasks="$store.getters.employeeTasks(employeeId)"
-        :completedTasks="$store.getters.completedTasks(employeeId)"
-        :totalTasks="$store.getters.totalTasks(employeeId)"
+        :tasks="employeeTasks(employeeId)"
+        :completedTasks="completedTasks(employeeId)"
+        :totalTasks="totalTasks(employeeId)"
       />
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Tasks from '../Tasks';
+
 export default {
   emits: ['employeeIdEvent'],
   props: ['employees'],
@@ -51,6 +53,9 @@ export default {
   },
   created() {
     this.focusFirstEmployee();
+  },
+  computed: {
+    ...mapGetters(['employeeTasks', 'completedTasks', 'totalTasks']),
   },
   methods: {
     setEmployeeId(employeeId) {

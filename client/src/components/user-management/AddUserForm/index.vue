@@ -13,7 +13,7 @@
         />
         <va-button
           type="submit"
-          @click.prevent="createEmployee"
+          @click.prevent="addEmployee"
           :disabled="!employeeName"
           >Create</va-button
         >
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import store from '../../../store/index';
+import { mapActions } from 'vuex';
 export default {
   data() {
     return {
@@ -31,10 +31,12 @@ export default {
     };
   },
   methods: {
-    createEmployee() {
+    ...mapActions(['createEmployee']),
+    addEmployee() {
       if (this.employeeName !== '') {
-        store.dispatch('createEmployee', { name: this.employeeName });
-        this.resetForm();
+        this.createEmployee({ name: this.employeeName }).then(() => {
+          this.resetForm();
+        })
       }
     },
     resetForm() {
