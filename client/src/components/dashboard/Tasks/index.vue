@@ -1,22 +1,22 @@
 <template>
-  <div v-if="tasks !== [] && (!error)">
+  <div v-if="tasks !== [] && !error">
     <div v-for="task in tasks" :key="task._id" class="task">
       <div class="title">{{ task.name }}</div>
       <div class="deadline">{{ formatDate(task.deadline) }}</div>
-      <input
+      <va-checkbox
         type="checkbox"
         :disabled="isExpired(task.deadline)"
         v-model="task.completed"
         @click="toggleCompletedTask(task._id)"
         class="completed"
       />
-      <button
-        class="btn"
+      <va-button
+        color="danger"
         @click.prevent="deleteTask(task._id)"
         :disabled="isExpired(task.deadline)"
       >
         DELETE
-      </button>
+      </va-button>
     </div>
   </div>
   <div :class="isAllCompleted() ? 'done total-completed' : 'total-completed'">
@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import api from "../../../../api/task";
-import store from "../../../store/index";
-import moment from "moment";
+import api from '../../../../api/task';
+import store from '../../../store/index';
+import moment from 'moment';
 
 export default {
-  props: ["tasks", "completedTasks", "totalTasks"],
+  props: ['tasks', 'completedTasks', 'totalTasks'],
   data() {
     return {
       error: null,
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     deleteTask(id) {
-      store.dispatch("deleteTask", { taskId: id });
+      store.dispatch('deleteTask', { taskId: id });
     },
     toggleCompletedTask(taskId) {
       api.toggleCompleteTask(taskId).catch((err) => (this.error = err));
@@ -49,7 +49,7 @@ export default {
       return now > deadline ? true : false;
     },
     formatDate(deadline) {
-      return moment(deadline).format("DD.MM.YYYY.");
+      return moment(deadline).format('DD.MM.YYYY.');
     },
     isAllCompleted() {
       return this.totalTasks === this.completedTasks;
@@ -67,12 +67,6 @@ export default {
   min-width: 150px;
   max-width: 150px;
   text-align: left;
-}
-.btn {
-  padding: 3px 10px;
-  margin: 5px;
-  min-width: 80px;
-  color: red;
 }
 .task {
   display: flex;

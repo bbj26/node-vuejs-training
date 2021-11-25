@@ -1,12 +1,8 @@
 <template>
   <h1>User management</h1>
-  <div class="mt-3 mb-0">
-    <va-divider />
-  </div>
-  <AddUserForm />
-  <div class="mt-0 mb-2">
-    <va-divider />
-  </div>
+  <va-divider class="mt-3 mb-0" />
+  <add-user-form />
+  <va-divider class="mt-0 mb-2" />
   <div class="loading-icon flex lg6 xs12 py-4" v-if="$store.state.isLoading">
     <va-progress-circle indeterminate />
   </div>
@@ -17,9 +13,7 @@
       <div class="emp-label">Action</div>
     </div>
   </div>
-  <div class="mt-1 mb-1">
-    <va-divider />
-  </div>
+  <va-divider class="mt-1 mb-1" />
   <div v-if="$store.state.employees.length > 0" class="employees">
     <div
       class="employee-list"
@@ -27,14 +21,17 @@
       :key="employee._id"
     >
       {{ employee.name }}
-      <button @click="deleteEmployee(employee._id)">Delete</button>
+      <va-button color="danger" @click="deleteEmployee(employee._id)"
+        >Delete</va-button
+      >
     </div>
   </div>
+  <va-divider class="mt-1 mb-1" />
 </template>
 
 <script>
 import store from '../../../store/index';
-import AddUserForm from "../AddUserForm";
+import AddUserForm from '../AddUserForm';
 export default {
   components: {
     AddUserForm,
@@ -44,10 +41,10 @@ export default {
   },
   methods: {
     fetchEmployees() {
-      store.dispatch('fetchEmployees')
+      store.dispatch('fetchEmployees');
     },
     deleteEmployee(employeeId) {
-      store.dispatch('deleteEmployee', {empId: employeeId})
+      store.dispatch('deleteEmployee', { empId: employeeId });
     },
   },
 };
@@ -74,7 +71,7 @@ export default {
   align-items: center;
 }
 .employee-list {
-  min-width: 20%;
+  min-width: 30%;
   max-width: 35%;
   padding: 5px;
   margin: 5px;
@@ -92,7 +89,7 @@ button {
   justify-content: space-between;
   align-items: center;
   max-width: 35%;
-  min-width: 19%;
+  min-width: 28%;
   padding: 10px 0px;
 }
 </style>

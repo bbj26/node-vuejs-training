@@ -1,19 +1,20 @@
 <template>
   <div class="container">
-    <div v-if="employees !== []" class="employees">
+    <div v-if="employees.length" class="employees">
       <h3>Employees</h3>
-      <div>
-        <va-divider class="mt-2 mb-2" />
-      </div>
+      <va-divider class="mt-2 mb-2" />
       <div
         class="employee-list"
-        v-for="(employee,index) in employees"
+        v-for="(employee, index) in employees"
         :key="index"
       >
         <div class="employee">
-          <a :class="{marked: employee._id === employeeId}" @click="getEmployeeId(employee._id)" >{{
-            employee.name
-          }}</a>
+          <a
+            :class="{ marked: employee._id === employeeId }"
+            @click="setEmployeeId(employee._id)"
+          >
+            {{ employee.name }}</a
+          >
         </div>
       </div>
     </div>
@@ -25,10 +26,8 @@
         <div class="t-label">Completed</div>
         <div class="t-label-action">Action</div>
       </div>
-      <div>
-        <va-divider class="mt-0 mb-2" />
-      </div>
-      <Tasks
+      <va-divider class="mt-0 mb-2" />
+      <tasks
         :tasks="$store.getters.employeeTasks(employeeId)"
         :completedTasks="$store.getters.completedTasks(employeeId)"
         :totalTasks="$store.getters.totalTasks(employeeId)"
@@ -38,30 +37,32 @@
 </template>
 
 <script>
-import Tasks from "../Tasks/index.vue";
+import Tasks from '../Tasks';
 export default {
-  props: ["employees"],
+  emits: ['employeeIdEvent'],
+  props: ['employees'],
   components: {
     Tasks,
   },
   data() {
     return {
-      employeeId: "",
+      employeeId: '',
     };
   },
   created() {
-    this.showFirstEmployee()
+    this.focusFirstEmployee();
   },
   methods: {
-    getEmployeeId(employeeId) {
+    setEmployeeId(employeeId) {
       this.employeeId = employeeId;
+      this.$emit('employeeIdEvent', employeeId);
     },
-    showFirstEmployee() {
-      if (this.employees && this.employees.length > 0) {
-      let id = this.employees[0]._id
-      this.employeeId = id
-    }
-    }
+    focusFirstEmployee() {
+      if (this.employees.length > 0) {
+        this.employeeId = this.employees[0]._id;
+        this.$emit('employeeIdEvent', this.employeeId);
+      }
+    },
   },
 };
 </script>

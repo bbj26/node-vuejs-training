@@ -8,9 +8,8 @@ const fetchTasks = async (req, res) => {
     res.status(404).json({ code: 404, msg: error })
   }
 }
-
 const fetchEmployeeTasks = async (req, res) => {
-  let employeeId = req.params.id
+  const employeeId = req.params.id
   try {
     const tasks = await Task.find({ employeeId: employeeId })
     res.status(200).json(tasks)
@@ -18,15 +17,13 @@ const fetchEmployeeTasks = async (req, res) => {
     res.status(404).json({ code: 404, msg: error })
   }
 }
-
 const createTask = async (req, res) => {
-  let taskData = {
+  const taskData = {
     name: req.body.name,
     deadline: req.body.deadline,
     employeeId: req.params.id
   }
-  let task = new Task(taskData);
-
+  const task = new Task(taskData);
   try {
     const savedTask = await task.save()
     res.status(201).json({ code: 201, message: 'Task added successfully', saved: savedTask })
@@ -34,9 +31,8 @@ const createTask = async (req, res) => {
     res.status(400).json({ code: 400, msg: error })
   }
 }
-
 const deleteTask = async (req, res) => {
-  let taskId = req.params.taskId
+  const taskId = req.params.taskId
   try {
     await Task.findByIdAndDelete(taskId)
     res.status(200).json({ code: 200, msg: 'Task successfully deleted' })
@@ -44,10 +40,9 @@ const deleteTask = async (req, res) => {
     res.status(400).json({ code: 400, msg: error })
   }
 }
-
-const completeTask = async (req, res) => {
+const setTaskCompletion = async (req, res) => {
   try {
-    let task = await Task.findById(req.params.id);
+    const task = await Task.findById(req.params.id);
     task.completed = !task.completed;
     await Task.findByIdAndUpdate(req.params.id, { $set: task })
     res.status(200).json({ code: 200, msg: 'Task successfully updated' })
@@ -61,5 +56,5 @@ module.exports = {
   fetchEmployeeTasks,
   createTask,
   deleteTask,
-  completeTask
+  setTaskCompletion
 }

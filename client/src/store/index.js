@@ -83,7 +83,7 @@ const store = createStore({
       let errors = [];
       context.commit('SET_LOADING_TRUE');
       return await tasksApi
-        .createTask(payload.empId, {
+        .createTask(payload.employeeId, {
           name: payload.name,
           deadline: payload.deadline,
         })

@@ -4,73 +4,56 @@
       <h3>Create new task</h3>
       <div class="container">
         <label for="name" class="label">Name</label>
-        <va-input class="name" v-model="taskName" placeholder="Task name..." />
-
+        <va-input class="name" v-model="task.name" placeholder="Task name..." />
         <label for="deadline" class="label">Deadline</label>
         <va-date-input
-          v-model="taskDeadline"
+          v-model="task.deadline"
           class="deadline"
           placeholder="Task deadline..."
         />
-
-        <label for="employees" class="label">Assign to:</label>
-        <select
-          v-if="employees"
-          name="emloyees"
-          id="employees"
-          class="employees"
-          v-model="employeeId"
+        <va-button
+          type="submit"
+          @click.prevent="createTask"
+          :disabled="!task.name.length || !task.deadline || !employeeId"
         >
-          <option
-            v-for="employee in $store.state.employees"
-            :key="employee._id"
-            :value="employee._id"
-          >
-            {{ employee.name }}
-          </option>
-        </select>
-        <button type="submit" @click.prevent="createTask">Create</button>
+          Create
+        </va-button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import store from "../../../store/index";
+import store from '../../../store/index';
 export default {
-  props: ["employees"],
+  props: ['employees', 'employeeId'],
   data() {
     return {
       error: null,
-      taskName: "",
-      taskDeadline: null,
-      employeeId: "",
-      today: null,
+      task: {
+        name: '',
+        deadline: null,
+        employeeId: '',
+      },
     };
   },
   methods: {
     createTask() {
+      this.task.employeeId = this.employeeId;
       store
-        .dispatch("createTask", {
-          empId: this.employeeId,
-          name: this.taskName,
-          deadline: this.taskDeadline,
-        })
-        .then(() => {
-          this.taskName = "";
-          this.taskDeadline = null;
-          this.employeeId = "";
-        })
+        .dispatch('createTask', this.task)
+        .then(() => this.resetForm())
         .catch((err) => (this.error = err));
+    },
+    resetForm() {
+      this.task.name = '';
+      this.task.deadline = null;
     },
   },
 };
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,700&display=swap");
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-
 .task-form {
   display: flex;
   flex-direction: column;

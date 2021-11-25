@@ -11,26 +11,34 @@
           placeholder="Full name..."
           v-model="employeeName"
         />
-        <va-button type="submit" @click.prevent="createEmployee" :disabled="!employeeName">Create</va-button>
+        <va-button
+          type="submit"
+          @click.prevent="createEmployee"
+          :disabled="!employeeName"
+          >Create</va-button
+        >
       </form>
     </div>
   </div>
 </template>
 
 <script>
-import store from "../../../store/index";
+import store from '../../../store/index';
 export default {
   data() {
     return {
-      employeeName: "",
+      employeeName: '',
     };
   },
   methods: {
     createEmployee() {
-      if (this.employeeName !== "") {
-        store.dispatch("createEmployee", { name: this.employeeName });
-        this.employeeName = ''
+      if (this.employeeName !== '') {
+        store.dispatch('createEmployee', { name: this.employeeName });
+        this.resetForm();
       }
+    },
+    resetForm() {
+      this.employeeName = '';
     },
   },
 };
@@ -40,7 +48,7 @@ export default {
 .form-container {
   padding: 10px;
 }
-input[type="text"] {
+input[type='text'] {
   width: 40%;
   padding: 12px;
   border: 1px solid #ccc;

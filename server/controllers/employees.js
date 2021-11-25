@@ -11,10 +11,10 @@ const fetchEmployees = async (req, res) => {
 }
 
 const createEmployee = async (req, res) => {
-  let employeeData = {
+  const employeeData = {
     name: req.body.name,
   }
-  let employee = new Employee(employeeData);
+  const employee = new Employee(employeeData);
 
   try {
     const savedEmployee = await employee.save()

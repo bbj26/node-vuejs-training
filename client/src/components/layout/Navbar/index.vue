@@ -1,6 +1,6 @@
 <template>
   <va-navbar color="primary" shape class="mb-4 h-100">
-    <template #left>
+    <template #center>
       <va-navbar-item>
         <router-link to="dashboard" class="nav-link">Dashboard</router-link>
       </va-navbar-item>

@@ -8,8 +8,8 @@ function fetchEmployeeTasks(employeeId) {
   return axios.get(`/api/tasks/${employeeId}`)
 }
 
-function createTask(employeeId, taskData) {
-  return axios.post(`/api/tasks/${employeeId}`, taskData)
+function createTask(employeeId, task) {
+  return axios.post(`/api/tasks/${employeeId}`, task)
 }
 
 function deleteTask(taskId) {
