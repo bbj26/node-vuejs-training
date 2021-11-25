@@ -50,15 +50,18 @@ export default {
     };
   },
   created() {
-    if (this.employees && this.employees.length > 0) {
-      let id = this.employees[0]._id
-      this.employeeId = id
-    }
+    this.showFirstEmployee()
   },
   methods: {
     getEmployeeId(employeeId) {
       this.employeeId = employeeId;
     },
+    showFirstEmployee() {
+      if (this.employees && this.employees.length > 0) {
+      let id = this.employees[0]._id
+      this.employeeId = id
+    }
+    }
   },
 };
 </script>

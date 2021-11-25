@@ -4,24 +4,15 @@
       <h3>Create new task</h3>
       <div class="container">
         <label for="name" class="label">Name</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          class="name"
-          placeholder="Task name..."
-          v-model="taskName"
-        />
+        <va-input class="name" v-model="taskName" placeholder="Task name..." />
+
         <label for="deadline" class="label">Deadline</label>
-        <input
-          type="date"
-          id="deadline"
-          name="deadline"
-          class="deadline"
+        <va-date-input
           v-model="taskDeadline"
-          :min="today"
-          max="2099-12-31"
+          class="deadline"
+          placeholder="Task deadline..."
         />
+
         <label for="employees" class="label">Assign to:</label>
         <select
           v-if="employees"
@@ -31,7 +22,7 @@
           v-model="employeeId"
         >
           <option
-            v-for="employee in employees"
+            v-for="employee in $store.state.employees"
             :key="employee._id"
             :value="employee._id"
           >
@@ -46,7 +37,6 @@
 
 <script>
 import store from "../../../store/index";
-import moment from "moment";
 export default {
   props: ["employees"],
   data() {
@@ -57,9 +47,6 @@ export default {
       employeeId: "",
       today: null,
     };
-  },
-  created() {
-    this.today = this.getToday();
   },
   methods: {
     createTask() {
@@ -76,14 +63,14 @@ export default {
         })
         .catch((err) => (this.error = err));
     },
-    getToday() {
-      return moment().format("YYYY-MM-DD");
-    },
   },
 };
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
 .task-form {
   display: flex;
   flex-direction: column;
@@ -94,7 +81,8 @@ export default {
   border-radius: 5px;
   background-color: #f2f2f2;
 }
-.task-form input, select {
+.task-form input,
+select {
   padding: 5px;
   margin: 5px;
   min-height: 40px;

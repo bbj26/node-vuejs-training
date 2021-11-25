@@ -1,17 +1,16 @@
 <template>
-  <h1>Dashboard</h1>
   <div>
+    <h1>Dashboard</h1>
     <va-divider class="mt-3 mb-0" />
-  </div>
-  <div class="loading-icon flex lg6 xs12 py-4" v-if="$store.state.isLoading">
-    <va-progress-circle indeterminate />
-  </div>
-  <AddTaskForm :employees="$store.state.employees" />
-  <div>
+    <div class="loading-icon flex lg6 xs12 py-4" v-if="$store.state.isLoading">
+      <va-progress-circle indeterminate />
+    </div>
+    <AddTaskForm :employees="$store.state.employees" />
     <va-divider class="mt-0 mb-2" />
-  </div>
-  <Employees :employees="$store.state.employees" />
-  <div>
+    <Employees
+      v-if="$store.state.employees.length"
+      :employees="$store.state.employees"
+    />
     <va-divider class="mt-3 mb-3" />
   </div>
 </template>
@@ -28,7 +27,7 @@ export default {
   data() {
     return {
       employees: [],
-      defaultEmployeeId: null
+      defaultEmployeeId: null,
     };
   },
   created() {

@@ -11,7 +11,7 @@
           placeholder="Full name..."
           v-model="employeeName"
         />
-        <button type="submit" @click.prevent="createEmployee">Create</button>
+        <va-button type="submit" @click.prevent="createEmployee" :disabled="!employeeName">Create</va-button>
       </form>
     </div>
   </div>
@@ -29,6 +29,7 @@ export default {
     createEmployee() {
       if (this.employeeName !== "") {
         store.dispatch("createEmployee", { name: this.employeeName });
+        this.employeeName = ''
       }
     },
   },
