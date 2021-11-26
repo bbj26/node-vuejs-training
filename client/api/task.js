@@ -16,7 +16,7 @@ function deleteTask(taskId) {
   return axios.delete(`/api/tasks/${taskId}`)
 }
 
-function toggleCompleteTask(taskId) {
+function toggleCompleted(taskId) {
   return axios.post(`/api/tasks/complete/${taskId}`);
 }
 
@@ -25,5 +25,5 @@ export default {
   fetchEmployeeTasks,
   createTask,
   deleteTask,
-  toggleCompleteTask
+  toggleCompleted
 }

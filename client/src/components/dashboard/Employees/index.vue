@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div v-if="employees.length" class="employees">
-      <h3>Employees</h3>
+      <h1>Employees</h1>
       <va-divider class="mt-2 mb-2" />
       <div
         class="employee-list"
@@ -10,8 +10,8 @@
       >
         <div class="employee">
           <a
-            :class="{ marked: employee._id === employeeId }"
-            @click="setEmployeeId(employee._id)"
+            :class="{ marked: employee._id === id }"
+            @click="setId(employee._id)"
           >
             {{ employee.name }}</a
           >
@@ -20,6 +20,7 @@
     </div>
     <div class="tasks">
       <h1>Tasks</h1>
+      <va-divider class="mt-2 mb-2" />
       <div class="labels">
         <div class="t-label">Name</div>
         <div class="t-label">Deadline</div>
@@ -28,9 +29,9 @@
       </div>
       <va-divider class="mt-0 mb-2" />
       <tasks
-        :tasks="employeeTasks(employeeId)"
-        :completedTasks="completedTasks(employeeId)"
-        :totalTasks="totalTasks(employeeId)"
+        :tasks="employeeTasks(id)"
+        :completedTasks="completedTasks(id)"
+        :totalTasks="totalTasks(id)"
       />
     </div>
   </div>
@@ -41,31 +42,31 @@ import { mapGetters } from 'vuex';
 import Tasks from '../Tasks';
 
 export default {
-  emits: ['employeeIdEvent'],
+  emits: ['idRecieved'],
   props: ['employees'],
   components: {
     Tasks,
   },
   data() {
     return {
-      employeeId: '',
+      id: '',
     };
   },
   created() {
-    this.focusFirstEmployee();
+    this.focusFirst();
   },
   computed: {
     ...mapGetters(['employeeTasks', 'completedTasks', 'totalTasks']),
   },
   methods: {
-    setEmployeeId(employeeId) {
-      this.employeeId = employeeId;
-      this.$emit('employeeIdEvent', employeeId);
+    setId(id) {
+      this.id = id;
+      this.$emit('idRecieved', this.id);
     },
-    focusFirstEmployee() {
+    focusFirst() {
       if (this.employees.length > 0) {
-        this.employeeId = this.employees[0]._id;
-        this.$emit('employeeIdEvent', this.employeeId);
+        this.id = this.employees[0]._id;
+        this.$emit('idRecieved', this.id);
       }
     },
   },

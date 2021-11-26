@@ -9,12 +9,9 @@
           id="name"
           name="name"
           placeholder="Full name..."
-          v-model="employeeName"
+          v-model="name"
         />
-        <va-button
-          type="submit"
-          @click.prevent="addEmployee"
-          :disabled="!employeeName"
+        <va-button type="submit" @click.prevent="create" :disabled="!name"
           >Create</va-button
         >
       </form>
@@ -27,20 +24,17 @@ import { mapActions } from 'vuex';
 export default {
   data() {
     return {
-      employeeName: '',
+      name: '',
     };
   },
   methods: {
     ...mapActions(['createEmployee']),
-    addEmployee() {
-      if (this.employeeName !== '') {
-        this.createEmployee({ name: this.employeeName }).then(() => {
-          this.resetForm();
-        })
-      }
+    create() {
+      this.createEmployee({ name: this.name });
+      this.resetForm();
     },
     resetForm() {
-      this.employeeName = '';
+      this.name = '';
     },
   },
 };

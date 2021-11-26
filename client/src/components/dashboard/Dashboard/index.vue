@@ -10,7 +10,7 @@
     <employees
       v-if="employees.length"
       :employees="employees"
-      @employeeIdEvent="setEmployeeId"
+      @idRecieved="setEmployeeId"
     />
     <va-divider class="mt-3 mb-3" />
   </div>

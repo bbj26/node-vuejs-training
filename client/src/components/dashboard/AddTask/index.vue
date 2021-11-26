@@ -8,14 +8,18 @@
         <label for="deadline" class="label">Deadline</label>
         <va-date-input
           :clearable="true"
+          highlight-weekend
+          first-weekday="Monday"
           v-model="task.deadline"
           class="deadline"
           placeholder="Task deadline..."
         />
         <va-button
           type="submit"
-          @click.prevent="addTask"
-          :disabled="!task.name.length || !task.deadline || !employeeId"
+          @click.prevent="create"
+          :disabled="
+            !this.task.name.length || !this.task.deadline || !this.employeeId
+          "
         >
           Create
         </va-button>
@@ -33,16 +37,14 @@ export default {
       error: null,
       task: {
         name: '',
-        deadline: new Date(),
+        deadline: null,
         employeeId: '',
       },
     };
   },
   methods: {
-    ...mapActions([
-      'createTask'
-    ]),
-    addTask() {
+    ...mapActions(['createTask']),
+    create() {
       this.task.employeeId = this.employeeId;
       this.createTask(this.task)
         .then(() => this.resetForm())
@@ -50,7 +52,7 @@ export default {
     },
     resetForm() {
       this.task.name = '';
-      this.task.deadline = new Date();
+      this.task.deadline = null;
     },
   },
 };

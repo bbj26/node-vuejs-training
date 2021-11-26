@@ -1,7 +1,7 @@
 <template>
   <h1>User management</h1>
   <va-divider class="mt-3 mb-0" />
-  <add-user-form />
+  <add-user />
   <va-divider class="mt-0 mb-2" />
   <div class="loading-icon flex lg6 xs12 py-4" v-if="isLoading">
     <va-progress-circle indeterminate />
@@ -31,10 +31,10 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import AddUserForm from '../AddUserForm';
+import AddUser from '../AddUser';
 export default {
   components: {
-    AddUserForm,
+    AddUser,
   },
   created() {
     this.fetchEmployees();

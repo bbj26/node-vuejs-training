@@ -7,12 +7,12 @@
         type="checkbox"
         :disabled="isExpired(task.deadline)"
         v-model="task.completed"
-        @click="toggleCompletedTask(task._id)"
+        @click="toggleCompleted(task._id)"
         class="completed"
       />
       <va-button
         color="danger"
-        @click.prevent="removeTask(task._id)"
+        @click.prevent="remove(task._id)"
         :disabled="isExpired(task.deadline)"
       >
         DELETE
@@ -38,11 +38,11 @@ export default {
   },
   methods: {
     ...mapActions(['deleteTask']),
-    removeTask(id) {
+    remove(id) {
       this.deleteTask({ taskId: id });
     },
-    toggleCompletedTask(taskId) {
-      api.toggleCompleteTask(taskId).catch((err) => (this.error = err));
+    toggleCompleted(id) {
+      api.toggleCompleted(id).catch((err) => (this.error = err));
     },
     isExpired(deadLine) {
       let deadline = new Date(deadLine);
@@ -76,6 +76,7 @@ export default {
   align-items: center;
   padding: 10px;
   margin: 5px 0px;
+  border: 1px solid black;
 }
 .total-completed {
   color: lightsalmon;
