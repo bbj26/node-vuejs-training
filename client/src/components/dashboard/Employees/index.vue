@@ -4,14 +4,14 @@
       <h1>Employees</h1>
       <va-divider class="mt-2 mb-2" />
       <div
-        class="employee-list"
         v-for="(employee, index) in employees"
         :key="index"
+        class="employee-list"
       >
         <div class="employee">
           <a
-            :class="{ marked: employee._id === id }"
             @click="setId(employee._id)"
+            :class="{ marked: employee._id === id }"
           >
             {{ employee.name }}</a
           >

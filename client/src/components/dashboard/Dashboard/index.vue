@@ -2,15 +2,15 @@
   <div>
     <h1>Dashboard</h1>
     <va-divider class="mt-3 mb-0" />
-    <div class="loading-icon flex lg6 xs12 py-4" v-if="isLoading">
+    <div v-if="isLoading" class="loading-icon flex lg6 xs12 py-4">
       <va-progress-circle indeterminate />
     </div>
     <add-task :employeeId="selectedEmployeeId" />
     <va-divider class="mt-0 mb-2" />
     <employees
       v-if="employees.length"
-      :employees="employees"
       @idRecieved="setEmployeeId"
+      :employees="employees"
     />
     <va-divider class="mt-3 mb-3" />
   </div>

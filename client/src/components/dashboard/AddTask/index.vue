@@ -4,15 +4,15 @@
       <h3>Create new task</h3>
       <div class="container">
         <label for="name" class="label">Name</label>
-        <va-input class="name" v-model="task.name" placeholder="Task name..." />
+        <va-input v-model="task.name" placeholder="Task name..." class="name" />
         <label for="deadline" class="label">Deadline</label>
         <va-date-input
+          v-model="task.deadline"
           :clearable="true"
           highlight-weekend
           first-weekday="Monday"
-          v-model="task.deadline"
-          class="deadline"
           placeholder="Task deadline..."
+          class="deadline"
         />
         <va-button
           type="submit"

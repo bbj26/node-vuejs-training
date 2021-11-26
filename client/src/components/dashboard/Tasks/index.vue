@@ -4,16 +4,16 @@
       <div class="title">{{ task.name }}</div>
       <div class="deadline">{{ formatDate(task.deadline) }}</div>
       <va-checkbox
-        type="checkbox"
-        :disabled="isExpired(task.deadline)"
         v-model="task.completed"
         @click="toggleCompleted(task._id)"
+        :disabled="isExpired(task.deadline)"
+        type="checkbox"
         class="completed"
       />
       <va-button
-        color="danger"
         @click.prevent="remove(task._id)"
         :disabled="isExpired(task.deadline)"
+        color="danger"
       >
         DELETE
       </va-button>

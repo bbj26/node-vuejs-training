@@ -5,13 +5,13 @@
       <form>
         <label for="name">Name</label>
         <input
+          v-model="name"
           type="text"
           id="name"
           name="name"
           placeholder="Full name..."
-          v-model="name"
         />
-        <va-button type="submit" @click.prevent="create" :disabled="!name"
+        <va-button @click.prevent="create" :disabled="!name" type="submit"
           >Create</va-button
         >
       </form>

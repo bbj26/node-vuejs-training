@@ -3,7 +3,7 @@
   <va-divider class="mt-3 mb-0" />
   <add-user />
   <va-divider class="mt-0 mb-2" />
-  <div class="loading-icon flex lg6 xs12 py-4" v-if="isLoading">
+  <div v-if="isLoading" class="loading-icon flex lg6 xs12 py-4" >
     <va-progress-circle indeterminate />
   </div>
   <div class="employees-legend">
@@ -16,12 +16,12 @@
   <va-divider class="mt-1 mb-1" />
   <div v-if="employees.length > 0" class="employees">
     <div
-      class="employee-list"
       v-for="employee in employees"
       :key="employee._id"
+      class="employee-list"
     >
       {{ employee.name }}
-      <va-button color="danger" @click="deleteEmployee(employee._id)"
+      <va-button @click="deleteEmployee(employee._id)" color="danger"
         >Delete</va-button
       >
     </div>
