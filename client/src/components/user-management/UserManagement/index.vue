@@ -3,7 +3,7 @@
   <va-divider class="mt-3 mb-0" />
   <add-user />
   <va-divider class="mt-0 mb-2" />
-  <div v-if="isLoading" class="loading-icon flex lg6 xs12 py-4" >
+  <div v-if="isLoading" class="loading-icon flex lg6 xs12 py-4">
     <va-progress-circle indeterminate />
   </div>
   <div class="employees-legend">
@@ -26,6 +26,8 @@
       >
     </div>
   </div>
+  <va-divider v-if="errors.length" class="mt-1 mb-1" />
+  <p v-if="errors.length" class="error">{{ errors }}</p>
   <va-divider class="mt-1 mb-1" />
 </template>
 
@@ -40,7 +42,7 @@ export default {
     this.fetchEmployees();
   },
   computed: {
-    ...mapState(['employees', 'isLoading']),
+    ...mapState(['employees', 'isLoading', 'errors']),
   },
   methods: {
     ...mapActions({
@@ -98,5 +100,9 @@ button {
   max-width: 35%;
   min-width: 28%;
   padding: 10px 0px;
+}
+.error {
+  padding: 5px;
+  color: red;
 }
 </style>

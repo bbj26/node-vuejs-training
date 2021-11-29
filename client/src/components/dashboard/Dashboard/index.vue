@@ -13,6 +13,7 @@
       :employees="employees"
     />
     <va-divider class="mt-3 mb-3" />
+    <p v-if="errors.length" class="error">{{ errors }}</p>
   </div>
 </template>
 
@@ -32,7 +33,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['isLoading', 'employees']),
+    ...mapState(['isLoading', 'employees', 'errors']),
   },
   created() {
     this.fetchEmployees();
@@ -53,5 +54,9 @@ export default {
   left: 50%;
   transform: translate(-50%, 0);
   top: 500px;
+}
+.error {
+  padding: 5px;
+  color: red;
 }
 </style>

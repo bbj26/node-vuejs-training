@@ -21,66 +21,62 @@ const store = createStore({
     },
     SAVE_TASKS(state, tasks) {
       state.tasks = tasks;
+    },
+    SAVE_ERROR(state, error) {
+      state.errors = error;
     }
   },
   actions: {
     async fetchEmployees(context) {
       context.commit('SET_LOADING_TRUE');
       let employees = [];
-      let errors = [];
       return await employeesApi
         .getEmployees()
         .then((res) => {
           employees = res.data;
           context.commit('SAVE_EMPLOYEES', employees)
-          context.commit('SET_LOADING_FALSE');
         })
         .catch((err) => {
-          errors.push(err)
-          context.commit('SET_LOADING_FALSE');
-        });
+          context.commit('SAVE_ERROR', err)
+        })
+        .finally(() => context.commit('SET_LOADING_FALSE'));
     },
     async createEmployee(context, payload) {
       context.commit('SET_LOADING_TRUE');
       return await employeesApi.createEmployee(payload)
         .then(() => {
-          context.commit('SET_LOADING_FALSE');
           context.dispatch('fetchEmployees');
         })
         .catch(err => {
-          console.log(err);
-          context.commit('SET_LOADING_FALSE');
+          context.commit('SAVE_ERROR', err)
         })
+        .finally(() => context.commit('SET_LOADING_FALSE'))
     },
     async deleteEmployee(context, payload) {
       context.commit('SET_LOADING_TRUE');
       return await employeesApi.deleteEmployee(payload.empId)
         .then(() => {
           context.dispatch('fetchEmployees');
-          context.commit('SET_LOADING_FALSE');
         })
         .catch(err => {
-          console.log(err);
-          context.commit('SET_LOADING_FALSE');
+          context.commit('SAVE_ERROR', err)
         })
+        .finally(() => context.commit('SET_LOADING_FALSE'))
     },
     async fetchAllTasks(context) {
       context.commit('SET_LOADING_TRUE');
       let tasks = [];
-      let errors = [];
       return await tasksApi.fetchAllTasks()
         .then(res => {
           tasks = res.data;
           context.commit('SAVE_TASKS', tasks)
-          context.commit('SET_LOADING_FALSE');
         })
         .catch(err => {
-          errors.push(err)
-          context.commit('SET_LOADING_FALSE');
+          context.commit('SAVE_ERROR', err)
         })
+        .finally(() => context.commit('SET_LOADING_FALSE'));
     },
     async createTask(context, payload) {
-      let errors = [];
       context.commit('SET_LOADING_TRUE');
       return await tasksApi
         .createTask(payload.employeeId, {
@@ -89,28 +85,31 @@ const store = createStore({
         })
         .then(() => {
           context.dispatch('fetchAllTasks');
-          context.commit('SET_LOADING_FALSE');
         })
         .catch((err) => {
-          errors.push(err);
-          context.commit('SET_LOADING_FALSE');
-        });
+          context.commit('SAVE_ERROR', err)
+        })
+        .finally(() => context.commit('SET_LOADING_FALSE'));
     },
     async deleteTask(context, payload) {
+      context.commit('SET_LOADING_TRUE');
       return await tasksApi
         .deleteTask(payload.taskId)
         .then(() => {
-          context.dispatch('fetchAllTasks')
+          context.dispatch('fetchAllTasks');
         })
-        .catch((err) => (this.error = err));
+        .catch((err) => {
+          context.commit('SAVE_ERROR', err)
+        })
+        .finally(() => context.commit('SET_LOADING_FALSE'));
     }
   },
   getters: {
     employeeTasks: (state) => (employeeId) => {
-      return state.tasks.filter(task => task.employeeId === employeeId)
+      return state.tasks.filter(task => task.employeeId === employeeId);
     },
     totalTasks: (state) => (employeeId) => {
-      return state.tasks.filter(task => task.employeeId === employeeId).length
+      return state.tasks.filter(task => task.employeeId === employeeId).length;
     },
     completedTasks: (state) => (employeeId) => {
       return state.tasks.filter(task => task.employeeId === employeeId).filter((task) => task.completed === true).length;

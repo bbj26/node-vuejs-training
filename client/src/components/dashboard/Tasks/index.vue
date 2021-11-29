@@ -1,33 +1,31 @@
 <template>
-  <div v-if="tasks.length && !error">
-    <div v-for="task in tasks" :key="task._id" class="task">
-      <div class="title">{{ task.name }}</div>
-      <div class="deadline">{{ formatDate(task.deadline) }}</div>
-      <va-checkbox
-        v-model="task.completed"
-        @click="toggleCompleted(task._id)"
-        :disabled="isExpired(task.deadline)"
-        type="checkbox"
-        class="completed"
-      />
-      <va-button
-        @click.prevent="remove(task._id)"
-        :disabled="isExpired(task.deadline)"
-        color="danger"
-      >
-        DELETE
-      </va-button>
+  <div>
+    <div v-if="tasks.length && !error">
+      <div v-for="task in tasks" :key="task._id" class="task">
+        <div class="title">{{ task.name }}</div>
+        <div class="deadline">{{ formatDate(task.deadline) }}</div>
+        <va-checkbox
+          v-model="task.completed"
+          @click="toggleCompleted(task._id)"
+          :disabled="isExpired(task.deadline)"
+          class="completed"
+        />
+        <va-button @click.prevent="remove(task._id)" color="danger">
+          DELETE
+        </va-button>
+      </div>
     </div>
-  </div>
-  <div :class="isAllCompleted() ? 'done total-completed' : 'total-completed'">
-    {{ completedTasks }} out of {{ totalTasks }} tasks completed
+    <div :class="isAllCompleted() ? 'done total-completed' : 'total-completed'">
+      {{ completedTasks }} out of {{ totalTasks }} tasks completed
+    </div>
+    <p v-if="errors.length" class="error">{{ errors }}</p>
   </div>
 </template>
 
 <script>
 import api from '../../../../api/task';
 import moment from 'moment';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   props: ['tasks', 'completedTasks', 'totalTasks'],
@@ -35,6 +33,9 @@ export default {
     return {
       error: null,
     };
+  },
+  computed: {
+    ...mapState(['errors']),
   },
   methods: {
     ...mapActions(['deleteTask']),
@@ -76,7 +77,6 @@ export default {
   align-items: center;
   padding: 10px;
   margin: 5px 0px;
-  border: 1px solid black;
 }
 .total-completed {
   color: lightsalmon;
@@ -84,5 +84,9 @@ export default {
 }
 .done {
   color: green;
+}
+.error {
+  padding: 5px;
+  color: red;
 }
 </style>

@@ -1,20 +1,20 @@
-const Task = require('../models/task')
+const Task = require('../models/task');
 
 const fetchTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({})
-    res.status(200).json(tasks)
+    const tasks = await Task.find({});
+    res.status(200).json(tasks);
   } catch (error) {
-    res.status(404).json({ code: 404, msg: error })
+    res.status(404).json({ code: 404, msg: error });
   }
 }
 const fetchEmployeeTasks = async (req, res) => {
-  const employeeId = req.params.id
+  const employeeId = req.params.id;
   try {
-    const tasks = await Task.find({ employeeId: employeeId })
-    res.status(200).json(tasks)
+    const tasks = await Task.find({ employeeId: employeeId });
+    res.status(200).json(tasks);
   } catch (error) {
-    res.status(404).json({ code: 404, msg: error })
+    res.status(404).json({ code: 404, msg: error });
   }
 }
 const createTask = async (req, res) => {
@@ -22,30 +22,30 @@ const createTask = async (req, res) => {
     name: req.body.name,
     deadline: req.body.deadline,
     employeeId: req.params.id
-  }
+  };
   const task = new Task(taskData);
   try {
-    const savedTask = await task.save()
-    res.status(201).json({ code: 201, message: 'Task added successfully', saved: savedTask })
+    const savedTask = await task.save();
+    res.status(201).json({ code: 201, message: 'Task added successfully', saved: savedTask });
   } catch (error) {
-    res.status(400).json({ code: 400, msg: error })
+    res.status(400).json({ code: 400, msg: error });
   }
 }
 const deleteTask = async (req, res) => {
-  const taskId = req.params.taskId
+  const taskId = req.params.taskId;
   try {
-    await Task.findByIdAndDelete(taskId)
-    res.status(200).json({ code: 200, msg: 'Task successfully deleted' })
+    await Task.findByIdAndDelete(taskId);
+    res.status(200).json({ code: 200, msg: 'Task successfully deleted' });
   } catch (error) {
-    res.status(400).json({ code: 400, msg: error })
+    res.status(400).json({ code: 400, msg: error });
   }
 }
 const setTaskCompletion = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
     task.completed = !task.completed;
-    await Task.findByIdAndUpdate(req.params.id, { $set: task })
-    res.status(200).json({ code: 200, msg: 'Task successfully updated' })
+    await Task.findByIdAndUpdate(req.params.id, { $set: task });
+    res.status(200).json({ code: 200, msg: 'Task successfully updated' });
   } catch (error) {
     res.status(404).json({ code: 404, msg: error });
   }
@@ -57,4 +57,4 @@ module.exports = {
   createTask,
   deleteTask,
   setTaskCompletion
-}
+};

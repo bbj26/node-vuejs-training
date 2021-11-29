@@ -16,16 +16,20 @@
         >
       </form>
     </div>
+    <p v-if="errors.length" class="error">{{ errors }}</p>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 export default {
   data() {
     return {
       name: '',
     };
+  },
+  computed: {
+    ...mapState(['errors']),
   },
   methods: {
     ...mapActions(['createEmployee']),
@@ -75,5 +79,9 @@ button:hover {
   flex-direction: column;
   justify-items: center;
   align-items: center;
+}
+.error {
+  padding: 5px;
+  color: red;
 }
 </style>

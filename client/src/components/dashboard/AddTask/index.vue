@@ -15,26 +15,26 @@
           class="deadline"
         />
         <va-button
-          type="submit"
           @click.prevent="create"
           :disabled="
             !this.task.name.length || !this.task.deadline || !this.employeeId
           "
+          type="submit"
         >
           Create
         </va-button>
       </div>
     </form>
+    <p v-if="errors.length" class="error">{{ errors }}</p>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 export default {
   props: ['employeeId'],
   data() {
     return {
-      error: null,
       task: {
         name: '',
         deadline: null,
@@ -42,13 +42,14 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapState(['errors']),
+  },
   methods: {
     ...mapActions(['createTask']),
     create() {
       this.task.employeeId = this.employeeId;
-      this.createTask(this.task)
-        .then(() => this.resetForm())
-        .catch((err) => (this.error = err));
+      this.createTask(this.task).then(() => this.resetForm());
     },
     resetForm() {
       this.task.name = '';
@@ -103,5 +104,9 @@ button {
 
 button:hover {
   background-color: #06506d;
+}
+.error {
+  padding: 5px;
+  color: red;
 }
 </style>

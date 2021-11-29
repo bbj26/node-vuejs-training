@@ -33,12 +33,13 @@
         :completedTasks="completedTasks(id)"
         :totalTasks="totalTasks(id)"
       />
+      <p v-if="errors.length" class="error">{{ errors }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import Tasks from '../Tasks';
 
 export default {
@@ -57,6 +58,7 @@ export default {
   },
   computed: {
     ...mapGetters(['employeeTasks', 'completedTasks', 'totalTasks']),
+    ...mapState(['errors']),
   },
   methods: {
     setId(id) {
@@ -120,5 +122,9 @@ export default {
 .marked {
   font-weight: bold;
   color: #0c689e;
+}
+.error {
+  padding: 5px;
+  color: red;
 }
 </style>
