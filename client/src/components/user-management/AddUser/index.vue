@@ -1,6 +1,6 @@
 <template>
   <div class="padding-10">
-    <div class="container padding-10">
+    <div class="management-container padding-10">
       <h3>Create new employee</h3>
       <form>
         <label for="name">Name</label>
@@ -17,7 +17,7 @@
         >
       </form>
     </div>
-    <p v-if="errors.length" class="error padding-10">{{ errors }}</p>
+    <p v-if="errors.length" class="error-msg padding-10">{{ errors }}</p>
   </div>
 </template>
 
@@ -70,17 +70,17 @@ button {
 button:hover {
   background-color: #06506d;
 }
-.container {
+.management-container {
   border-radius: 5px;
   background-color: #f2f2f2;
 }
-.container form {
+.management-container form {
   display: flex;
   flex-direction: column;
   justify-items: center;
   align-items: center;
 }
-.error {
+.error-msg {
   color: red;
 }
 </style>

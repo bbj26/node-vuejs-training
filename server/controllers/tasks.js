@@ -1,4 +1,5 @@
 const Task = require('../models/task');
+const { validationResult } = require('express-validator');
 
 const fetchTasks = async (req, res) => {
   try {
@@ -23,10 +24,17 @@ const createTask = async (req, res) => {
     deadline: req.body.deadline,
     employeeId: req.params.id
   };
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   const task = new Task(taskData);
   try {
     const savedTask = await task.save();
-    res.status(201).json({ code: 201, message: 'Task added successfully', saved: savedTask });
+    res.status(201).json({
+      code: 201, message: 'Task added successfully',
+      saved: savedTask
+    });
   } catch (error) {
     res.status(409).json({ code: 409, msg: error.message });
   }

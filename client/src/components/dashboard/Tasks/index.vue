@@ -2,13 +2,13 @@
   <div>
     <div v-if="tasks.length && !error">
       <div v-for="task in tasks" :key="task._id" class="task">
-        <div class="title">{{ task.name }}</div>
+        <div class="task-title">{{ task.name }}</div>
         <div class="deadline">{{ formatDate(task.deadline) }}</div>
         <va-checkbox
           v-model="task.completed"
           @click="toggleCompleted(task._id)"
           :disabled="isExpired(task.deadline)"
-          class="completed"
+          class="task-completed"
         />
         <va-button @click.prevent="remove(task._id)" color="danger">
           DELETE
@@ -18,7 +18,7 @@
     <div :class="isAllCompleted() ? 'done total-completed' : 'total-completed'">
       {{ completedTasks }} out of {{ totalTasks }} tasks completed
     </div>
-    <p v-if="errors.length" class="error">{{ errors }}</p>
+    <p v-if="errors.length" class="error-msg">{{ errors }}</p>
   </div>
 </template>
 
@@ -61,8 +61,8 @@ export default {
 </script>
 
 <style scoped>
-.title,
-.completed,
+.task-title,
+.task-completed,
 .deadline {
   padding: 3px 10px;
   margin: 5px;
@@ -85,7 +85,7 @@ export default {
 .done {
   color: green;
 }
-.error {
+.error-msg {
   padding: 5px;
   color: red;
 }

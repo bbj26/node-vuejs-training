@@ -16,14 +16,16 @@ const createEmployee = async (req, res) => {
     name: req.body.name,
   };
   const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   const employee = new Employee(employeeData);
-
   try {
     const savedEmployee = await employee.save();
-    res.status(201).json({ code: 201, message: 'Employee added successfully', saved: savedEmployee });
+    res.status(201).json({
+      code: 201, message: 'Employee added successfully',
+      saved: savedEmployee
+    });
   } catch (error) {
     res.status(409).json({ code: 409, msg: error.message });
   }

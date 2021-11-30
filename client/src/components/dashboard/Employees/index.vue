@@ -1,5 +1,5 @@
 <template>
-  <div class="container flex-row">
+  <div class="employees-container flex-row">
     <div v-if="employees.length" class="employees">
       <h1>Employees</h1>
       <va-divider class="mt-2 mb-2" />
@@ -33,7 +33,7 @@
         :completedTasks="completedTasks(id)"
         :totalTasks="totalTasks(id)"
       />
-      <p v-if="errors.length" class="error">{{ errors }}</p>
+      <p v-if="errors.length" class="error-msg">{{ errors }}</p>
     </div>
   </div>
 </template>
@@ -80,7 +80,7 @@ export default {
   display: flex;
   flex-direction: row;
 }
-.container {
+.employees-container {
   justify-content: space-evenly;
   align-items: flex-start;
 }
@@ -123,7 +123,7 @@ export default {
   font-weight: bold;
   color: #0c689e;
 }
-.error {
+.error-msg {
   padding: 5px;
   color: red;
 }

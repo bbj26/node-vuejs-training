@@ -12,7 +12,7 @@
       Employees list is empty. Add new employee in order to assign task
     </p>
     <va-divider class="mt-3 mb-3" />
-    <p v-if="errors.length" class="error">{{ errors }}</p>
+    <p v-if="errors.length" class="error-msg">{{ errors }}</p>
   </div>
 </template>
 
@@ -46,7 +46,7 @@ export default {
   transform: translate(-50%, 0);
   top: 500px;
 }
-.error {
+.error-msg {
   padding: 5px;
   color: red;
 }

@@ -2,17 +2,17 @@
   <div>
     <form class="task-form flex-center">
       <h3>Create new task</h3>
-      <div class="container flex-center">
-        <label for="name" class="label">Name</label>
-        <va-input v-model="task.name" placeholder="Task name..." class="name" />
-        <label for="deadline" class="label">Deadline</label>
+      <div class="task-container flex-center">
+        <label for="name" class="task-label">Name</label>
+        <va-input v-model="task.name" placeholder="Task name..." class="task-name" />
+        <label for="deadline" class="task-label">Deadline</label>
         <va-date-input
           v-model="task.deadline"
           :clearable="true"
           highlight-weekend
           first-weekday="Monday"
           placeholder="Task deadline..."
-          class="deadline"
+          class="task-deadline"
         />
         <va-button
           @click.prevent="create"
@@ -25,7 +25,7 @@
         </va-button>
       </div>
     </form>
-    <p v-if="errors.length" class="error">{{ errors }}</p>
+    <p v-if="errors.length" class="error-msg">{{ errors }}</p>
   </div>
 </template>
 
@@ -73,11 +73,11 @@ select {
   margin: 5px;
   min-height: 40px;
 }
-.label {
+.task-label {
   padding: 5px;
   margin-left: 10px;
 }
-.container {
+.task-container {
   flex-direction: row;
   padding: 40px;
 }
@@ -86,8 +86,8 @@ select {
   justify-content: center;
   align-items: center;
 }
-.name,
-.deadline,
+.task-name,
+.task-deadline,
 .employees {
   width: 250px;
 }
@@ -104,7 +104,7 @@ button {
 button:hover {
   background-color: #06506d;
 }
-.error {
+.error-msg {
   padding: 5px;
   color: red;
 }
