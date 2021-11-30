@@ -1,5 +1,6 @@
 const Employee = require('../models/employee');
 const Task = require('../models/task');
+const { validationResult } = require('express-validator');
 
 const fetchEmployees = async (req, res) => {
   try {
@@ -14,6 +15,10 @@ const createEmployee = async (req, res) => {
   const employeeData = {
     name: req.body.name,
   };
+  const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
   const employee = new Employee(employeeData);
 
   try {
