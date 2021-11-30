@@ -6,19 +6,19 @@
   <div v-if="isLoading" class="loading-icon flex lg6 xs12 py-4">
     <va-progress-circle indeterminate />
   </div>
-  <div class="employees-legend">
+  <div class="employees-legend flex-column-center">
     <h3>Employees</h3>
-    <div class="labels">
+    <div class="labels flex-center-space-between">
       <div class="emp-label">Name</div>
       <div class="emp-label">Action</div>
     </div>
   </div>
   <va-divider class="mt-1 mb-1" />
-  <div v-if="employees.length" class="employees">
+  <div v-if="employees.length" class="employees flex-column-center">
     <div
       v-for="employee in employees"
       :key="employee._id"
-      class="employee-list"
+      class="employee-list flex-center-space-between"
     >
       {{ employee.name }}
       <va-button @click="deleteEmployee(employee._id)" color="danger"
@@ -69,17 +69,21 @@ export default {
   transform: translate(-50%, 0);
   top: 400px;
 }
-.employees-legend {
+.flex-column-center {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.flex-center-space-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.employees-legend {
   align-items: center;
 }
 .employees {
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 .employee-list {
@@ -87,19 +91,13 @@ export default {
   max-width: 35%;
   padding: 5px;
   margin: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 button {
   min-width: 60px;
   color: red;
 }
 .labels {
-  display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
   max-width: 35%;
   min-width: 28%;
   padding: 10px 0px;

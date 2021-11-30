@@ -1,24 +1,12 @@
-import axios from 'axios'
+import axios from 'axios';
 
-function fetchAllTasks() {
-  return axios.get('/api/tasks')
-}
+const basePath = '/api/tasks';
 
-function fetchEmployeeTasks(employeeId) {
-  return axios.get(`/api/tasks/${employeeId}`)
-}
-
-function createTask(employeeId, task) {
-  return axios.post(`/api/tasks/${employeeId}`, task)
-}
-
-function deleteTask(taskId) {
-  return axios.delete(`/api/tasks/${taskId}`)
-}
-
-function toggleCompleted(taskId) {
-  return axios.post(`/api/tasks/complete/${taskId}`);
-}
+const fetchAllTasks = () => axios.get(`${basePath}`);
+const fetchEmployeeTasks = (employeeId) => axios.get(`${basePath}/${employeeId}`);
+const createTask = (employeeId, task) => axios.post(`${basePath}/${employeeId}`, task);
+const deleteTask = (taskId) => axios.delete(`${basePath}/${taskId}`);
+const toggleCompleted = (taskId) => axios.post(`${basePath}/complete/${taskId}`);
 
 export default {
   fetchAllTasks,

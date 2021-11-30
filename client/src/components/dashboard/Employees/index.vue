@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container flex-row">
     <div v-if="employees.length" class="employees">
       <h1>Employees</h1>
       <va-divider class="mt-2 mb-2" />
@@ -21,7 +21,7 @@
     <div class="tasks">
       <h1>Tasks</h1>
       <va-divider class="mt-2 mb-2" />
-      <div class="labels">
+      <div class="labels flex-row">
         <div class="t-label">Name</div>
         <div class="t-label">Deadline</div>
         <div class="t-label">Completed</div>
@@ -76,17 +76,17 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.flex-row {
   display: flex;
   flex-direction: row;
+}
+.container {
   justify-content: space-evenly;
   align-items: flex-start;
 }
 .labels {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   padding: 10px;
   margin: 5px 0px;
 }

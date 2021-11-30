@@ -1,16 +1,11 @@
-import axios from 'axios'
+import axios from 'axios';
 
-function getEmployees() {
-  return axios.get('/api/employees')
-}
+const basePath = '/api/employees/';
 
-function createEmployee(employeeName) {
-  return axios.post('/api/employees', employeeName)
-}
+const getEmployees = () => axios.get(basePath);
+const createEmployee = (employeeName) => axios.post(basePath, employeeName);
+const deleteEmployee = (employeeId) => axios.delete(`${basePath}${employeeId}`);
 
-function deleteEmployee(employeeId) {
-  return axios.delete(`/api/employees/${employeeId}`)
-}
 export default {
   getEmployees,
   createEmployee,

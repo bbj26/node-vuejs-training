@@ -1,6 +1,6 @@
 <template>
-  <div class="form-container">
-    <div class="container">
+  <div class="padding-10">
+    <div class="container padding-10">
       <h3>Create new employee</h3>
       <form>
         <label for="name">Name</label>
@@ -10,13 +10,14 @@
           id="name"
           name="name"
           placeholder="Full name..."
+          class="name-input"
         />
         <va-button @click.prevent="create" :disabled="!name" type="submit"
           >Create</va-button
         >
       </form>
     </div>
-    <p v-if="errors.length" class="error">{{ errors }}</p>
+    <p v-if="errors.length" class="error padding-10">{{ errors }}</p>
   </div>
 </template>
 
@@ -45,10 +46,10 @@ export default {
 </script>
 
 <style scoped>
-.form-container {
+.padding-10 {
   padding: 10px;
 }
-input[type='text'] {
+.name-input {
   width: 40%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -72,7 +73,6 @@ button:hover {
 .container {
   border-radius: 5px;
   background-color: #f2f2f2;
-  padding: 10px;
 }
 .container form {
   display: flex;
@@ -81,7 +81,6 @@ button:hover {
   align-items: center;
 }
 .error {
-  padding: 5px;
   color: red;
 }
 </style>

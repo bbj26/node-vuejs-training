@@ -1,8 +1,8 @@
 <template>
   <div>
-    <form class="task-form">
+    <form class="task-form flex-center">
       <h3>Create new task</h3>
-      <div class="container">
+      <div class="container flex-center">
         <label for="name" class="label">Name</label>
         <va-input v-model="task.name" placeholder="Task name..." class="name" />
         <label for="deadline" class="label">Deadline</label>
@@ -61,10 +61,7 @@ export default {
 
 <style scoped>
 .task-form {
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   margin: 10px;
   padding: 10px;
   border-radius: 5px;
@@ -81,11 +78,13 @@ select {
   margin-left: 10px;
 }
 .container {
-  display: flex;
   flex-direction: row;
+  padding: 40px;
+}
+.flex-center {
+  display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
 }
 .name,
 .deadline,
