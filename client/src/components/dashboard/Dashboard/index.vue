@@ -5,13 +5,12 @@
     <div v-if="isLoading" class="loading-icon flex lg6 xs12 py-4">
       <va-progress-circle indeterminate />
     </div>
-    <add-task :employeeId="selectedEmployeeId" />
+    <add-task :employeeId="activeEmployee" />
     <va-divider class="mt-0 mb-2" />
-    <employees
-      v-if="employees.length"
-      @idRecieved="setEmployeeId"
-      :employees="employees"
-    />
+    <employees v-if="employees.length" :employees="employees" />
+    <p v-if="!employees.length">
+      Employees list is empty. Add new employee in order to assign task
+    </p>
     <va-divider class="mt-3 mb-3" />
     <p v-if="errors.length" class="error">{{ errors }}</p>
   </div>
@@ -27,13 +26,8 @@ export default {
     Employees,
     AddTask,
   },
-  data() {
-    return {
-      selectedEmployeeId: null,
-    };
-  },
   computed: {
-    ...mapState(['isLoading', 'employees', 'errors']),
+    ...mapState(['isLoading', 'employees', 'errors', 'activeEmployee']),
   },
   created() {
     this.fetchEmployees();
@@ -41,9 +35,6 @@ export default {
   },
   methods: {
     ...mapActions(['fetchEmployees', 'fetchAllTasks']),
-    setEmployeeId(id) {
-      this.selectedEmployeeId = id;
-    },
   },
 };
 </script>

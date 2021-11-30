@@ -7,17 +7,21 @@ const store = createStore({
     employees: [],
     tasks: [],
     isLoading: false,
+    activeEmployee: null,
     errors: []
   },
   mutations: {
-    SAVE_EMPLOYEES(state, employees) {
-      state.employees = employees;
-    },
     SET_LOADING_TRUE(state) {
       state.isLoading = true;
     },
     SET_LOADING_FALSE(state) {
       state.isLoading = false;
+    },
+    SAVE_EMPLOYEES(state, employees) {
+      state.employees = employees;
+    },
+    SET_ACTIVE_EMPLOYEE(state, employeeId) {
+      state.activeEmployee = employeeId
     },
     SAVE_TASKS(state, tasks) {
       state.tasks = tasks;
@@ -62,6 +66,9 @@ const store = createStore({
           context.commit('SAVE_ERROR', err)
         })
         .finally(() => context.commit('SET_LOADING_FALSE'))
+    },
+    setActiveEmployee(context, payload) {
+      context.commit('SET_ACTIVE_EMPLOYEE', payload);
     },
     async fetchAllTasks(context) {
       context.commit('SET_LOADING_TRUE');

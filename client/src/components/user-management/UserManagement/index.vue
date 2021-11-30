@@ -14,7 +14,7 @@
     </div>
   </div>
   <va-divider class="mt-1 mb-1" />
-  <div v-if="employees.length > 0" class="employees">
+  <div v-if="employees.length" class="employees">
     <div
       v-for="employee in employees"
       :key="employee._id"
@@ -26,6 +26,9 @@
       >
     </div>
   </div>
+  <p v-if="!employees.length">
+    Employees list is empty. Add new employee in order to assign task
+  </p>
   <va-divider v-if="errors.length" class="mt-1 mb-1" />
   <p v-if="errors.length" class="error">{{ errors }}</p>
   <va-divider class="mt-1 mb-1" />

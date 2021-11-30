@@ -39,11 +39,10 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters, mapState, mapActions } from 'vuex';
 import Tasks from '../Tasks';
 
 export default {
-  emits: ['idRecieved'],
   props: ['employees'],
   components: {
     Tasks,
@@ -61,14 +60,15 @@ export default {
     ...mapState(['errors']),
   },
   methods: {
+    ...mapActions(['setActiveEmployee']),
     setId(id) {
       this.id = id;
-      this.$emit('idRecieved', this.id);
+      this.setActiveEmployee(this.id);
     },
     focusFirst() {
       if (this.employees.length > 0) {
         this.id = this.employees[0]._id;
-        this.$emit('idRecieved', this.id);
+        this.setActiveEmployee(this.id);
       }
     },
   },
