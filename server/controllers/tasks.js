@@ -5,7 +5,7 @@ const fetchTasks = async (req, res) => {
     const tasks = await Task.find({});
     res.status(200).json(tasks);
   } catch (error) {
-    res.status(404).json({ code: 404, msg: error });
+    res.status(404).json({ code: 404, msg: error.message });
   }
 }
 const fetchEmployeeTasks = async (req, res) => {
@@ -14,7 +14,7 @@ const fetchEmployeeTasks = async (req, res) => {
     const tasks = await Task.find({ employeeId: employeeId });
     res.status(200).json(tasks);
   } catch (error) {
-    res.status(404).json({ code: 404, msg: error });
+    res.status(404).json({ code: 404, msg: error.message });
   }
 }
 const createTask = async (req, res) => {
@@ -28,7 +28,7 @@ const createTask = async (req, res) => {
     const savedTask = await task.save();
     res.status(201).json({ code: 201, message: 'Task added successfully', saved: savedTask });
   } catch (error) {
-    res.status(400).json({ code: 400, msg: error });
+    res.status(409).json({ code: 409, msg: error.message });
   }
 }
 const deleteTask = async (req, res) => {
@@ -37,7 +37,7 @@ const deleteTask = async (req, res) => {
     await Task.findByIdAndDelete(taskId);
     res.status(200).json({ code: 200, msg: 'Task successfully deleted' });
   } catch (error) {
-    res.status(400).json({ code: 400, msg: error });
+    res.status(404).json({ code: 404, msg: error.message });
   }
 }
 const setTaskCompletion = async (req, res) => {
@@ -47,7 +47,7 @@ const setTaskCompletion = async (req, res) => {
     await Task.findByIdAndUpdate(req.params.id, { $set: task });
     res.status(200).json({ code: 200, msg: 'Task successfully updated' });
   } catch (error) {
-    res.status(404).json({ code: 404, msg: error });
+    res.status(400).json({ code: 400, msg: error.message });
   }
 }
 
