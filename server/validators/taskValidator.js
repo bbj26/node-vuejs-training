@@ -1,4 +1,4 @@
-const { body, check } = require('express-validator/check')
+const { body, check } = require('express-validator')
 
 const validate = (method) => {
   switch (method) {
@@ -6,9 +6,11 @@ const validate = (method) => {
       return [
         body('name', `Task name doesn't exists. Please provide one.`).exists(),
         body('name', `Task name must be at least 10 characters long`)
+          .trim()
           .isLength({ min: 5 }),
-        body('deadline', 'Please provide deadline').exists(),
-        check('id', 'Please select employee to assign task to')
+        body('deadline', 'Task deadline is required').exists(),
+        check('id', 'Valid employee ID to assign task to is required')
+          .trim()
           .exists().isMongoId()
       ]
     }

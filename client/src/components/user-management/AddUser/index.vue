@@ -17,7 +17,9 @@
         >
       </form>
     </div>
-    <p v-if="errors.length" class="error-msg padding-10">{{ errors }}</p>
+    <p v-if="errors.employeeCreationErrors.length" class="error-msg padding-10">
+      FAILED: {{ errors.employeeCreationErrors }}
+    </p>
   </div>
 </template>
 

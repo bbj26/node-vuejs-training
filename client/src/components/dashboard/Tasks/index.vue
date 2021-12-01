@@ -10,7 +10,11 @@
           :disabled="isExpired(task.deadline)"
           class="task-completed"
         />
-        <va-button @click.prevent="remove(task._id)" color="danger">
+        <va-button
+          @click.prevent="remove(task._id)"
+          :disabled="isExpired(task.deadline)"
+          color="danger"
+        >
           DELETE
         </va-button>
       </div>

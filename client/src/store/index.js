@@ -8,7 +8,14 @@ const store = createStore({
     tasks: [],
     isLoading: false,
     activeEmployee: null,
-    errors: []
+    errors: {
+      employeeCreationErrors: [],
+      employeeFetchErrors: [],
+      employeeDeleteErrors: [],
+      taskCreationErrors: [],
+      taskFetchErrors: [],
+      taskDeleteErrors: []
+    }
   },
   mutations: {
     SET_LOADING_TRUE(state) {
@@ -26,8 +33,41 @@ const store = createStore({
     SAVE_TASKS(state, tasks) {
       state.tasks = tasks;
     },
-    SAVE_ERROR(state, error) {
-      state.errors = error;
+    SAVE_EMPLOYEE_CREATION_ERROR(state, error) {
+      state.errors.employeeCreationErrors = error;
+    },
+    CLEAR_EMPLOYEE_CREATION_ERRORS(state) {
+      state.errors.employeeCreationErrors = [];
+    },
+    SAVE_EMPLOYEE_FETCH_ERROR(state, error) {
+      state.errors.employeeFetchErrors = error;
+    },
+    CLEAR_EMPLOYEE_FETCH_ERRORS(state) {
+      state.errors.employeeFetchErrors = [];
+    },
+    SAVE_EMPLOYEE_DELETE_ERROR(state, error) {
+      state.errors.employeeDeleteErrors = error;
+    },
+    CLEAR_EMPLOYEE_DELETE_ERRORS(state) {
+      state.errors.employeeDeleteErrors = [];
+    },
+    SAVE_TASK_CREATION_ERROR(state, error) {
+      state.errors.taskCreationErrors = error;
+    },
+    CLEAR_TASK_CREATION_ERRORS(state) {
+      state.errors.taskCreationErrors = [];
+    },
+    SAVE_TASK_FETCH_ERROR(state, error) {
+      state.errors.taskFetchErrors = error;
+    },
+    CLEAR_TASK_FETCH_ERRORS(state) {
+      state.errors.taskFetchErrors = [];
+    },
+    SAVE_TASK_DELETE_ERROR(state, error) {
+      state.errors.taskDeleteErrors = error;
+    },
+    CLEAR_TASK_DELETE_ERRORS(state) {
+      state.errors.taskDeleteErrors = [];
     }
   },
   actions: {
@@ -38,10 +78,13 @@ const store = createStore({
         .getEmployees()
         .then((res) => {
           employees = res.data;
-          context.commit('SAVE_EMPLOYEES', employees)
+          context.commit('SAVE_EMPLOYEES', employees);
+          context.commit('CLEAR_EMPLOYEE_CREATION_ERRORS');
+          context.commit('CLEAR_EMPLOYEE_FETCH_ERRORS');
+          context.commit('CLEAR_EMPLOYEE_DELETE_ERRORS');
         })
         .catch((err) => {
-          context.commit('SAVE_ERROR', err)
+          context.commit('SAVE_EMPLOYEE_FETCH_ERROR', err.response.data.msg)
         })
         .finally(() => context.commit('SET_LOADING_FALSE'));
     },
@@ -49,10 +92,11 @@ const store = createStore({
       context.commit('SET_LOADING_TRUE');
       return await employeesApi.createEmployee(payload)
         .then(() => {
+          context.commit('CLEAR_EMPLOYEE_CREATION_ERRORS');
           context.dispatch('fetchEmployees');
         })
         .catch(err => {
-          context.commit('SAVE_ERROR', err)
+          context.commit('SAVE_EMPLOYEE_CREATION_ERROR', err.response.data.error)
         })
         .finally(() => context.commit('SET_LOADING_FALSE'))
     },
@@ -63,7 +107,7 @@ const store = createStore({
           context.dispatch('fetchEmployees');
         })
         .catch(err => {
-          context.commit('SAVE_ERROR', err)
+          context.commit('SAVE_EMPLOYEE_DELETE_ERROR', err.response.data.msg)
         })
         .finally(() => context.commit('SET_LOADING_FALSE'))
     },
@@ -76,10 +120,13 @@ const store = createStore({
       return await tasksApi.fetchAllTasks()
         .then(res => {
           tasks = res.data;
-          context.commit('SAVE_TASKS', tasks)
+          context.commit('SAVE_TASKS', tasks);
+          context.commit('CLEAR_TASK_CREATION_ERRORS');
+          context.commit('CLEAR_TASK_FETCH_ERRORS');
+          context.commit('CLEAR_TASK_DELETE_ERRORS');
         })
         .catch(err => {
-          context.commit('SAVE_ERROR', err)
+          context.commit('SAVE_TASK_FETCH_ERROR', err.response.data.msg)
         })
         .finally(() => context.commit('SET_LOADING_FALSE'));
     },
@@ -94,7 +141,7 @@ const store = createStore({
           context.dispatch('fetchAllTasks');
         })
         .catch((err) => {
-          context.commit('SAVE_ERROR', err)
+          context.commit('SAVE_TASK_CREATION_ERROR', err.response.data.error)
         })
         .finally(() => context.commit('SET_LOADING_FALSE'));
     },
@@ -106,7 +153,7 @@ const store = createStore({
           context.dispatch('fetchAllTasks');
         })
         .catch((err) => {
-          context.commit('SAVE_ERROR', err)
+          context.commit('SAVE_TASK_DELETE_ERROR', err.response.data.msg)
         })
         .finally(() => context.commit('SET_LOADING_FALSE'));
     }

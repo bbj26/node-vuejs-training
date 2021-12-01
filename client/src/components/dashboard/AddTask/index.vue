@@ -23,7 +23,9 @@
         </va-button>
       </div>
     </form>
-    <p v-if="errors.length" class="error-msg">{{ errors }}</p>
+    <p v-if="errors.taskCreationErrors.length" class="error-msg">
+      FAILED: {{ errors.taskCreationErrors }}
+    </p>
   </div>
 </template>
 

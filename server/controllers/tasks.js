@@ -26,7 +26,7 @@ const createTask = async (req, res) => {
   };
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ error: errors.array()[0].msg });
   }
   const task = new Task(taskData);
   try {
@@ -42,8 +42,13 @@ const createTask = async (req, res) => {
 const deleteTask = async (req, res) => {
   const taskId = req.params.taskId;
   try {
-    await Task.findByIdAndDelete(taskId);
-    res.status(200).json({ code: 200, msg: 'Task successfully deleted' });
+    const task = await Task.findById(taskId);
+    if (!isExpired(task.deadline)) {
+      await Task.findByIdAndDelete(taskId);
+      res.status(200).json({ code: 200, msg: 'Task successfully deleted' });
+    } else {
+      res.status(405).json({ code: 405, msg: 'Not allowed to delete task' });
+    }
   } catch (error) {
     res.status(404).json({ code: 404, msg: error.message });
   }
@@ -51,12 +56,19 @@ const deleteTask = async (req, res) => {
 const setTaskCompletion = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
-    task.completed = !task.completed;
-    await Task.findByIdAndUpdate(req.params.id, { $set: task });
-    res.status(200).json({ code: 200, msg: 'Task successfully updated' });
+    if (!isExpired(task.deadline)) {
+      task.completed = !task.completed;
+      await Task.findByIdAndUpdate(req.params.id, { $set: task });
+      res.status(200).json({ code: 200, msg: 'Task successfully updated' });
+    }
   } catch (error) {
     res.status(400).json({ code: 400, msg: error.message });
   }
+}
+const isExpired = (deadLine) => {
+  let deadline = new Date(deadLine);
+  let now = new Date();
+  return now > deadline ? true : false;
 }
 
 module.exports = {
