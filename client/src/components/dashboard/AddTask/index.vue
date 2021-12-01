@@ -4,7 +4,11 @@
       <h3>Create new task</h3>
       <div class="task-container flex-center">
         <label for="name" class="task-label">Name</label>
-        <va-input v-model="task.name" placeholder="Task name..." class="task-name" />
+        <va-input
+          v-model="task.name"
+          placeholder="Task name..."
+          class="task-name"
+        />
         <label for="deadline" class="task-label">Deadline</label>
         <va-date-input
           v-model="task.deadline"
@@ -14,13 +18,7 @@
           placeholder="Task deadline..."
           class="task-deadline"
         />
-        <va-button
-          @click.prevent="create"
-          :disabled="
-            !this.task.name.length || !this.task.deadline || !this.employeeId
-          "
-          type="submit"
-        >
+        <va-button @click.prevent="create" :disabled="isInvalid" type="submit">
           Create
         </va-button>
       </div>
@@ -44,6 +42,13 @@ export default {
   },
   computed: {
     ...mapState(['errors']),
+    isInvalid() {
+      if (!this.task.name.length || !this.task.deadline || !this.employeeId) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   methods: {
     ...mapActions(['createTask']),
