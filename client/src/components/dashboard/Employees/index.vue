@@ -33,13 +33,12 @@
         :completedTasks="completedTasks(id)"
         :totalTasks="totalTasks(id)"
       />
-      <p v-if="errors.length" class="error-msg">{{ errors }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import Tasks from '../Tasks';
 
 export default {
@@ -57,7 +56,6 @@ export default {
   },
   computed: {
     ...mapGetters(['employeeTasks', 'completedTasks', 'totalTasks']),
-    ...mapState(['errors']),
   },
   methods: {
     ...mapActions(['setActiveEmployee']),

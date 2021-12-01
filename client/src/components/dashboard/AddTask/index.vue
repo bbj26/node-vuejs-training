@@ -23,8 +23,8 @@
         </va-button>
       </div>
     </form>
-    <p v-if="errors.taskCreationErrors.length" class="error-msg">
-      FAILED: {{ errors.taskCreationErrors }}
+    <p v-if="errors.taskCreation.length" class="error-msg">
+      {{ errors.taskCreation }}
     </p>
   </div>
 </template>
@@ -45,11 +45,7 @@ export default {
   computed: {
     ...mapState(['errors']),
     isInvalid() {
-      if (!this.task.name.length || !this.task.deadline || !this.employeeId) {
-        return true;
-      } else {
-        return false;
-      }
+      return !this.task.name.length || !this.task.deadline || !this.employeeId;
     },
   },
   methods: {
@@ -60,7 +56,6 @@ export default {
     },
     resetForm() {
       this.task.name = '';
-      this.task.deadline = null;
     },
   },
 };

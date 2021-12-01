@@ -22,14 +22,13 @@
     <div :class="isAllCompleted() ? 'done total-completed' : 'total-completed'">
       {{ completedTasks }} out of {{ totalTasks }} tasks completed
     </div>
-    <p v-if="errors.length" class="error-msg">{{ errors }}</p>
   </div>
 </template>
 
 <script>
 import api from '../../../../api/task';
 import moment from 'moment';
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   props: ['tasks', 'completedTasks', 'totalTasks'],
@@ -37,9 +36,6 @@ export default {
     return {
       error: null,
     };
-  },
-  computed: {
-    ...mapState(['errors']),
   },
   methods: {
     ...mapActions(['deleteTask']),
@@ -52,7 +48,7 @@ export default {
     isExpired(deadLine) {
       let deadline = new Date(deadLine);
       let now = new Date();
-      return now > deadline ? true : false;
+      return now > deadline;
     },
     formatDate(deadline) {
       return moment(deadline).format('DD.MM.YYYY.');

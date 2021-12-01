@@ -9,12 +9,9 @@ const store = createStore({
     isLoading: false,
     activeEmployee: null,
     errors: {
-      employeeCreationErrors: [],
-      employeeFetchErrors: [],
-      employeeDeleteErrors: [],
-      taskCreationErrors: [],
-      taskFetchErrors: [],
-      taskDeleteErrors: []
+      employeeCreation: [],
+      taskCreation: [],
+      other: []
     }
   },
   mutations: {
@@ -34,40 +31,22 @@ const store = createStore({
       state.tasks = tasks;
     },
     SAVE_EMPLOYEE_CREATION_ERROR(state, error) {
-      state.errors.employeeCreationErrors = error;
+      state.errors.employeeCreation = error;
     },
     CLEAR_EMPLOYEE_CREATION_ERRORS(state) {
-      state.errors.employeeCreationErrors = [];
-    },
-    SAVE_EMPLOYEE_FETCH_ERROR(state, error) {
-      state.errors.employeeFetchErrors = error;
-    },
-    CLEAR_EMPLOYEE_FETCH_ERRORS(state) {
-      state.errors.employeeFetchErrors = [];
-    },
-    SAVE_EMPLOYEE_DELETE_ERROR(state, error) {
-      state.errors.employeeDeleteErrors = error;
-    },
-    CLEAR_EMPLOYEE_DELETE_ERRORS(state) {
-      state.errors.employeeDeleteErrors = [];
+      state.errors.employeeCreation = [];
     },
     SAVE_TASK_CREATION_ERROR(state, error) {
-      state.errors.taskCreationErrors = error;
+      state.errors.taskCreation = error;
     },
     CLEAR_TASK_CREATION_ERRORS(state) {
-      state.errors.taskCreationErrors = [];
+      state.errors.taskCreation = [];
     },
-    SAVE_TASK_FETCH_ERROR(state, error) {
-      state.errors.taskFetchErrors = error;
+    SAVE_OTHER_ERRORS(state, error) {
+      state.errors.other = error;
     },
-    CLEAR_TASK_FETCH_ERRORS(state) {
-      state.errors.taskFetchErrors = [];
-    },
-    SAVE_TASK_DELETE_ERROR(state, error) {
-      state.errors.taskDeleteErrors = error;
-    },
-    CLEAR_TASK_DELETE_ERRORS(state) {
-      state.errors.taskDeleteErrors = [];
+    CLEAR_OTHER_ERRORS(state) {
+      state.errors.other = [];
     }
   },
   actions: {
@@ -80,11 +59,9 @@ const store = createStore({
           employees = res.data;
           context.commit('SAVE_EMPLOYEES', employees);
           context.commit('CLEAR_EMPLOYEE_CREATION_ERRORS');
-          context.commit('CLEAR_EMPLOYEE_FETCH_ERRORS');
-          context.commit('CLEAR_EMPLOYEE_DELETE_ERRORS');
         })
         .catch((err) => {
-          context.commit('SAVE_EMPLOYEE_FETCH_ERROR', err.response.data.msg)
+          context.commit('SAVE_OTHER_ERRORS', err.response.data.msg)
         })
         .finally(() => context.commit('SET_LOADING_FALSE'));
     },
@@ -107,7 +84,7 @@ const store = createStore({
           context.dispatch('fetchEmployees');
         })
         .catch(err => {
-          context.commit('SAVE_EMPLOYEE_DELETE_ERROR', err.response.data.msg)
+          context.commit('SAVE_OTHER_ERRORS', err.response.data.msg)
         })
         .finally(() => context.commit('SET_LOADING_FALSE'))
     },
@@ -122,11 +99,9 @@ const store = createStore({
           tasks = res.data;
           context.commit('SAVE_TASKS', tasks);
           context.commit('CLEAR_TASK_CREATION_ERRORS');
-          context.commit('CLEAR_TASK_FETCH_ERRORS');
-          context.commit('CLEAR_TASK_DELETE_ERRORS');
         })
         .catch(err => {
-          context.commit('SAVE_TASK_FETCH_ERROR', err.response.data.msg)
+          context.commit('SAVE_OTHER_ERRORS', err.response.data.msg)
         })
         .finally(() => context.commit('SET_LOADING_FALSE'));
     },
@@ -153,7 +128,7 @@ const store = createStore({
           context.dispatch('fetchAllTasks');
         })
         .catch((err) => {
-          context.commit('SAVE_TASK_DELETE_ERROR', err.response.data.msg)
+          context.commit('SAVE_OTHER_ERRORS', err.response.data.msg)
         })
         .finally(() => context.commit('SET_LOADING_FALSE'));
     }

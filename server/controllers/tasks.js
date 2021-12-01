@@ -68,7 +68,7 @@ const setTaskCompletion = async (req, res) => {
 const isExpired = (deadLine) => {
   let deadline = new Date(deadLine);
   let now = new Date();
-  return now > deadline ? true : false;
+  return now > deadline;
 }
 
 module.exports = {

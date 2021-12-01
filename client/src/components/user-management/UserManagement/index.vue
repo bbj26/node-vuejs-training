@@ -26,12 +26,12 @@
       >
     </div>
   </div>
-  <p v-if="!employees.length && !errors.employeeFetchErrors.length">
+  <p v-if="!employees.length">
     Employees list is empty. Add new employee in order to assign task
   </p>
-  <va-divider v-if="errors.employeeFetchErrors.length" class="mt-1 mb-1" />
-  <p v-if="errors.employeeFetchErrors.length" class="error-msg">
-    FAILED: can not fetch employees: {{ errors.employeeFetchErrors }}
+  <va-divider class="mt-1 mb-1" />
+  <p v-if="errors.other.length" class="error-msg">
+    Something went wrong. Try again later.
   </p>
   <va-divider class="mt-1 mb-1" />
 </template>

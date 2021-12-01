@@ -4,12 +4,12 @@ const validate = (method) => {
   switch (method) {
     case 'createTask': {
       return [
-        body('name', `Task name doesn't exists. Please provide one.`).exists(),
-        body('name', `Task name must be at least 10 characters long`)
+        body('name', `Task name is required. Please provide one.`).exists(),
+        body('name', `Task name must be at least 10 characters long.`)
           .trim()
           .isLength({ min: 5 }),
-        body('deadline', 'Task deadline is required').exists(),
-        check('id', 'Valid employee ID to assign task to is required')
+        body('deadline', 'Task deadline is required. Please provide one.').exists(),
+        check('id', 'Select employee to assign task to.')
           .trim()
           .exists().isMongoId()
       ]

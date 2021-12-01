@@ -8,21 +8,12 @@
     <add-task :employeeId="activeEmployee" />
     <va-divider class="mt-0 mb-2" />
     <employees v-if="employees.length" :employees="employees" />
-    <p v-if="!employees.length && !errors.employeeFetchErrors.length">
+    <p v-if="!employees.length">
       Employees list is empty. Add new employee in order to assign task
     </p>
     <va-divider class="mt-3 mb-3" />
-    <p v-if="errors.employeeFetchErrors.length" class="error-msg padding-10">
-      FAILED: {{ errors.employeeFetchErrors }}
-    </p>
-    <p v-if="errors.employeeDeleteErrors.length" class="error-msg padding-10">
-      FAILED: {{ errors.employeeDeleteErrors }}
-    </p>
-    <p v-if="errors.taskFetchErrors.length" class="error-msg padding-10">
-      FAILED: {{ errors.taskFetchErrors }}
-    </p>
-    <p v-if="errors.taskDeleteErrors.length" class="error-msg padding-10">
-      FAILED: {{ errors.taskDeleteErrors }}
+    <p v-if="errors.other.length" class="error-msg">
+      Something went wrong. Try again later.
     </p>
   </div>
 </template>
