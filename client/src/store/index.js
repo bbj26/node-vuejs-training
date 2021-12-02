@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 import employeesApi from '../../api/employee';
 import tasksApi from '../../api/task';
 import { format } from 'date-fns';
+import compareAsc from 'date-fns/compareAsc';
 
 const store = createStore({
   state: {
@@ -139,7 +140,8 @@ const store = createStore({
   },
   getters: {
     employeeTasks: (state) => (employeeId) => {
-      return state.tasks.filter(task => task.employeeId === employeeId);
+      return state.tasks.filter(task => task.employeeId === employeeId)
+        .sort((task1, task2) => compareTaskDeadlines(task1, task2))
     },
     totalTasks: (state) => (employeeId) => {
       return state.tasks.filter(task => task.employeeId === employeeId).length;
@@ -149,5 +151,11 @@ const store = createStore({
     }
   }
 });
+
+const compareTaskDeadlines = (task1, task2) => {
+  let deadline1 = new Date(task1.deadline);
+  let deadline2 = new Date(task2.deadline);
+  return compareAsc(deadline1, deadline2);
+}
 
 export default store;
