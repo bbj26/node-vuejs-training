@@ -28,6 +28,7 @@
 <script>
 import api from '../../../../api/task';
 import { parseISO, format } from 'date-fns';
+import compareAsc from 'date-fns/compareAsc';
 import { mapActions } from 'vuex';
 
 export default {
@@ -48,7 +49,7 @@ export default {
     isExpired(deadLine) {
       let deadline = new Date(deadLine);
       let now = new Date();
-      return now > deadline;
+      return compareAsc(deadline, now) === 1 ? false : true;
     },
     formatDate(deadline) {
       return format(parseISO(deadline), 'dd.MM.yyyy.');
