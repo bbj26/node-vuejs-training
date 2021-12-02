@@ -9,6 +9,8 @@ const validate = (method) => {
           .trim()
           .isLength({ min: 5 }),
         body('deadline', 'Task deadline is required. Please provide one.').exists(),
+        body('deadline', 'Deadline must be of type Date')
+          .isISO8601(),
         body('deadline', 'Deadline can not be in the past')
           .not()
           .isBefore(),
