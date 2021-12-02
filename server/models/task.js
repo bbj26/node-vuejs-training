@@ -10,7 +10,7 @@ const TaskSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId, ref: 'employee'
   },
   deadline: {
-    type: Date,
+    type: String,
     required: true
   },
   completed: {

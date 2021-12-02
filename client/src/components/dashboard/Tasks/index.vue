@@ -27,7 +27,7 @@
 
 <script>
 import api from '../../../../api/task';
-import moment from 'moment';
+import { parseISO, format } from 'date-fns';
 import { mapActions } from 'vuex';
 
 export default {
@@ -51,7 +51,7 @@ export default {
       return now > deadline;
     },
     formatDate(deadline) {
-      return moment(deadline).format('DD.MM.YYYY.');
+      return format(parseISO(deadline), 'dd.MM.yyyy.');
     },
     isAllCompleted() {
       return this.totalTasks === this.completedTasks;

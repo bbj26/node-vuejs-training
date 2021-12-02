@@ -1,6 +1,7 @@
 import { createStore } from 'vuex';
 import employeesApi from '../../api/employee';
 import tasksApi from '../../api/task';
+import { format } from 'date-fns';
 
 const store = createStore({
   state: {
@@ -107,10 +108,13 @@ const store = createStore({
     },
     async createTask(context, payload) {
       context.commit('SET_LOADING_TRUE');
+      const { employeeId, name } = payload;
+      let { deadline } = payload;
+      deadline = format(deadline, 'yyyy-MM-dd');
       return await tasksApi
-        .createTask(payload.employeeId, {
-          name: payload.name,
-          deadline: payload.deadline,
+        .createTask(employeeId, {
+          name,
+          deadline
         })
         .then(() => {
           context.dispatch('fetchAllTasks');
