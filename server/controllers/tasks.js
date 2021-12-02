@@ -19,15 +19,15 @@ const fetchEmployeeTasks = async (req, res) => {
   }
 }
 const createTask = async (req, res) => {
-  const taskData = {
-    name: req.body.name,
-    deadline: req.body.deadline,
-    employeeId: req.params.id
-  };
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ error: errors.array()[0].msg });
   }
+  const { name, deadline } = req.body;
+  const taskData = {
+    name, deadline,
+    employeeId: req.params.id
+  };
   const task = new Task(taskData);
   try {
     const savedTask = await task.save();

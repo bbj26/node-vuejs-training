@@ -11,7 +11,9 @@ const validate = (method) => {
           .isLength({ min: 2 }),
         body('name', `Name can not be more than 30 characters long.`)
           .trim()
-          .isLength({ max: 30 })
+          .isLength({ max: 30 }),
+        body('name', 'Name should consist only of letters')
+          .isAlpha('en-US', { ignore: ' ' })
       ]
     }
   }
