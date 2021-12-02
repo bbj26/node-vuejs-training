@@ -6,7 +6,7 @@
   <div v-if="isLoading" class="loading-icon flex lg6 xs12 py-4">
     <va-progress-circle indeterminate />
   </div>
-  <div class="employees-legend flex-column-center">
+  <div v-if="employees.length" class="employees-legend flex-column-center">
     <h3>Employees</h3>
     <div class="labels flex-center-space-between">
       <div class="emp-label">Name</div>
@@ -26,23 +26,20 @@
       >
     </div>
   </div>
-  <p v-if="!employees.length">
+  <p v-else>
     Employees list is empty. Add new employee in order to assign task
   </p>
   <va-divider class="mt-1 mb-1" />
   <p v-if="errors.other.length" class="error-msg">
     Something went wrong. Try again later.
   </p>
-  <va-divider class="mt-1 mb-1" />
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import AddUser from '../AddUser';
+import AddUser from './AddUser.vue';
 export default {
-  components: {
-    AddUser,
-  },
+  components: { AddUser },
   created() {
     this.fetchEmployees();
   },
@@ -58,7 +55,7 @@ export default {
       this.getEmployees();
     },
     deleteEmployee(employeeId) {
-      this.removeEmployee({ empId: employeeId });
+      this.removeEmployee({ employeeId });
     },
   },
 };

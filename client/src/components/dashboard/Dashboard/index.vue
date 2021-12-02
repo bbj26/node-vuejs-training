@@ -5,13 +5,15 @@
     <div v-if="isLoading" class="loading-icon flex lg6 xs12 py-4">
       <va-progress-circle indeterminate />
     </div>
-    <add-task :employeeId="activeEmployee" />
-    <va-divider class="mt-0 mb-2" />
-    <employees v-if="employees.length" :employees="employees" />
-    <p v-if="!employees.length">
-      Employees list is empty. Add new employee in order to assign task
-    </p>
-    <va-divider class="mt-3 mb-3" />
+    <div v-else>
+      <add-task :employeeId="activeEmployeeId" />
+      <va-divider class="mt-0 mb-2" />
+      <employees v-if="employees.length" :employees="employees" />
+      <p v-if="!employees.length">
+        Employees list is empty. Add new employee in order to assign task
+      </p>
+    </div>
+    <va-divider class="mt-1 mb-1" />
     <p v-if="errors.other.length" class="error-msg">
       Something went wrong. Try again later.
     </p>
@@ -24,12 +26,9 @@ import Employees from '../Employees';
 import AddTask from '../AddTask';
 
 export default {
-  components: {
-    Employees,
-    AddTask,
-  },
+  components: { Employees, AddTask },
   computed: {
-    ...mapState(['isLoading', 'employees', 'errors', 'activeEmployee']),
+    ...mapState(['isLoading', 'employees', 'errors', 'activeEmployeeId']),
   },
   created() {
     this.fetchEmployees();

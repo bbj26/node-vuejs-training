@@ -43,13 +43,11 @@ import Tasks from '../Tasks';
 
 export default {
   props: ['employees'],
-  components: {
-    Tasks,
-  },
+  components: { Tasks },
   data() {
     return {
-      id: '',
-    };
+      id: ''
+    }
   },
   created() {
     this.focusFirst();
@@ -64,7 +62,7 @@ export default {
       this.setActiveEmployee(this.id);
     },
     focusFirst() {
-      if (this.employees.length > 0) {
+      if (this.employees.length) {
         this.id = this.employees[0]._id;
         this.setActiveEmployee(this.id);
       }

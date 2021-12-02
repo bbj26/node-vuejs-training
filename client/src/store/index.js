@@ -9,7 +9,7 @@ const store = createStore({
     employees: [],
     tasks: [],
     isLoading: false,
-    activeEmployee: null,
+    activeEmployeeId: null,
     errors: {
       employeeCreation: [],
       taskCreation: [],
@@ -27,7 +27,7 @@ const store = createStore({
       state.employees = employees;
     },
     SET_ACTIVE_EMPLOYEE(state, employeeId) {
-      state.activeEmployee = employeeId
+      state.activeEmployeeId = employeeId
     },
     SAVE_TASKS(state, tasks) {
       state.tasks = tasks;
@@ -81,7 +81,7 @@ const store = createStore({
     },
     async deleteEmployee(context, payload) {
       context.commit('SET_LOADING_TRUE');
-      return await employeesApi.deleteEmployee(payload.empId)
+      return await employeesApi.deleteEmployee(payload.employeeId)
         .then(() => {
           context.dispatch('fetchEmployees');
         })

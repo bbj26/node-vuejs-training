@@ -12,7 +12,7 @@
         <label for="deadline" class="task-label">Deadline</label>
         <va-date-input
           v-model="task.deadline"
-          :clearable="true"
+          clearable
           highlight-weekend
           first-weekday="Monday"
           placeholder="Task deadline..."
