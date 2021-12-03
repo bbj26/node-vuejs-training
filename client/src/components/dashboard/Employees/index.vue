@@ -9,12 +9,9 @@
         class="employee-list"
       >
         <div class="employee">
-          <a
-            @click="setId(employee._id)"
-            :class="{ marked: employee._id === id }"
-          >
-            {{ employee.name }}</a
-          >
+          <a @click="setId(employee._id)" :class="{ marked: employee._id === id }">
+            {{ employee.name }}
+          </a>
         </div>
       </div>
     </div>
@@ -46,8 +43,8 @@ export default {
   components: { Tasks },
   data() {
     return {
-      id: ''
-    }
+      id: '',
+    };
   },
   created() {
     this.focusFirst();

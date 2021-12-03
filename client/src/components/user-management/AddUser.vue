@@ -12,9 +12,9 @@
           placeholder="Full name..."
           class="name-input"
         />
-        <va-button @click.prevent="create" :disabled="!name" type="submit"
-          >Create</va-button
-        >
+        <va-button @click.prevent="create" :disabled="!name" type="submit">
+          Create
+        </va-button>
       </form>
     </div>
     <p v-if="errors.employeeCreation.length" class="error-msg padding-10">

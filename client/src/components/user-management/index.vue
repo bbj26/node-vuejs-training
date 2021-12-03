@@ -18,12 +18,11 @@
     <div
       v-for="employee in employees"
       :key="employee._id"
-      class="employee-list flex-center-space-between"
-    >
+      class="employee-list flex-center-space-between">
       {{ employee.name }}
-      <va-button @click="deleteEmployee(employee._id)" color="danger"
-        >Delete</va-button
-      >
+      <va-button @click="deleteEmployee(employee._id)" color="danger">
+        Delete
+      </va-button>
     </div>
   </div>
   <p v-else>

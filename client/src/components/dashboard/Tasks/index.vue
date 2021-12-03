@@ -13,13 +13,12 @@
         <va-button
           @click.prevent="remove(task._id)"
           :disabled="isExpired(task.deadline)"
-          color="danger"
-        >
+          color="danger">
           DELETE
         </va-button>
       </div>
     </div>
-    <div :class="isAllCompleted() ? 'done total-completed' : 'total-completed'">
+    <div :class="{ completed: isAllCompleted }" class="completion-status">
       {{ completedTasks }} out of {{ totalTasks }} tasks completed
     </div>
   </div>
@@ -37,10 +36,15 @@ export default {
       error: null,
     };
   },
+  computed: {
+    isAllCompleted() {
+      return this.totalTasks === this.completedTasks;
+    },
+  },
   methods: {
     ...mapActions(['deleteTask']),
-    remove(id) {
-      this.deleteTask({ taskId: id });
+    remove(taskId) {
+      this.deleteTask({ taskId });
     },
     toggleCompleted(id) {
       api.toggleCompleted(id).catch((err) => (this.error = err));
@@ -52,9 +56,6 @@ export default {
     },
     formatDate(deadline) {
       return format(parseISO(deadline), 'dd.MM.yyyy.');
-    },
-    isAllCompleted() {
-      return this.totalTasks === this.completedTasks;
     },
   },
 };
@@ -78,11 +79,11 @@ export default {
   padding: 10px;
   margin: 5px 0px;
 }
-.total-completed {
+.completion-status {
   color: lightsalmon;
   padding: 10px;
 }
-.done {
+.completed {
   color: green;
 }
 .error-msg {
