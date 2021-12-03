@@ -1,4 +1,4 @@
-const { body } = require('express-validator')
+const { body, check } = require('express-validator')
 
 const validate = (method) => {
   switch (method) {
@@ -14,6 +14,13 @@ const validate = (method) => {
           .isLength({ max: 30 }),
         body('name', 'Name should consist only of letters')
           .isAlpha('en-US', { ignore: ' ' })
+      ]
+    }
+    case 'deleteEmployee': {
+      return [
+        check('id', 'Select existing employee to delete')
+          .trim()
+          .exists().isMongoId()
       ]
     }
   }

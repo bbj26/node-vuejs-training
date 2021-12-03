@@ -14,7 +14,28 @@ const validate = (method) => {
         body('deadline', 'Deadline can not be in the past')
           .not()
           .isBefore(),
-        check('id', 'Select employee to assign task to.')
+        check('id', 'Invalid employee ID. Select employee to assign task to.')
+          .trim()
+          .exists().isMongoId()
+      ]
+    }
+    case 'updateTask': {
+      return [
+        check('id', 'Invalid task ID. Select existing task to update.')
+          .trim()
+          .exists().isMongoId()
+      ]
+    }
+    case 'deleteTask': {
+      return [
+        check('id', 'Invalid task ID. Select existing task to delete.')
+          .trim()
+          .exists().isMongoId()
+      ]
+    }
+    case 'fetchEmployeeTasks': {
+      return [
+        check('id', 'Invalid employee ID.')
           .trim()
           .exists().isMongoId()
       ]

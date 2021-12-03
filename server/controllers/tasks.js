@@ -11,9 +11,13 @@ const fetchTasks = async (req, res) => {
   }
 }
 const fetchEmployeeTasks = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(404).json({ error: errors.array()[0].msg });
+  }
   const employeeId = req.params.id;
   try {
-    const tasks = await Task.find({ employeeId: employeeId });
+    const tasks = await Task.find({ employeeId });
     res.status(200).json(tasks);
   } catch (error) {
     res.status(404).json({ code: 404, msg: error.message });
@@ -41,11 +45,14 @@ const createTask = async (req, res) => {
   }
 }
 const deleteTask = async (req, res) => {
-  const taskId = req.params.taskId;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(404).json({ error: errors.array()[0].msg });
+  }
   try {
-    const task = await Task.findById(taskId);
+    const task = await Task.findById(req.params.taskId);
     if (!isExpired(task.deadline)) {
-      await Task.findByIdAndDelete(taskId);
+      await Task.findByIdAndDelete(req.params.taskId);
       res.status(200).json({ code: 200, msg: 'Task successfully deleted' });
     } else {
       res.status(405).json({ code: 405, msg: 'Not allowed to delete task' });
@@ -55,6 +62,10 @@ const deleteTask = async (req, res) => {
   }
 }
 const setTaskCompletion = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(404).json({ error: errors.array()[0].msg });
+  }
   try {
     const task = await Task.findById(req.params.id);
     if (!isExpired(task.deadline)) {
