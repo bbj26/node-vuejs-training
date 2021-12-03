@@ -29,6 +29,9 @@ const store = createStore({
     SET_ACTIVE_EMPLOYEE(state, employeeId) {
       state.activeEmployeeId = employeeId
     },
+    UNSET_ACTIVE_EMPLOYEE(state) {
+      state.activeEmployeeId = null;
+    },
     SAVE_TASKS(state, tasks) {
       state.tasks = tasks;
     },
@@ -59,6 +62,9 @@ const store = createStore({
         .getEmployees()
         .then((res) => {
           employees = res.data;
+          if (!employees.length) {
+            context.commit('UNSET_ACTIVE_EMPLOYEE');
+          }
           context.commit('SAVE_EMPLOYEES', employees);
           context.commit('CLEAR_EMPLOYEE_CREATION_ERRORS');
         })

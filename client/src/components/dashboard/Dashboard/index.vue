@@ -5,11 +5,11 @@
     <div v-if="isLoading" class="loading-icon flex lg6 xs12 py-4">
       <va-progress-circle indeterminate />
     </div>
-    <div v-else>
+    <div>
       <add-task :employeeId="activeEmployeeId" />
       <va-divider class="mt-0 mb-2" />
       <employees v-if="employees.length" :employees="employees" />
-      <p v-if="!employees.length">
+      <p v-if="!employees.length && !isLoading">
         Employees list is empty. Add new employee in order to assign task
       </p>
     </div>

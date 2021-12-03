@@ -27,8 +27,7 @@
 
 <script>
 import api from '../../../../api/task';
-import { parseISO, format } from 'date-fns';
-import compareAsc from 'date-fns/compareAsc';
+import { parseISO, format, isAfter } from 'date-fns';
 import { mapActions } from 'vuex';
 
 export default {
@@ -46,10 +45,10 @@ export default {
     toggleCompleted(id) {
       api.toggleCompleted(id).catch((err) => (this.error = err));
     },
-    isExpired(deadLine) {
-      let deadline = new Date(deadLine);
-      let now = new Date();
-      return compareAsc(deadline, now) === 1 ? false : true;
+    isExpired(deadline) {
+      let now = new Date(format(Date.now(), 'yyyy-MM-dd'));
+      deadline = new Date(deadline);
+      return isAfter(now, deadline);
     },
     formatDate(deadline) {
       return format(parseISO(deadline), 'dd.MM.yyyy.');

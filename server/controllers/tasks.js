@@ -1,6 +1,6 @@
 const Task = require('../models/task');
 const { validationResult } = require('express-validator');
-const compareAsc = require('date-fns/compareAsc');
+const { format, isAfter } = require('date-fns');
 
 const fetchTasks = async (req, res) => {
   try {
@@ -66,10 +66,10 @@ const setTaskCompletion = async (req, res) => {
     res.status(400).json({ code: 400, msg: error.message });
   }
 }
-const isExpired = (deadLine) => {
-  let deadline = new Date(deadLine);
-  let now = new Date();
-  return compareAsc(deadline, now) === 1 ? false : true;
+const isExpired = (deadline) => {
+  let now = new Date(format(Date.now(), 'yyyy-MM-dd'));
+  deadline = new Date(deadline);
+  return isAfter(now, deadline);
 }
 
 module.exports = {
