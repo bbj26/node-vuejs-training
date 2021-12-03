@@ -129,7 +129,8 @@ const store = createStore({
       return state.tasks.filter(task => task.employeeId === employeeId).length;
     },
     completedTasks: (state) => (employeeId) => {
-      return state.tasks.filter(task => task.employeeId === employeeId && task.completed).length;
+      return state.tasks.filter(task => task.employeeId === employeeId && 
+        task.completed).length;
     }
   }
 });
