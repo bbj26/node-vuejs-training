@@ -20,7 +20,7 @@ router.post('/tasks/:id', taskValidator.validate('createTask'),
   taskController.createTask);
 router.post('/tasks/complete/:id', taskValidator.validate('updateTask'),
   taskController.setTaskCompletion);
-router.delete('/tasks/:taskId', taskValidator.validate('deleteTask'),
+router.delete('/tasks/:id', taskValidator.validate('deleteTask'),
   taskController.deleteTask);
 
 module.exports = router;

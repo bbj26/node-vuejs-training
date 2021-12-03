@@ -50,9 +50,9 @@ const deleteTask = async (req, res) => {
     return res.status(404).json({ error: errors.array()[0].msg });
   }
   try {
-    const task = await Task.findById(req.params.taskId);
+    const task = await Task.findById(req.params.id);
     if (!isExpired(task.deadline)) {
-      await Task.findByIdAndDelete(req.params.taskId);
+      await Task.findByIdAndDelete(req.params.id);
       res.status(200).json({ code: 200, msg: 'Task successfully deleted' });
     } else {
       res.status(405).json({ code: 405, msg: 'Not allowed to delete task' });
