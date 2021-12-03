@@ -19,23 +19,9 @@ const validate = (method) => {
           .exists().isMongoId()
       ]
     }
-    case 'updateTask': {
+    case 'validateID': {
       return [
-        check('id', 'Invalid task ID. Select existing task to update.')
-          .trim()
-          .exists().isMongoId()
-      ]
-    }
-    case 'deleteTask': {
-      return [
-        check('id', 'Invalid task ID. Select existing task to delete.')
-          .trim()
-          .exists().isMongoId()
-      ]
-    }
-    case 'fetchEmployeeTasks': {
-      return [
-        check('id', 'Invalid employee ID.')
+        check('id', 'Invalid ID.')
           .trim()
           .exists().isMongoId()
       ]

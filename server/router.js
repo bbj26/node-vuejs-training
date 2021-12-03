@@ -14,13 +14,13 @@ router.delete('/employees/:id', employeesValidator.validate('deleteEmployee'),
   employeeController.deleteEmployee);
 
 router.get('/tasks', taskController.fetchTasks);
-router.get('/tasks/:id', taskValidator.validate('fetchEmployeeTasks'),
+router.get('/tasks/:id', taskValidator.validate('validateID'),
   taskController.fetchEmployeeTasks);
 router.post('/tasks/:id', taskValidator.validate('createTask'),
   taskController.createTask);
-router.post('/tasks/complete/:id', taskValidator.validate('updateTask'),
+router.post('/tasks/complete/:id', taskValidator.validate('validateID'),
   taskController.setTaskCompletion);
-router.delete('/tasks/:id', taskValidator.validate('deleteTask'),
+router.delete('/tasks/:id', taskValidator.validate('validateID'),
   taskController.deleteTask);
 
 module.exports = router;
