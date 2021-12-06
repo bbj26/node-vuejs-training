@@ -24,6 +24,7 @@
  *        name: Stephen King
  *        createdAt: 2021-12-03T15:12:06.956Z
  *        updatedAt: 2021-12-03T15:12:06.956Z
+ * 
  *    Task:
  *      type: object
  *      required:
@@ -61,13 +62,37 @@
  *        completed: false
  *        createdAt: 2021-12-03T15:12:06.956Z
  *        updatedAt: 2021-12-03T15:12:06.956Z
+ * 
+ *  parameters:
+ *    employeeID:
+ *      in: path
+ *      name: id
+ *      schema:
+ *        type: string
+ *      required: true
+ *      description: Employee ID
+ * 
+ *    taskID:
+ *      in: path
+ *      name: id
+ *      schema:
+ *        type: string
+ *      required: true
+ *      description: Task ID
+ *  
+ *  content: 
+ *    employee:
+ *      application/json:
+ *        schema:
+ *          type: array
+ *          items:
+ *            $ref: '#/components/schemas/Employee'
+ * 
+ *    task:
+ *      application/json:
+ *        schema:
+ *          type: array
+ *          items:
+ *            $ref: '#/components/schemas/Task'
 */
 
-/**
- * @swagger
- * tags:
- *    - name: Employees
- *      description: The employees managing API
- *    - name: Tasks
- *      description: The tasks managing API
-*/

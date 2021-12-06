@@ -8,11 +8,7 @@
  *        200:
  *          description: The list of the employees
  *          content:
- *            application/json:
- *              schema:
- *                type: array
- *                items:
- *                  $ref: '#/components/schemas/Employee'
+ *          - $ref: '#/components/content/employee'
  *        404:
  *           description: Not found
  *    post:
@@ -28,11 +24,7 @@
  *        201:
  *          description: Employee successfully created
  *          content:
- *            application/json:
- *              schema:
- *                type: array
- *                items:
- *                  $ref: '#/components/schemas/Employee'
+ *          - $ref: '#/components/content/employee'
  *        400:
  *          description: Express-validation error
  *        409:

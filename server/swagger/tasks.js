@@ -8,11 +8,7 @@
  *        200:
  *          description: The list of the tasks
  *          content:
- *            application/json:
- *              schema:
- *                type: array
- *                items:
- *                  $ref: '#/components/schemas/Task'
+ *            - $ref: '#/components/content/task'
  *        404:
  *           description: Not found
  */
@@ -24,12 +20,7 @@
  *      summary: Returns the list of specific employee's tasks
  *      tags: [Tasks]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
- *            type: string
- *          required: true
- *          description: Employee ID
+ *        - $ref: '#/components/parameters/employeeID'
  *      responses:
  *        200:
  *          description: List of employee's tasks
@@ -50,49 +41,17 @@
  *            schema:
  *              $ref: '#/components/schemas/Task'
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
- *            type: string
- *          required: true
- *          description: Employee ID
+ *        - $ref: '#/components/parameters/employeeID'
  *      responses:
  *        201:
  *          description: Task successfully created
  *          content:
- *            application/json:
- *              schema:
- *                type: array
- *                items:
- *                  $ref: '#/components/schemas/Task'
+ *            - $ref: '#/components/content/task'
  *        400:
  *          description: Express-validation error
  *        404:
  *          description: Server error
  *
- */
-
-
-/**
- * @swagger
- *  /tasks/{id}:
- *    delete:
- *      summary: Delete task by ID
- *      tags: [Tasks]
- *      parameters:
- *        - in: path
- *          name: id
- *          schema:
- *            type: string
- *          required: true
- *          description: Task ID
- *      responses:
- *        200:
- *          description: Task successfully deleted
- *        400:
- *          description: Bad ID error
- *        404:
- *          description: Not found
  */
 
 /**
@@ -102,15 +61,27 @@
  *      summary: Toggle task completion
  *      tags: [Tasks]
  *      parameters:
- *        - in: path
- *          name: id
- *          schema:
- *            type: string
- *          required: true
- *          description: Task ID
+ *        - $ref: '#/components/parameters/taskID'
  *      responses:
  *        200:
  *          description: List of employee's tasks
+ *        404:
+ *          description: Not found
+ */
+
+/**
+ * @swagger
+ *  /tasks/{id}:
+ *    delete:
+ *      summary: Delete task by ID
+ *      tags: [Tasks]
+ *      parameters:
+ *        - $ref: '#/components/parameters/taskID'
+ *      responses:
+ *        200:
+ *          description: Task successfully deleted
+ *        400:
+ *          description: Bad ID error
  *        404:
  *          description: Not found
  */
