@@ -4,21 +4,21 @@
     tags: [Tasks]
     responses:
       200:
-        $ref: '#/components/responses/200FetchTasks'
+        $ref: '#/responses/200FetchTasks'
       404:
-        $ref: '#/components/responses/404TaskNotFound'
+        $ref: '#/responses/404TaskNotFound'
 
 /tasks/{id}:
   get:
     summary: Returns the list of specific employee's tasks
     tags: [Tasks]
     parameters:
-      - $ref: '#/components/parameters/employeeID'
+      - $ref: '#/parameters/employeeID'
     responses:
       200:
-        $ref: '#/components/responses/200FetchTasks'
+        $ref: '#/responses/200FetchTasks'
       404:
-        $ref: '#/components/responses/404TaskNotFound'
+        $ref: '#/responses/404TaskNotFound'
 
   post:
     summary: Creates the new task
@@ -37,35 +37,202 @@
                 type: string
                 example: 2023-07-08
     parameters:
-      - $ref: '#/components/parameters/employeeID'
+      - $ref: '#/parameters/employeeID'
     responses:
       201:
-        $ref: '#/components/responses/201TaskCreation'
+        $ref: '#/responses/201TaskCreation'
       400:
-        $ref: '#/components/responses/400ValidationError'
+        $ref: '#/responses/400ValidationError'
       404:
-        $ref: '#/components/responses/404TaskNotFound'
+        $ref: '#/responses/404TaskNotFound'
   delete:
     summary: Delete task by ID
     tags: [Tasks]
     parameters:
-      - $ref: '#/components/parameters/taskID'
+      - $ref: '#/parameters/taskID'
     responses:
       200:
-        $ref: '#/components/responses/200TaskDeletion'
+        $ref: '#/responses/200TaskDeletion'
       400:
-        $ref: '#/components/responses/400ValidationError'
+        $ref: '#/responses/400ValidationError'
       404:
-        $ref: '#/components/responses/404TaskNotFound'
+        $ref: '#/responses/404TaskNotFound'
 
 /tasks/complete/{id}:
   post:
     summary: Toggle task completion
     tags: [Tasks]
     parameters:
-      - $ref: '#/components/parameters/taskID'
+      - $ref: '#/parameters/taskID'
     responses:
       200:
-        $ref: '#/components/responses/200TaskUpdation'
+        $ref: '#/responses/200TaskUpdation'
       404:
-        $ref: '#/components/responses/404TaskNotFound'
+        $ref: '#/responses/404TaskNotFound'
+
+components:
+  schemas:
+    Task:
+      type: object
+      required:
+        - name
+        - employeeId
+        - deadline
+        - completed
+      properties:
+        _id:
+          type: string
+          description: The auto-generated id of the task
+        name:
+          type: string
+          description: Task name
+        employeeId:
+          type: string
+          description: ID of the employee that the task is assigned to
+        deadline:
+          type: string
+          description: Task deadline
+        completed:
+          type: boolean
+          description: Task completion flag
+        createdAt:
+          type: timestamp
+          description: Creation timestamp
+        updatedAt:
+          type: timestamp
+          description: Updation timestamp
+      example:
+        _id: 61aa33c659ded74313b379d9
+        name: Go shopping
+        employeeId: 61aa33c659ded74313b37446
+        deadline: 2021-12-07
+        completed: false
+        createdAt: 2021-12-03T15:12:06.956Z
+        updatedAt: 2021-12-03T15:12:06.956Z
+
+responses:
+  404TaskNotFound:
+    description: Task not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 404
+            msg:
+              type: string
+              example: 'Invalid ID'
+  400ValidationError:
+    description: Express validation error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 400
+            error:
+              type: string
+              example: 'Name must be at least 2 characters long'
+  200FetchTasks:
+    description: OK
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+          example:
+            [
+              {
+                '_id': '61af255a475eb15fe01bc2f6',
+                'name': 'Contact all customers',
+                'employeeId': '61af2318fa94fd876ff9bba2',
+                'deadline': '2021-12-16',
+                'completed': false,
+                'createdAt': '2021-12-07T09:11:54.889Z',
+                'updatedAt': '2021-12-07T09:12:52.746Z',
+                '__v': 0,
+              },
+              {
+                '_id': '61af231afa94fd876ff9bba5',
+                'name': 'Do shopping',
+                'employeeId': '61af2318fa94fd876ff9cc3f',
+                'deadline': '2021-12-16',
+                'completed': true,
+                'createdAt': '2021-09-07T09:02:18.004Z',
+                'updatedAt': '2021-10-11T09:02:18.004Z',
+                '__v': 0,
+              },
+            ]
+  201TaskCreation:
+    description: OK
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 201
+            msg:
+              type: string
+              example: 'Task successfully created'
+            saved:
+              type: object
+              example:
+                {
+                  '_id': '61af231afa94fd876ff9bba5',
+                  'name': 'Do shopping',
+                  'employeeId': '61af2318fa94fd876ff9cc3f',
+                  'deadline': '2021-12-16',
+                  'completed': true,
+                  'createdAt': '2021-09-07T09:02:18.004Z',
+                  'updatedAt': '2021-10-11T09:02:18.004Z',
+                  '__v': 0,
+                }
+  200TaskDeletion:
+    description: OK
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 200
+            msg:
+              type: string
+              example: 'Task successfully deleted'
+  200TaskUpdation:
+    description: OK
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 200
+            msg:
+              type: string
+              example: 'Task successfully updated'
+parameters:
+  taskID:
+    in: path
+    name: id
+    schema:
+      type: string
+    required: true
+    description: Task ID
+
+  employeeID:
+    in: path
+    name: id
+    schema:
+      type: string
+    required: true
+    description: Employee ID

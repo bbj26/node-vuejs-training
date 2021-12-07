@@ -3,7 +3,7 @@ const PORT = 4101 || process.env.PORT;
 const router = require('./router');
 require('dotenv').config();
 const cors = require('cors');
-const { swaggerUI, specs } = require('./swagger/swagger');
+const { swaggerUI, specs } = require('./swagger');
 
 const mongoose = require('mongoose');
 const db = process.env.DB_CONNECTION;

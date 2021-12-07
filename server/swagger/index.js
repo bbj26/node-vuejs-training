@@ -9,13 +9,14 @@ const options = {
       version: '1.0.0',
       description: 'To-do app API'
     },
+    basePath: '/server/swagger',
     servers: [
       {
         url: `http://localhost:${PORT}`
       }
     ]
   },
-  apis: ['./server/swagger/*.yaml']
+  apis: ['./server/swagger/*.yaml'],
 };
 const specs = swaggerJsDoc(options);
 
