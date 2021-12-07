@@ -38,8 +38,12 @@ const deleteEmployee = async (req, res) => {
   }
   try {
     await Task.deleteMany({ "employeeId": req.params.id });
-    await Employee.findByIdAndRemove(req.params.id);
-    res.status(200).json({ code: 200, message: 'Employee successfully deleted' });
+    const employee = await Employee.findByIdAndRemove(req.params.id);
+    if (!employee) {
+      res.status(404).json({ code: 404, msg: 'Employee not found' });
+    } else {
+      res.status(200).json({ code: 200, message: 'Employee successfully deleted' });
+    }
   } catch (error) {
     res.status(404).json({ code: 404, msg: error.message });
   }

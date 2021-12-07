@@ -10,7 +10,7 @@
  *          content:
  *            - $ref: '#/components/content/task'
  *        404:
- *           description: Not found
+ *           $ref: '#/components/responses/404TaskNotFound'
  */
 
 /**
@@ -25,7 +25,7 @@
  *        200:
  *          description: List of employee's tasks
  *        404:
- *          description: Not found
+ *           $ref: '#/components/responses/404TaskNotFound'
  */
 
 /**
@@ -48,9 +48,9 @@
  *          content:
  *            - $ref: '#/components/content/task'
  *        400:
- *          description: Express-validation error
+ *           $ref: '#/components/responses/400ValidationError'
  *        404:
- *          description: Server error
+ *           $ref: '#/components/responses/404TaskNotFound'
  *
  */
 
@@ -66,7 +66,7 @@
  *        200:
  *          description: List of employee's tasks
  *        404:
- *          description: Not found
+ *           $ref: '#/components/responses/404TaskNotFound'
  */
 
 /**
@@ -81,7 +81,7 @@
  *        200:
  *          description: Task successfully deleted
  *        400:
- *          description: Bad ID error
+ *           $ref: '#/components/responses/400ValidationError'
  *        404:
- *          description: Not found
+ *           $ref: '#/components/responses/404TaskNotFound'
  */

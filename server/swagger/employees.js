@@ -6,11 +6,9 @@
  *      tags: [Employees]
  *      responses:
  *        200:
- *          description: The list of the employees
- *          content:
- *          - $ref: '#/components/content/employee'
+ *          $ref: '#/components/responses/200FetchEmployees'
  *        404:
- *           description: Not found
+ *           $ref: '#/components/responses/404EmployeNotFound'
  *    post:
  *      summary: Creates the new employee
  *      tags: [Employees]
@@ -22,13 +20,11 @@
  *              $ref: '#/components/schemas/Employee'
  *      responses:
  *        201:
- *          description: Employee successfully created
- *          content:
- *          - $ref: '#/components/content/employee'
+ *          $ref: '#/components/responses/201EmployeeCreation'
  *        400:
- *          description: Express-validation error
+ *           $ref: '#/components/responses/400ValidationError'
  *        409:
- *          description: Server error
+ *           $ref: '#/components/responses/409EmployeeCreation'
  *
  */
 
@@ -47,9 +43,10 @@
  *          description: Employee ID
  *      responses:
  *        200:
- *          description: Employee successfully deleted
+ *           $ref: '#/components/responses/200EmployeeDeletion'
  *        400:
- *          description: Bad ID error
+ *           $ref: '#/components/responses/400ValidationError'
  *        404:
- *          description: Not found
+ *           $ref: '#/components/responses/404EmployeNotFound'
  */
+ 

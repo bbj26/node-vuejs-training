@@ -41,7 +41,7 @@ const createTask = async (req, res) => {
       saved: savedTask
     });
   } catch (error) {
-    res.status(409).json({ code: 409, msg: error.message });
+    res.status(404).json({ code: 404, msg: error.message });
   }
 }
 const deleteTask = async (req, res) => {
@@ -51,6 +51,9 @@ const deleteTask = async (req, res) => {
   }
   try {
     const task = await Task.findById(req.params.id);
+    if (!task) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
     if (!isExpired(task.deadline)) {
       await Task.findByIdAndDelete(req.params.id);
       res.status(200).json({ code: 200, msg: 'Task successfully deleted' });
@@ -68,13 +71,16 @@ const setTaskCompletion = async (req, res) => {
   }
   try {
     const task = await Task.findById(req.params.id);
+    if (!task) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
     if (!isExpired(task.deadline)) {
       task.completed = !task.completed;
       await Task.findByIdAndUpdate(req.params.id, { $set: task });
       res.status(200).json({ code: 200, msg: 'Task successfully updated' });
     }
   } catch (error) {
-    res.status(400).json({ code: 400, msg: error.message });
+    res.status(404).json({ code: 404, msg: error.message });
   }
 }
 const isExpired = (deadline) => {
