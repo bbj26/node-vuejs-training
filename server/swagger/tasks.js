@@ -37,7 +37,14 @@
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Task'
+ *              type: object
+ *              properties:
+ *                name: 
+ *                  type: string
+ *                  example: Make shopping list 
+ *                deadline:
+ *                  type: string
+ *                  example: 2023-07-08
  *      parameters:
  *        - $ref: '#/components/parameters/employeeID'
  *      responses:

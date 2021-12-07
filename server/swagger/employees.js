@@ -17,7 +17,11 @@
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Employee'
+ *              type: object
+ *              properties:
+ *                name: 
+ *                  type: string
+ *                  example: John Doe
  *      responses:
  *        201:
  *          $ref: '#/components/responses/201EmployeeCreation'
