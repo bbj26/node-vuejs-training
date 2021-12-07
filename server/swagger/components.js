@@ -194,7 +194,7 @@
  *              properties:
  *                code:
  *                  type: number
- *                  example: 201
+ *                  example: 200
  *                msg:
  *                  type: string
  *                  example: 'Employee successfully deleted'
@@ -211,4 +211,85 @@
  *                msg:
  *                  type: string
  *                  example: 'Server down'
+ *      200FetchTasks:
+ *        description: OK
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Task'
+ *              example: [
+ *                        {
+ *                          "_id": "61af255a475eb15fe01bc2f6",
+ *                          "name": "Contact all customers",
+ *                          "employeeId": "61af2318fa94fd876ff9bba2",
+ *                          "deadline": "2021-12-16",
+ *                          "completed": false,
+ *                          "createdAt": "2021-12-07T09:11:54.889Z",
+ *                          "updatedAt": "2021-12-07T09:12:52.746Z",
+ *                          "__v": 0
+ *                         },
+ *                         {
+ *                          "_id": "61af231afa94fd876ff9bba5",
+ *                          "name": "Do shopping",
+ *                          "employeeId": "61af2318fa94fd876ff9cc3f",
+ *                          "deadline": "2021-12-16",
+ *                          "completed": true,
+ *                          "createdAt": "2021-09-07T09:02:18.004Z",
+ *                          "updatedAt": "2021-10-11T09:02:18.004Z",
+ *                          "__v": 0
+ *                         }
+ *                        ]
+ *      201TaskCreation:
+ *        description: OK
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                code:
+ *                  type: number
+ *                  example: 201
+ *                msg:
+ *                  type: string
+ *                  example: 'Task successfully created'
+ *                saved:
+ *                  type: object
+ *                  example: {
+ *                          "_id": "61af231afa94fd876ff9bba5",
+ *                          "name": "Do shopping",
+ *                          "employeeId": "61af2318fa94fd876ff9cc3f",
+ *                          "deadline": "2021-12-16",
+ *                          "completed": true,
+ *                          "createdAt": "2021-09-07T09:02:18.004Z",
+ *                          "updatedAt": "2021-10-11T09:02:18.004Z",
+ *                          "__v": 0
+ *                         } 
+ *      200TaskDeletion:
+ *        description: OK
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                code:
+ *                  type: number
+ *                  example: 200
+ *                msg:
+ *                  type: string
+ *                  example: 'Task successfully deleted'  
+ *      200TaskUpdation:
+ *        description: OK
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                code:
+ *                  type: number
+ *                  example: 200
+ *                msg:
+ *                  type: string
+ *                  example: 'Task successfully updated'     
 */

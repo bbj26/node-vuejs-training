@@ -6,13 +6,11 @@
  *      tags: [Tasks]
  *      responses:
  *        200:
- *          description: The list of the tasks
- *          content:
- *            - $ref: '#/components/content/task'
+ *           $ref: '#/components/responses/200FetchTasks'
  *        404:
  *           $ref: '#/components/responses/404TaskNotFound'
  */
-
+ 
 /**
  * @swagger
  *  /tasks/{id}:
@@ -23,7 +21,7 @@
  *        - $ref: '#/components/parameters/employeeID'
  *      responses:
  *        200:
- *          description: List of employee's tasks
+ *           $ref: '#/components/responses/200FetchTasks'
  *        404:
  *           $ref: '#/components/responses/404TaskNotFound'
  */
@@ -44,16 +42,14 @@
  *        - $ref: '#/components/parameters/employeeID'
  *      responses:
  *        201:
- *          description: Task successfully created
- *          content:
- *            - $ref: '#/components/content/task'
+ *           $ref: '#/components/responses/201TaskCreation'
  *        400:
  *           $ref: '#/components/responses/400ValidationError'
  *        404:
  *           $ref: '#/components/responses/404TaskNotFound'
  *
  */
-
+ 
 /**
  * @swagger
  * /tasks/complete/{id}:
@@ -64,11 +60,11 @@
  *        - $ref: '#/components/parameters/taskID'
  *      responses:
  *        200:
- *          description: List of employee's tasks
+ *           $ref: '#/components/responses/200TaskUpdation'
  *        404:
  *           $ref: '#/components/responses/404TaskNotFound'
  */
-
+ 
 /**
  * @swagger
  *  /tasks/{id}:
@@ -79,7 +75,7 @@
  *        - $ref: '#/components/parameters/taskID'
  *      responses:
  *        200:
- *          description: Task successfully deleted
+ *           $ref: '#/components/responses/200TaskDeletion'
  *        400:
  *           $ref: '#/components/responses/400ValidationError'
  *        404:
