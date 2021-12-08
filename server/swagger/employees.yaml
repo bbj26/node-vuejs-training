@@ -1,15 +1,15 @@
 /employees:
   get:
-    summary: Returns the list of all employees
+    summary: 'Returns the list of all employees'
     tags: [Employees]
     responses:
       200:
         $ref: '#/responses/200FetchEmployees'
-      404:
-        $ref: '#/responses/404EmployeNotFound'
+      500:
+        $ref: '#/responses/500ServerError'
   post:
-    summary: Creates the new employee
-    tags: [Employees]
+    summary: 'Creates the new employee'
+    tags: ['Employees']
     requestBody:
       required: true
       content:
@@ -19,28 +19,30 @@
             properties:
               name:
                 type: string
-                example: John Doe
+                example: 'John Doe'
     responses:
       201:
         $ref: '#/responses/201EmployeeCreation'
-      400:
-        $ref: '#/responses/400ValidationError'
-      409:
-        $ref: '#/responses/409EmployeeCreation'
+      403:
+        $ref: '#/responses/403ValidationError'
+      500:
+        $ref: '#/responses/500ServerError'
 
 /employees/{id}:
   delete:
-    summary: Delete employee by ID
-    tags: [Employees]
+    summary: 'Delete employee by ID'
+    tags: ['Employees']
     parameters:
       - $ref: '#/parameters/employeeID'
     responses:
       200:
         $ref: '#/responses/200EmployeeDeletion'
-      400:
-        $ref: '#/responses/400ValidationError'
+      403:
+        $ref: '#/responses/403ValidationError'
       404:
         $ref: '#/responses/404EmployeNotFound'
+      500:
+        $ref: '#/responses/500ServerError'
 
 components:
   schemas:
@@ -51,25 +53,25 @@ components:
       properties:
         _id:
           type: string
-          description: The auto-generated ID of the employee
+          description: 'The auto-generated ID of the employee'
         name:
           type: string
-          description: Employee name
+          description: 'Employee name'
         createdAt:
           type: timestamp
-          description: Creation timestamp
+          description: 'Creation timestamp'
         updatedAt:
           type: timestamp
-          description: Updation timestamp
+          description: 'Updation timestamp'
       example:
-        _id: 61aa33c659ded74313b379d9
-        name: Stephen King
-        createdAt: 2021-12-03T15:12:06.956Z
-        updatedAt: 2021-12-03T15:12:06.956Z
+        _id: '61aa33c659ded74313b379d9'
+        name: 'Stephen King'
+        createdAt: '2021-12-03T15:12:06.956Z'
+        updatedAt: '2021-12-03T15:12:06.956Z'
 
 responses:
   200EmployeeDeletion:
-    description: OK
+    description: 'OK'
     content:
       application/json:
         schema:
@@ -82,7 +84,7 @@ responses:
               type: string
               example: 'Employee successfully deleted'
   200FetchEmployees:
-    description: OK
+    description: 'OK'
     content:
       application/json:
         schema:
@@ -92,22 +94,22 @@ responses:
           example:
             [
               {
-                '_id': '61af2318fa94fd876ff9bba2',
-                'name': 'John Doe',
-                'createdAt': '2021-12-07T09:02:16.355Z',
-                'updatedAt': '2021-12-07T09:02:16.355Z',
-                '__v': 0,
+                _id: '61af2318fa94fd876ff9bba2',
+                name: 'John Doe',
+                createdAt: '2021-12-07T09:02:16.355Z',
+                updatedAt: '2021-12-07T09:02:16.355Z',
+                __v: 0,
               },
               {
-                '_id': '61af231afa94fd876ff9bba5',
-                'name': 'Jane Doe',
-                'createdAt': '2021-12-07T09:02:18.004Z',
-                'updatedAt': '2021-12-07T09:02:18.004Z',
-                '__v': 0,
+                _id: '61af231afa94fd876ff9bba5',
+                name: 'Jane Doe',
+                createdAt: '2021-12-07T09:02:18.004Z',
+                updatedAt: '2021-12-07T09:02:18.004Z',
+                __v: 0,
               },
             ]
   201EmployeeCreation:
-    description: OK
+    description: 'OK'
     content:
       application/json:
         schema:
@@ -123,14 +125,14 @@ responses:
               type: object
               example:
                 {
-                  '_id': '61af231afa94fd876ff9bba5',
-                  'name': 'Jane Doe',
-                  'createdAt': '2021-12-07T09:02:18.004Z',
-                  'updatedAt': '2021-12-07T09:02:18.004Z',
-                  '__v': 0,
+                  _id: '61af231afa94fd876ff9bba5',
+                  name: 'Jane Doe',
+                  createdAt: '2021-12-07T09:02:18.004Z',
+                  updatedAt: '2021-12-07T09:02:18.004Z',
+                  __v: 0,
                 }
-  400ValidationError:
-    description: Express validation error
+  403ValidationError:
+    description: 'Express validation error'
     content:
       application/json:
         schema:
@@ -138,12 +140,12 @@ responses:
           properties:
             code:
               type: number
-              example: 400
+              example: 403
             message:
               type: string
               example: 'Name must be at least 2 characters long'
   404EmployeNotFound:
-    description: Employee not found
+    description: 'Employee not found'
     content:
       application/json:
         schema:
@@ -155,8 +157,8 @@ responses:
             message:
               type: string
               example: 'Invalid ID'
-  409EmployeeCreation:
-    description: Failed request
+  500ServerError:
+    description: 'Internal server error'
     content:
       application/json:
         schema:
@@ -164,19 +166,18 @@ responses:
           properties:
             code:
               type: number
-              example: 409
+              example: 500
             message:
               type: string
-              example: 'Already exists'
-
+              example: 'Server down'
 parameters:
   employeeID:
     in: path
-    name: id
+    name: 'id'
     schema:
       type: string
     required: true
-    description: Employee ID
+    description: 'Employee ID'
 
   content:
     employee:

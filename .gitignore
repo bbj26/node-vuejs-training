@@ -22,7 +22,3 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
-#Code formating rules
-.eslintrc.js
-.eslintrc.json

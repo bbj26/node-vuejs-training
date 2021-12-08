@@ -14,4 +14,4 @@ export default {
   createTask,
   deleteTask,
   toggleCompleted
-}
+};

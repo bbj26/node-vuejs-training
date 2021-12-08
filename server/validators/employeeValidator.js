@@ -26,6 +26,4 @@ const validate = (method) => {
   }
 };
 
-module.exports = {
-  validate
-};
+module.exports = { validate };

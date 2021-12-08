@@ -7,31 +7,31 @@ const fetchTasks = async (req, res) => {
     const tasks = await Task.find({});
     res.status(200).json(tasks);
   } catch (error) {
-    res.status(404).json({ code: 404, message: error.message });
+    res.status(500).json({ code: 500, message: error.message });
   }
 };
 const fetchEmployeeTasks = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(404).json({ code: 404, message: errors.array()[0].msg });
+    return res.status(403).json({ code: 403, message: errors.array()[0].msg });
   }
   const employeeId = req.params.id;
   try {
     const tasks = await Task.find({ employeeId });
     res.status(200).json(tasks);
   } catch (error) {
-    res.status(404).json({ code: 404, message: error.message });
+    res.status(500).json({ code: 500, message: error.message });
   }
 };
 const createTask = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ code: 400, message: errors.array()[0].msg });
+    return res.status(403).json({ code: 403, message: errors.array()[0].msg });
   }
-  const { name, deadline } = req.body;
+  const { name, deadline, completed = false } = req.body;
   const taskData = {
-    name, deadline,
-    employeeId: req.params.id
+    name, deadline, completed,
+    employeeId: req.params.id,
   };
   const task = new Task(taskData);
   try {
@@ -41,13 +41,13 @@ const createTask = async (req, res) => {
       saved: savedTask
     });
   } catch (error) {
-    res.status(404).json({ code: 404, message: error.message });
+    res.status(500).json({ code: 500, message: error.message });
   }
 };
 const deleteTask = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(404).json({ code: 404, message: errors.array()[0].msg });
+    return res.status(403).json({ code: 403, message: errors.array()[0].msg });
   }
   try {
     const task = await Task.findById(req.params.id);
@@ -59,13 +59,13 @@ const deleteTask = async (req, res) => {
       res.status(405).json({ code: 405, message: 'Not allowed to delete task' });
     }
   } catch (error) {
-    res.status(404).json({ code: 404, message: error.message });
+    res.status(500).json({ code: 500, message: error.message });
   }
 };
 const setTaskCompletion = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(404).json({code: 404, message: errors.array()[0].msg });
+    return res.status(403).json({code: 403, message: errors.array()[0].msg });
   }
   try {
     const task = await Task.findById(req.params.id);
@@ -76,7 +76,7 @@ const setTaskCompletion = async (req, res) => {
       res.status(200).json({ code: 200, message: 'Task successfully updated' });
     }
   } catch (error) {
-    res.status(404).json({ code: 404, message: error.message });
+    res.status(500).json({ code: 500, message: error.message });
   }
 };
 const isExpired = (deadline) => {

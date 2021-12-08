@@ -1,28 +1,30 @@
 /tasks:
   get:
-    summary: Returns the list of all tasks
-    tags: [Tasks]
+    summary: 'Returns the list of all tasks'
+    tags: ['Tasks']
     responses:
       200:
         $ref: '#/responses/200FetchTasks'
-      404:
-        $ref: '#/responses/404TaskNotFound'
+      500:
+        $ref: '#/responses/500ServerError'
 
 /tasks/{id}:
   get:
-    summary: Returns the list of specific employee's tasks
-    tags: [Tasks]
+    summary: 'Returns the list of specific employees tasks'
+    tags: ['Tasks']
     parameters:
       - $ref: '#/parameters/employeeID'
     responses:
       200:
         $ref: '#/responses/200FetchTasks'
-      404:
-        $ref: '#/responses/404TaskNotFound'
+      403:
+        $ref: '#/responses/403ValidationError'
+      500:
+        $ref: '#/responses/500ServerError'
 
   post:
-    summary: Creates the new task
-    tags: [Tasks]
+    summary: 'Creates the new task'
+    tags: ['Tasks']
     requestBody:
       required: true
       content:
@@ -32,43 +34,52 @@
             properties:
               name:
                 type: string
-                example: Make shopping list
+                example: 'Make shopping list'
               deadline:
                 type: string
-                example: 2023-07-08
+                example: '2023-07-08'
+              completed:
+                type: boolean
+                example: 'true'
     parameters:
       - $ref: '#/parameters/employeeID'
     responses:
       201:
         $ref: '#/responses/201TaskCreation'
-      400:
-        $ref: '#/responses/400ValidationError'
-      404:
-        $ref: '#/responses/404TaskNotFound'
+      403:
+        $ref: '#/responses/403ValidationError'
+      500:
+        $ref: '#/responses/500ServerError'
   delete:
-    summary: Delete task by ID
-    tags: [Tasks]
+    summary: 'Delete task by ID'
+    tags: ['Tasks']
     parameters:
       - $ref: '#/parameters/taskID'
     responses:
       200:
         $ref: '#/responses/200TaskDeletion'
-      404:
-        $ref: '#/responses/404TaskNotFound'
+      403:
+        $ref: '#/responses/403ValidationError'
       405:
         $ref: '#/responses/405NotAllowed'
+      500:
+        $ref: '#/responses/500ServerError'
 
 /tasks/complete/{id}:
   post:
-    summary: Toggle task completion
-    tags: [Tasks]
+    summary: 'Toggle task completion'
+    tags: ['Tasks']
     parameters:
       - $ref: '#/parameters/taskID'
     responses:
       200:
         $ref: '#/responses/200TaskUpdation'
+      403:
+        $ref: '#/responses/403ValidationError'
       404:
         $ref: '#/responses/404TaskNotFound'
+      500:
+        $ref: '#/responses/500ServerError'
 
 components:
   schemas:
@@ -82,37 +93,37 @@ components:
       properties:
         _id:
           type: string
-          description: The auto-generated id of the task
+          description: 'The auto-generated id of the task'
         name:
           type: string
-          description: Task name
+          description: 'Task name'
         employeeId:
           type: string
-          description: ID of the employee that the task is assigned to
+          description: 'ID of the employee that the task is assigned to'
         deadline:
           type: string
-          description: Task deadline
+          description: 'Task deadline'
         completed:
           type: boolean
-          description: Task completion flag
+          description: 'Task completion flag'
         createdAt:
           type: timestamp
-          description: Creation timestamp
+          description: 'Creation timestamp'
         updatedAt:
           type: timestamp
-          description: Updation timestamp
+          description: 'Updation timestamp'
       example:
-        _id: 61aa33c659ded74313b379d9
-        name: Go shopping
-        employeeId: 61aa33c659ded74313b37446
-        deadline: 2021-12-07
-        completed: false
-        createdAt: 2021-12-03T15:12:06.956Z
-        updatedAt: 2021-12-03T15:12:06.956Z
+        _id: '61aa33c659ded74313b379d9'
+        name: 'Go shopping'
+        employeeId: '61aa33c659ded74313b37446'
+        deadline: '2021-12-07'
+        completed: 'false'
+        createdAt: '2021-12-03T15:12:06.956Z'
+        updatedAt: '2021-12-03T15:12:06.956Z'
 
 responses:
   200TaskDeletion:
-    description: OK
+    description: 'OK'
     content:
       application/json:
         schema:
@@ -125,7 +136,7 @@ responses:
               type: string
               example: 'Task successfully deleted'
   200FetchTasks:
-    description: OK
+    description: 'OK'
     content:
       application/json:
         schema:
@@ -135,28 +146,28 @@ responses:
           example:
             [
               {
-                '_id': '61af255a475eb15fe01bc2f6',
-                'name': 'Contact all customers',
-                'employeeId': '61af2318fa94fd876ff9bba2',
-                'deadline': '2021-12-16',
-                'completed': false,
-                'createdAt': '2021-12-07T09:11:54.889Z',
-                'updatedAt': '2021-12-07T09:12:52.746Z',
-                '__v': 0,
+                _id: '61af255a475eb15fe01bc2f6',
+                name: 'Contact all customers',
+                employeeId: '61af2318fa94fd876ff9bba2',
+                deadline: '2021-12-16',
+                completed: false,
+                createdAt: '2021-12-07T09:11:54.889Z',
+                updatedAt: '2021-12-07T09:12:52.746Z',
+                __v: 0,
               },
               {
-                '_id': '61af231afa94fd876ff9bba5',
-                'name': 'Do shopping',
-                'employeeId': '61af2318fa94fd876ff9cc3f',
-                'deadline': '2021-12-16',
-                'completed': true,
-                'createdAt': '2021-09-07T09:02:18.004Z',
-                'updatedAt': '2021-10-11T09:02:18.004Z',
-                '__v': 0,
+                _id: '61af231afa94fd876ff9bba5',
+                name: 'Do shopping',
+                employeeId: '61af2318fa94fd876ff9cc3f',
+                deadline: '2021-12-16',
+                completed: true,
+                createdAt: '2021-09-07T09:02:18.004Z',
+                updatedAt: '2021-10-11T09:02:18.004Z',
+                __v: 0,
               },
             ]
   200TaskUpdation:
-    description: OK
+    description: 'OK'
     content:
       application/json:
         schema:
@@ -169,7 +180,7 @@ responses:
               type: string
               example: 'Task successfully updated'
   201TaskCreation:
-    description: OK
+    description: 'OK'
     content:
       application/json:
         schema:
@@ -185,17 +196,17 @@ responses:
               type: object
               example:
                 {
-                  '_id': '61af231afa94fd876ff9bba5',
-                  'name': 'Do shopping',
-                  'employeeId': '61af2318fa94fd876ff9cc3f',
-                  'deadline': '2021-12-16',
-                  'completed': true,
-                  'createdAt': '2021-09-07T09:02:18.004Z',
-                  'updatedAt': '2021-10-11T09:02:18.004Z',
-                  '__v': 0,
+                  _id: '61af231afa94fd876ff9bba5',
+                  name: 'Do shopping',
+                  employeeId: '61af2318fa94fd876ff9cc3f',
+                  deadline: '2021-12-16',
+                  completed: 'true',
+                  createdAt: '2021-09-07T09:02:18.004Z',
+                  updatedAt: '2021-10-11T09:02:18.004Z',
+                  __v: 0,
                 }
-  400ValidationError:
-    description: Express validation error
+  403ValidationError:
+    description: 'Express validation error'
     content:
       application/json:
         schema:
@@ -208,7 +219,7 @@ responses:
               type: string
               example: 'Name must be at least 2 characters long'
   404TaskNotFound:
-    description: Task not found
+    description: 'Task not found'
     content:
       application/json:
         schema:
@@ -221,7 +232,7 @@ responses:
               type: string
               example: 'Invalid ID'
   405NotAllowed:
-    description: OK
+    description: 'OK'
     content:
       application/json:
         schema:
@@ -233,19 +244,32 @@ responses:
             message:
               type: string
               example: 'Not allowed to delete this task'
+  500ServerError:
+    description: 'Internal server error'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 500
+            message:
+              type: string
+              example: 'Server down'
 parameters:
   taskID:
     in: path
-    name: id
+    name: 'id'
     schema:
       type: string
     required: true
-    description: Task ID
+    description: 'Task ID'
 
   employeeID:
     in: path
-    name: id
+    name: 'id'
     schema:
       type: string
     required: true
-    description: Employee ID
+    description: 'Employee ID'
