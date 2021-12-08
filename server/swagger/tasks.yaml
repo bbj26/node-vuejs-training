@@ -53,10 +53,10 @@
     responses:
       200:
         $ref: '#/responses/200TaskDeletion'
-      400:
-        $ref: '#/responses/400ValidationError'
       404:
         $ref: '#/responses/404TaskNotFound'
+      405:
+        $ref: '#/responses/405NotAllowed'
 
 /tasks/complete/{id}:
   post:
@@ -111,8 +111,8 @@ components:
         updatedAt: 2021-12-03T15:12:06.956Z
 
 responses:
-  404TaskNotFound:
-    description: Task not found
+  200TaskDeletion:
+    description: OK
     content:
       application/json:
         schema:
@@ -120,23 +120,10 @@ responses:
           properties:
             code:
               type: number
-              example: 404
-            msg:
+              example: 200
+            message:
               type: string
-              example: 'Invalid ID'
-  400ValidationError:
-    description: Express validation error
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            code:
-              type: number
-              example: 400
-            error:
-              type: string
-              example: 'Name must be at least 2 characters long'
+              example: 'Task successfully deleted'
   200FetchTasks:
     description: OK
     content:
@@ -168,6 +155,19 @@ responses:
                 '__v': 0,
               },
             ]
+  200TaskUpdation:
+    description: OK
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 200
+            message:
+              type: string
+              example: 'Task successfully updated'
   201TaskCreation:
     description: OK
     content:
@@ -178,7 +178,7 @@ responses:
             code:
               type: number
               example: 201
-            msg:
+            message:
               type: string
               example: 'Task successfully created'
             saved:
@@ -194,7 +194,33 @@ responses:
                   'updatedAt': '2021-10-11T09:02:18.004Z',
                   '__v': 0,
                 }
-  200TaskDeletion:
+  400ValidationError:
+    description: Express validation error
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 400
+            message:
+              type: string
+              example: 'Name must be at least 2 characters long'
+  404TaskNotFound:
+    description: Task not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 404
+            message:
+              type: string
+              example: 'Invalid ID'
+  405NotAllowed:
     description: OK
     content:
       application/json:
@@ -203,23 +229,10 @@ responses:
           properties:
             code:
               type: number
-              example: 200
-            msg:
+              example: 405
+            message:
               type: string
-              example: 'Task successfully deleted'
-  200TaskUpdation:
-    description: OK
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            code:
-              type: number
-              example: 200
-            msg:
-              type: string
-              example: 'Task successfully updated'
+              example: 'Not allowed to delete this task'
 parameters:
   taskID:
     in: path

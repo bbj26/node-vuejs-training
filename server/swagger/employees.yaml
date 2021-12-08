@@ -68,8 +68,8 @@ components:
         updatedAt: 2021-12-03T15:12:06.956Z
 
 responses:
-  404EmployeNotFound:
-    description: Employee not found
+  200EmployeeDeletion:
+    description: OK
     content:
       application/json:
         schema:
@@ -77,23 +77,10 @@ responses:
           properties:
             code:
               type: number
-              example: 404
-            error:
+              example: 200
+            message:
               type: string
-              example: 'Invalid ID'
-  400ValidationError:
-    description: Express validation error
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            code:
-              type: number
-              example: 400
-            error:
-              type: string
-              example: 'Name must be at least 2 characters long'
+              example: 'Employee successfully deleted'
   200FetchEmployees:
     description: OK
     content:
@@ -129,7 +116,7 @@ responses:
             code:
               type: number
               example: 201
-            msg:
+            message:
               type: string
               example: 'Employee successfully created'
             saved:
@@ -142,8 +129,8 @@ responses:
                   'updatedAt': '2021-12-07T09:02:18.004Z',
                   '__v': 0,
                 }
-  200EmployeeDeletion:
-    description: OK
+  400ValidationError:
+    description: Express validation error
     content:
       application/json:
         schema:
@@ -151,10 +138,23 @@ responses:
           properties:
             code:
               type: number
-              example: 200
-            msg:
+              example: 400
+            message:
               type: string
-              example: 'Employee successfully deleted'
+              example: 'Name must be at least 2 characters long'
+  404EmployeNotFound:
+    description: Employee not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 404
+            message:
+              type: string
+              example: 'Invalid ID'
   409EmployeeCreation:
     description: Failed request
     content:
@@ -165,9 +165,9 @@ responses:
             code:
               type: number
               example: 409
-            msg:
+            message:
               type: string
-              example: 'Server down'
+              example: 'Already exists'
 
 parameters:
   employeeID:

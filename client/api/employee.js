@@ -10,4 +10,4 @@ export default {
   getEmployees,
   createEmployee,
   deleteEmployee
-}
+};

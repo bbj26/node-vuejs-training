@@ -23,4 +23,4 @@ const specs = swaggerJsDoc(options);
 module.exports = {
   swaggerUI,
   specs
-}
+};
