@@ -29,22 +29,3 @@ module.exports = {
     "sourceType": "module"
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
