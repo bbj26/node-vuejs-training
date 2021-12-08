@@ -14,7 +14,8 @@ const validate = (method) => {
       body('deadline', 'Deadline can not be in the past')
         .not()
         .isBefore(),
-      body('completed', 'Completion must be a boolean value').isBoolean(),
+      body('completed', 'Completion must be a boolean value')
+        .if(body('completed').exists()).isBoolean(),
       check('id', 'Invalid employee ID. Select employee to assign task to.')
         .trim()
         .exists().isMongoId()
