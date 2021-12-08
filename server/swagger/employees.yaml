@@ -123,14 +123,13 @@ responses:
               example: 'Employee successfully created'
             saved:
               type: object
-              example:
-                {
+              example: {
                   _id: '61af231afa94fd876ff9bba5',
                   name: 'Jane Doe',
                   createdAt: '2021-12-07T09:02:18.004Z',
                   updatedAt: '2021-12-07T09:02:18.004Z',
                   __v: 0,
-                }
+              }
   403ValidationError:
     description: 'Express validation error'
     content:

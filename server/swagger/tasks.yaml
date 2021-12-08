@@ -143,7 +143,7 @@ responses:
           type: array
           items:
             $ref: '#/components/schemas/Task'
-          example:
+          example: 
             [
               {
                 _id: '61af255a475eb15fe01bc2f6',
@@ -194,8 +194,7 @@ responses:
               example: 'Task successfully created'
             saved:
               type: object
-              example:
-                {
+              example: {
                   _id: '61af231afa94fd876ff9bba5',
                   name: 'Do shopping',
                   employeeId: '61af2318fa94fd876ff9cc3f',
@@ -251,7 +250,7 @@ responses:
         schema:
           type: object
           properties:
-            code:
+            code: 
               type: number
               example: 500
             message:
