@@ -24,7 +24,7 @@ const store = createStore({
       state.employees = employees;
     },
     SET_ACTIVE_EMPLOYEE(state, employeeId = null) {
-      state.activeEmployeeId = employeeId
+      state.activeEmployeeId = employeeId;
     },
     SAVE_TASKS(state, tasks) {
       state.tasks = tasks;
@@ -54,7 +54,7 @@ const store = createStore({
           context.commit('SAVE_EMPLOYEE_CREATION_ERROR');
         })
         .catch((err) => {
-          context.commit('SAVE_OTHER_ERRORS', err.response.data.msg)
+          context.commit('SAVE_OTHER_ERRORS', err.response.data.message);
         })
         .finally(() => context.commit('SET_LOADING', false));
     },
@@ -66,18 +66,18 @@ const store = createStore({
           context.dispatch('fetchEmployees');
         })
         .catch(err => {
-          context.commit('SAVE_EMPLOYEE_CREATION_ERROR', err.response.data.error)
+          context.commit('SAVE_EMPLOYEE_CREATION_ERROR', err.response.data.message);
         })
-        .finally(() => context.commit('SET_LOADING', false))
+        .finally(() => context.commit('SET_LOADING', false));
     },
     async deleteEmployee(context, payload) {
       context.commit('SET_LOADING', true);
       return await employeesApi.deleteEmployee(payload.employeeId)
         .then(() => context.dispatch('fetchEmployees'))
         .catch(err => {
-          context.commit('SAVE_OTHER_ERRORS', err.response.data.msg)
+          context.commit('SAVE_OTHER_ERRORS', err.response.data.message);
         })
-        .finally(() => context.commit('SET_LOADING', false))
+        .finally(() => context.commit('SET_LOADING', false));
     },
     setActiveEmployee(context, payload) {
       context.commit('SET_ACTIVE_EMPLOYEE', payload);
@@ -92,7 +92,7 @@ const store = createStore({
           context.commit('SAVE_TASK_CREATION_ERROR');
         })
         .catch(err => {
-          context.commit('SAVE_OTHER_ERRORS', err.response.data.msg)
+          context.commit('SAVE_OTHER_ERRORS', err.response.data.message);
         })
         .finally(() => context.commit('SET_LOADING', false));
     },
@@ -105,7 +105,7 @@ const store = createStore({
         .createTask(employeeId, { name, deadline })
         .then(() => context.dispatch('fetchAllTasks'))
         .catch((err) => {
-          context.commit('SAVE_TASK_CREATION_ERROR', err.response.data.error)
+          context.commit('SAVE_TASK_CREATION_ERROR', err.response.data.message);
         })
         .finally(() => context.commit('SET_LOADING', false));
     },
@@ -115,7 +115,7 @@ const store = createStore({
         .deleteTask(payload.taskId)
         .then(() => context.dispatch('fetchAllTasks'))
         .catch((err) => {
-          context.commit('SAVE_OTHER_ERRORS', err.response.data.msg)
+          context.commit('SAVE_OTHER_ERRORS', err.response.data.message);
         })
         .finally(() => context.commit('SET_LOADING', false));
     }
@@ -123,7 +123,7 @@ const store = createStore({
   getters: {
     employeeTasks: (state) => (employeeId) => {
       return state.tasks.filter(task => task.employeeId === employeeId)
-        .sort((task1, task2) => compareTaskDeadlines(task1, task2))
+        .sort((task1, task2) => compareTaskDeadlines(task1, task2));
     },
     totalTasks: (state) => (employeeId) => {
       return state.tasks.filter(task => task.employeeId === employeeId).length;
@@ -139,6 +139,6 @@ const compareTaskDeadlines = (task1, task2) => {
   let deadline1 = new Date(task1.deadline);
   let deadline2 = new Date(task2.deadline);
   return compareAsc(deadline1, deadline2);
-}
+};
 
 export default store;
