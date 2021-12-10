@@ -25,6 +25,7 @@ router.post('/tasks/complete/:id', taskValidator.validate('validateID'),
 router.delete('/tasks/:id', taskValidator.validate('validateID'),
   taskController.deleteTask);
 
-router.post('/logs', logValidator.validate('fetchLogs'), logController.fetchLogs);
+router.post('/logs', logValidator.validate('fetchLogs'), 
+  logController.fetchLogs);
 
 module.exports = router;
