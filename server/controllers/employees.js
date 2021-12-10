@@ -18,7 +18,7 @@ const createEmployee = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = errors.array()[0];
-    employeesLogger.logValidateCreationError(error);
+    employeesLogger.logValidationError(error, 'createEmployee');
     return res.status(403).json({ code: 403, message: error.msg });
   }
   const employeeData = { name: req.body.name };
@@ -40,7 +40,7 @@ const deleteEmployee = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = errors.array()[0];
-    employeesLogger.logValidateDeletionError(error);
+    employeesLogger.logValidationError(error, 'deleteEmployee');
     return res.status(403).json({ code: 403, message: error.msg });
   }
   try {

@@ -14,13 +14,9 @@ const logServerError = (error, operation) => {
   logger.error(`Operation failed: ${operation}. Error: ${error.message}`,
     { metadata: logMeta });
 };
-const logValidateCreationError = (error) => {
-  logger.error('Operation failed: createEmployee. Invalid value ' +
+const logValidationError = (error, operation) => {
+  logger.error(`Operation failed: ${operation}. Invalid value ` +
     `'${error.value}' for property '${error.param}'. Error: ${error.msg}`);
-};
-const logValidateDeletionError = (error) => {
-  logger.error(`Operation failed: deleteEmployee. Invalid value '${error.value}'` +
-    `for property '${error.param}'. Error: ${error.msg}`);
 };
 const logDeletion404Error = (id) => {
   logger.error('Operation failed: deleteEmployee. ' +
@@ -32,7 +28,6 @@ module.exports = {
   logCreationSuccess,
   logDeletionSuccess,
   logServerError,
-  logValidateCreationError,
-  logValidateDeletionError,
+  logValidationError,
   logDeletion404Error
 };
