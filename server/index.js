@@ -11,7 +11,8 @@ const db = process.env.DB_CONNECTION;
 mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true, })
   .then(logger.info('Successfully connected to remote MongoDB.'))
   .catch(err =>
-    logger.log('fatal', `Problem with connection to DB. Error: ${err.message}`)
+    logger.log('fatal', `Problem with connection to DB. Error: ${err.message}` +
+      ` Details: ${err.stack}`)
   );
 
 const app = express();
@@ -27,5 +28,6 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   logger.info(`Server listening on port ${PORT}`);
 }).on('error', (error) => {
-  logger('fatal', `Server is down. Error: ${error.message}`);
+  logger('fatal', `Server is down. Error: ${error.message}. Details: ` +
+    `${error.stack}`);
 });
