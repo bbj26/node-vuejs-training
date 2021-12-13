@@ -8,7 +8,7 @@ const { validationResult } = require('express-validator');
 const Employee = require('../models/employee');
 const employeesLogger = require('../winston/employeesLogger');
 const Task = require('../models/task');
-const sendEmail = require('./nodemailer');
+const sendEmail = require('../nodemailer');
 
 const fetchEmployees = async (req, res) => {
   try {
