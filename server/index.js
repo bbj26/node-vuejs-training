@@ -5,7 +5,7 @@ require('dotenv').config();
 const logger = require('./winston');
 const mongoose = require('mongoose');
 const router = require('./router');
-const { sendEmail } = require('./nodemailer');
+const sendEmail = require('./nodemailer');
 const PORT = 4101 || process.env.PORT;
 
 const db = process.env.DB_CONNECTION;
@@ -14,8 +14,7 @@ mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true, })
   .catch(err => {
     logger.log('fatal', `Problem with connection to DB. Error: ${err.message}` +
       ` Details: ${err.stack}`);
-    sendEmail('TO-DO app database error', 'Lost connection with the database.' +
-      `Details:\n${err.stack}`, process.env.RECIPIENT_EMAIL);
+    sendEmail(`Lost connection with the database. Details:\n${err.stack}`);
   });
 
 const app = express();

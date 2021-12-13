@@ -9,9 +9,15 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SENDER_PASSWORD
   }
 });
-const options = { from: process.env.SENDER_EMAIL };
 
-const sendEmail = (emailSubject, emailMessage, recipientAddress) => {
+const options = {
+  from: process.env.SENDER_EMAIL,
+  to: process.env.RECIPIENT_EMAIL,
+  subject: 'Error in TO-DO App'
+};
+
+const sendEmail = (emailMessage, emailSubject = options.subject, 
+  recipientAddress = options.to) => {
   options.subject = emailSubject;
   options.text = emailMessage;
   options.to = recipientAddress;
@@ -23,4 +29,4 @@ const sendEmail = (emailSubject, emailMessage, recipientAddress) => {
     logger.info(`An automated email successfully sent. ${info.response}`);
   });
 };
-module.exports = { sendEmail };
+module.exports =  sendEmail;

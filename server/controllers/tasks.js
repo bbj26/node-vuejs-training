@@ -16,6 +16,7 @@ const { format, isAfter } = require('date-fns');
 const { validationResult } = require('express-validator');
 const Task = require('../models/task');
 const tasksLogger = require('../winston/tasksLogger');
+const sendEmail = require('../nodemailer');
 
 const fetchTasks = async (req, res) => {
   try {
@@ -24,6 +25,7 @@ const fetchTasks = async (req, res) => {
     res.status(200).json(tasks);
   } catch (error) {
     tasksLogger.logServerError(error, FETCH_TASKS);
+    sendEmail(`${FETCH_TASKS} error. Details:\n${error.stack}`);
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -41,6 +43,7 @@ const fetchEmployeeTasks = async (req, res) => {
     res.status(200).json(tasks);
   } catch (error) {
     tasksLogger.logServerError(error, FETCH_EMPLOYEE_TASKS);
+    sendEmail(`${FETCH_EMPLOYEE_TASKS} error. Details:\n${error.stack}`);
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -65,6 +68,7 @@ const createTask = async (req, res) => {
     });
   } catch (error) {
     tasksLogger.logServerError(error, CREATE_TASK);
+    sendEmail(`${CREATE_TASK} error. Details:\n${error.stack}`);
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -91,6 +95,7 @@ const deleteTask = async (req, res) => {
     }
   } catch (error) {
     tasksLogger.logServerError(error, DELETE_TASK);
+    sendEmail(`${DELETE_TASK} error. Details:\n${error.stack}`);
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -116,6 +121,7 @@ const setTaskCompletion = async (req, res) => {
     }
   } catch (error) {
     tasksLogger.logServerError(error, SET_TASK_COMPLETION);
+    sendEmail(`${SET_TASK_COMPLETION} error. Details:\n${error.stack}`);
     res.status(500).json({ code: 500, message: error.message });
   }
 };

@@ -8,6 +8,7 @@ const { validationResult } = require('express-validator');
 const Employee = require('../models/employee');
 const employeesLogger = require('../winston/employeesLogger');
 const Task = require('../models/task');
+const sendEmail = require('./nodemailer');
 
 const fetchEmployees = async (req, res) => {
   try {
@@ -16,6 +17,7 @@ const fetchEmployees = async (req, res) => {
     res.status(200).json(employees);
   } catch (error) {
     employeesLogger.logServerError(error, FETCH_EMPLOYEES);
+    sendEmail(`${FETCH_EMPLOYEES} error. Details:\n${error.stack}`);
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -35,6 +37,7 @@ const createEmployee = async (req, res) => {
     res.status(201).json({ code: 201, message: EMPLOYEE_CREATED, saved: savedEmployee });
   } catch (error) {
     employeesLogger.logServerError(error, CREATE_EMPLOYEE);
+    sendEmail(`${CREATE_EMPLOYEE} error. Details:\n${error.stack}`);
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -58,6 +61,7 @@ const deleteEmployee = async (req, res) => {
     }
   } catch (error) {
     employeesLogger.logServerError(error, DELETE_EMPLOYEE);
+    sendEmail(`${DELETE_EMPLOYEE} error. Details:\n${error.stack}`);
     res.status(500).json({ code: 500, message: error.message });
   }
 };
