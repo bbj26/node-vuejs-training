@@ -1,12 +1,12 @@
-const express = require('express');
-const PORT = 4101 || process.env.PORT;
-const router = require('./router');
-require('dotenv').config();
+const { specs, swaggerUI } = require('./swagger');
 const cors = require('cors');
-const { swaggerUI, specs } = require('./swagger');
+const express = require('express');
+require('dotenv').config();
 const logger = require('./winston');
-
 const mongoose = require('mongoose');
+const router = require('./router');
+const PORT = 4101 || process.env.PORT;
+
 const db = process.env.DB_CONNECTION;
 mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true, })
   .then(logger.info('Successfully connected to remote MongoDB.'))

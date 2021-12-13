@@ -1,17 +1,29 @@
-const Task = require('../models/task');
-const { validationResult } = require('express-validator');
+const {
+  CREATE_TASK,
+  DELETE_TASK,
+  FETCH_EMPLOYEE_TASKS,
+  FETCH_TASKS,
+  SET_TASK_COMPLETION
+} = require('../constants/apiMethodNames');
+const {
+  TASK_CREATED,
+  TASK_DELETED,
+  TASK_DELETION_NOT_ALLOWED,
+  TASK_NOT_FOUND,
+  TASK_UPDATED
+} = require('../constants/infoMessages');
 const { format, isAfter } = require('date-fns');
+const { validationResult } = require('express-validator');
+const Task = require('../models/task');
 const tasksLogger = require('../winston/tasksLogger');
-const apiMethodNames = require('../constants/apiMethodNames');
-const infoMessages = require('../constants/infoMessages');
 
 const fetchTasks = async (req, res) => {
   try {
     const tasks = await Task.find({});
-    tasksLogger.logFetchSuccess(apiMethodNames.FETCH_TASKS);
+    tasksLogger.logFetchSuccess(FETCH_TASKS);
     res.status(200).json(tasks);
   } catch (error) {
-    tasksLogger.logServerError(error, apiMethodNames.FETCH_TASKS);
+    tasksLogger.logServerError(error, FETCH_TASKS);
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -19,16 +31,16 @@ const fetchEmployeeTasks = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = errors.array()[0];
-    tasksLogger.logValidationError(error, apiMethodNames.FETCH_EMPLOYEE_TASKS);
+    tasksLogger.logValidationError(error, FETCH_EMPLOYEE_TASKS);
     return res.status(403).json({ code: 403, message: error.msg });
   }
   const employeeId = req.params.id;
   try {
     const tasks = await Task.find({ employeeId });
-    tasksLogger.logFetchSuccess(apiMethodNames.FETCH_EMPLOYEE_TASKS);
+    tasksLogger.logFetchSuccess(FETCH_EMPLOYEE_TASKS);
     res.status(200).json(tasks);
   } catch (error) {
-    tasksLogger.logServerError(error, apiMethodNames.FETCH_EMPLOYEE_TASKS);
+    tasksLogger.logServerError(error, FETCH_EMPLOYEE_TASKS);
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -36,7 +48,7 @@ const createTask = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = errors.array()[0];
-    tasksLogger.logValidationError(error, apiMethodNames.CREATE_TASK);
+    tasksLogger.logValidationError(error, CREATE_TASK);
     return res.status(403).json({ code: 403, message: error.msg });
   }
   const { name, deadline, completed = false } = req.body;
@@ -49,11 +61,10 @@ const createTask = async (req, res) => {
     const savedTask = await task.save();
     tasksLogger.logCreationSuccess(savedTask);
     res.status(201).json({
-      code: 201, message: infoMessages.TASK_CREATED,
-      saved: savedTask
+      code: 201, message: TASK_CREATED, saved: savedTask
     });
   } catch (error) {
-    tasksLogger.logServerError(error, apiMethodNames.CREATE_TASK);
+    tasksLogger.logServerError(error, CREATE_TASK);
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -61,31 +72,25 @@ const deleteTask = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = errors.array()[0];
-    tasksLogger.logValidationError(error, apiMethodNames.DELETE_TASK);
+    tasksLogger.logValidationError(error, DELETE_TASK);
     return res.status(403).json({ code: 403, message: error.msg });
   }
   try {
     const task = await Task.findById(req.params.id);
     if (!task) {
-      tasksLogger.log404Error(req.params.id, apiMethodNames.DELETE_TASK);
-      return res.status(404).json({
-        code: 404,
-        message: infoMessages.TASK_NOT_FOUND
-      });
+      tasksLogger.log404Error(req.params.id, DELETE_TASK);
+      return res.status(404).json({ code: 404, message: TASK_NOT_FOUND });
     }
     if (!isExpired(task.deadline)) {
       await Task.findByIdAndDelete(req.params.id);
       tasksLogger.logDeletionSuccess(task.name);
-      res.status(200).json({ code: 200, message: infoMessages.TASK_DELETED });
+      res.status(200).json({ code: 200, message: TASK_DELETED });
     } else {
       tasksLogger.log405Error(req.params.id);
-      res.status(405).json({
-        code: 405,
-        message: infoMessages.TASK_DELETION_NOT_ALLOWED
-      });
+      res.status(405).json({ code: 405, message: TASK_DELETION_NOT_ALLOWED });
     }
   } catch (error) {
-    tasksLogger.logServerError(error, apiMethodNames.DELETE_TASK);
+    tasksLogger.logServerError(error, DELETE_TASK);
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -94,26 +99,23 @@ const setTaskCompletion = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = errors.array()[0];
-    tasksLogger.logValidationError(error, apiMethodNames.SET_TASK_COMPLETION);
+    tasksLogger.logValidationError(error, SET_TASK_COMPLETION);
     return res.status(403).json({ code: 403, message: error.msg });
   }
   try {
     const task = await Task.findById(req.params.id);
     if (!task) {
-      tasksLogger.log404Error(req.params.id, apiMethodNames.SET_TASK_COMPLETION);
-      return res.status(404).json({
-        code: 404,
-        message: infoMessages.TASK_NOT_FOUND
-      });
+      tasksLogger.log404Error(req.params.id, SET_TASK_COMPLETION);
+      return res.status(404).json({ code: 404, message: TASK_NOT_FOUND });
     }
     if (!isExpired(task.deadline)) {
       task.completed = !task.completed;
       await Task.findByIdAndUpdate(req.params.id, { $set: task });
       tasksLogger.logUpdationSuccess(task._id, task.completed);
-      res.status(200).json({ code: 200, message: infoMessages.TASK_UPDATED });
+      res.status(200).json({ code: 200, message: TASK_UPDATED });
     }
   } catch (error) {
-    tasksLogger.logServerError(error, apiMethodNames.SET_TASK_COMPLETION);
+    tasksLogger.logServerError(error, SET_TASK_COMPLETION);
     res.status(500).json({ code: 500, message: error.message });
   }
 };

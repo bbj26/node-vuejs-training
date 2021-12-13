@@ -1,5 +1,5 @@
-const Log = require('../models/log');
 const { validationResult } = require('express-validator');
+const Log = require('../models/log');
 const logger = require('../winston');
 
 const fetchLogs = async (req, res) => {

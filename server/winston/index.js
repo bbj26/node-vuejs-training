@@ -1,4 +1,4 @@
-const { createLogger, transports, format } = require('winston');
+const { createLogger, format, transports } = require('winston');
 require('dotenv').config();
 require('winston-mongodb');
 const loggingLevels = {
@@ -11,7 +11,7 @@ const loggingLevels = {
     trace: 5
   },
 };
-const _format = format.combine(format.timestamp(), format.printf((log) => {
+const dbFormat = format.combine(format.timestamp(), format.printf((log) => {
   return `[${log.level.toUpperCase().padEnd(7)}] - ${log.timestamp} - ${log.message}`;
 }));
 
@@ -24,11 +24,11 @@ const logger = createLogger({
     new transports.MongoDB({
       db: process.env.DB_CONNECTION,
       collection: 'Logs',
-      format: _format,
+      format: dbFormat,
       options: { useNewUrlParser: true, useUnifiedTopology: true },
     })
   ],
-  format: _format,
+  format: dbFormat,
 });
 
 module.exports = logger;
