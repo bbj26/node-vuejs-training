@@ -1,0 +1,116 @@
+/logs:
+  post:
+    summary: 'Returns the list of logs'
+    tags: [Logs]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+                example: 10
+              sort:
+                type: string
+                example: 'asc'
+              level:
+                type: string
+                example: 'error'
+              message:
+                type: string
+                example: 'Operation failed'
+    responses:
+      200:
+        $ref: '#/responses/200FetchLogs'
+      403: 
+        $ref: '#/responses/403ValidationError'
+      500:
+        $ref: '#/responses/500ServerError'
+
+components:
+  schemas:
+    Log:
+      type: object
+      required:
+        - level
+        - timestamp
+        - message
+      properties:
+        _id:
+          type: string
+          description: 'The auto-generated ID of the log'
+        level:
+          type: string
+          description: 'Log level - (fatal, error, warn, info, debug or trace)'
+        timestamp:
+          type: timestamp
+          description: 'Log timestamp'
+        message:
+          type: string
+          description: 'Log message'
+        meta:
+          type: object
+          $ref: '#/components/schemas/Meta'
+      example:
+        _id: '61aa33c659ded74313b379d9'
+        level: 'info'
+        message: 'Successfull operation: fetchEmployees'
+        meta: 'null'
+    Meta: 
+      type: object
+      properties:
+        stack: 
+          type: string
+          description: 'Full error stack trace'
+responses:
+  200FetchLogs:
+    description: 'OK'
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: '#/components/schemas/Log'
+          example:
+            [
+              {
+                 _id: '61aa33c659ded74313b379d9',
+                level: 'info',
+                message: 'Successfull operation: fetchEmployees',
+                meta: 'null'
+              },
+              {
+                 _id: '61aa33c659ded74345637f52',
+                level: 'error',
+                message: 'Operation failed: createEmployee',
+                meta: 'null'
+              },
+            ]
+  403ValidationError:
+    description: 'Express validation error'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 403
+            message:
+              type: string
+              example: 'Count must be of type Number'
+  500ServerError:
+    description: 'Internal server error'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 500
+            message:
+              type: string
+              example: 'Server down'
