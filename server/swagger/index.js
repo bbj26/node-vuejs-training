@@ -1,5 +1,5 @@
-const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
 const PORT = 4101 || process.env.PORT;
 const options = {
   definition: {

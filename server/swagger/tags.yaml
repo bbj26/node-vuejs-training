@@ -3,3 +3,5 @@ tags:
     description: 'The employees managing API'
   - name: 'Tasks'
     description: 'The tasks managing API'
+  - name: 'Logs'
+    description: The logs managing API
