@@ -1,9 +1,11 @@
-const { services: { email } } = require('../config');
+const { config: { services: { email } } } = require('../config');
 const logger = require('../winston');
 const nodemailer = require('nodemailer');
 
-const defaultSubject = 'Error in T0-DO App';
-const defaultRecipient = email.recipient;
+const defaultData = {
+  emailSubject: 'Error in T0-DO App',
+  recipientAddress: email.recipient
+};
 
 const transporter = nodemailer.createTransport({
   service: 'hotmail',
@@ -13,8 +15,12 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-const sendEmail = (emailMessage, emailSubject = defaultSubject,
-  recipientAddress = defaultRecipient) => {
+const sendEmail = data => {
+  const {
+    emailMessage,
+    emailSubject = data.emailSubject || defaultData.emailSubject,
+    recipientAddress = data.recipientAddress || defaultData.recipientAddress
+  } = data;
   const options = {
     from: email.sender,
     to: recipientAddress,
@@ -30,8 +36,15 @@ const sendEmail = (emailMessage, emailSubject = defaultSubject,
   });
 };
 
-const formatApiErrorEmail = (action, error) =>{
+const formatApiErrorEmail = (action, error) => {
   return `${action} error. Details:\n${error.stack}`;
 };
 
-module.exports = { sendEmail, formatApiErrorEmail };
+const formatDbConnectionErrorEmail = (error) => {
+  return {
+    emailMessage: 'Error while connecting with database. Details:' +
+      `\n${error.stack}`
+  };
+};
+
+module.exports = { sendEmail, formatApiErrorEmail, formatDbConnectionErrorEmail };

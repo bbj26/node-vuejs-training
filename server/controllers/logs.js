@@ -21,7 +21,7 @@ const fetchLogs = async (req, res) => {
     res.status(200).json(logs);
   } catch (error) {
     logServerError(error);
-    sendEmail(formatApiErrorEmail(FETCH_LOGS, error));
+    sendEmail({ emailMessage: formatApiErrorEmail(FETCH_LOGS, error) });
     res.status(500).json({ code: 500, message: error.message });
   }
 };

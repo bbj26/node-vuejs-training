@@ -10,10 +10,12 @@ const TASK_UPDATED = 'Task successfully updated';
 
 const ENVIRONMENT_VAR_UNDEFINED = '\nEnvironment variable not defined\n';
 
+const DB_CONNECTED = 'Successfully connected to remote MongoDB.';
 module.exports = {
   EMPLOYEE_CREATED,
   EMPLOYEE_NOT_FOUND,
   EMPLOYEE_DELETED,
+  DB_CONNECTED,
   TASK_CREATED,
   TASK_NOT_FOUND,
   TASK_DELETED,

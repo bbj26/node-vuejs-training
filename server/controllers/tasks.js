@@ -25,7 +25,7 @@ const fetchTasks = async (req, res) => {
     res.status(200).json(tasks);
   } catch (error) {
     tasksLogger.logServerError(error, FETCH_TASKS);
-    sendEmail(formatApiErrorEmail(FETCH_TASKS, error));
+    sendEmail({ emailMessage: formatApiErrorEmail(FETCH_TASKS, error) });
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -43,7 +43,7 @@ const fetchEmployeeTasks = async (req, res) => {
     res.status(200).json(tasks);
   } catch (error) {
     tasksLogger.logServerError(error, FETCH_EMPLOYEE_TASKS);
-    sendEmail(formatApiErrorEmail(FETCH_EMPLOYEE_TASKS, error));
+    sendEmail({ emailMessage: formatApiErrorEmail(FETCH_EMPLOYEE_TASKS, error) });
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -68,7 +68,7 @@ const createTask = async (req, res) => {
     });
   } catch (error) {
     tasksLogger.logServerError(error, CREATE_TASK);
-    sendEmail(formatApiErrorEmail(CREATE_TASK, error));
+    sendEmail({ emailMessage: formatApiErrorEmail(CREATE_TASK, error) });
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -95,7 +95,7 @@ const deleteTask = async (req, res) => {
     }
   } catch (error) {
     tasksLogger.logServerError(error, DELETE_TASK);
-    sendEmail(formatApiErrorEmail(DELETE_TASK, error));
+    sendEmail({ emailMessage: formatApiErrorEmail(DELETE_TASK, error) });
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -121,7 +121,7 @@ const setTaskCompletion = async (req, res) => {
     }
   } catch (error) {
     tasksLogger.logServerError(error, SET_TASK_COMPLETION);
-    sendEmail(formatApiErrorEmail(SET_TASK_COMPLETION, error));
+    sendEmail({ emailMessage: formatApiErrorEmail(SET_TASK_COMPLETION, error) });
     res.status(500).json({ code: 500, message: error.message });
   }
 };

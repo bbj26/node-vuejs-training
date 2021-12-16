@@ -1,18 +1,27 @@
-const { app: { PORT }, db: { DB_CONNECTION } } = require('./config/index');
+const {
+  config: { app: { PORT } },
+  config: { db: { DB_CONNECTION } },
+  checkEnvironmentVarsExistance
+} = require('./config/index');
+checkEnvironmentVarsExistance();
+const {
+  formatDbConnectionErrorEmail,
+  sendEmail
+} = require('./services/emailService');
 const { specs, swaggerUI } = require('./swagger');
 const cors = require('cors');
+const { DB_CONNECTED } = require('./constants/infoMessages');
 const express = require('express');
 const logger = require('./winston');
 const mongoose = require('mongoose');
 const router = require('./router');
-const sendEmail = require('./services/emailService');
 
 mongoose.connect(DB_CONNECTION, { useUnifiedTopology: true, useNewUrlParser: true })
-  .then(logger.info('Successfully connected to remote MongoDB.'))
+  .then(logger.info(DB_CONNECTED))
   .catch(err => {
     logger.log('fatal', `Problem with connection to DB. Error: ${err.message}` +
       ` Details: ${err.stack}`);
-    sendEmail(`Lost connection with the database. Details:\n${err.stack}`);
+    sendEmail(formatDbConnectionErrorEmail(err));
   });
 
 const app = express();

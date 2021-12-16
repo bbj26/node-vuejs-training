@@ -1,5 +1,5 @@
 require('dotenv').config();
-const _ = require('lodash');
+const { get } = require('lodash');
 const { ENVIRONMENT_VAR_UNDEFINED } = require('../constants/infoMessages');
 
 const env = process.env.NODE_ENV;
@@ -31,13 +31,16 @@ const keyify = (obj, prefix = '') =>
     return [...res, prefix + el];
   }, []);
 
-const checkEnvironmentVarsExistance = (() => {
+const checkEnvironmentVarsExistance = () => {
   const paths = keyify(config[env]);
   paths.forEach(path => {
-    if (_.get(config[env], path) === undefined) {
+    if (get(config[env], path) === undefined) {
       throw new Error(`${path} ${ENVIRONMENT_VAR_UNDEFINED}`);
     }
   });
-})();
+};
 
-module.exports = config[env];
+module.exports = {
+  config: config[env],
+  checkEnvironmentVarsExistance
+};

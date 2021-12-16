@@ -1,5 +1,5 @@
 const { createLogger, format, transports } = require('winston');
-const { db: { DB_CONNECTION } } = require('../config');
+const { config: { db: { DB_CONNECTION } } } = require('../config');
 require('winston-mongodb');
 
 const loggingLevels = {

@@ -17,7 +17,7 @@ const fetchEmployees = async (req, res) => {
     res.status(200).json(employees);
   } catch (error) {
     employeesLogger.logServerError(error, FETCH_EMPLOYEES);
-    sendEmail(formatApiErrorEmail(FETCH_EMPLOYEES, error));
+    sendEmail({ emailMessage: formatApiErrorEmail(FETCH_EMPLOYEES, error) });
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -34,10 +34,14 @@ const createEmployee = async (req, res) => {
   try {
     const savedEmployee = await employee.save();
     employeesLogger.logCreationSuccess(employee);
-    res.status(201).json({ code: 201, message: EMPLOYEE_CREATED, saved: savedEmployee });
+    res.status(201).json({ 
+      code: 201, 
+      message: EMPLOYEE_CREATED, 
+      saved: savedEmployee 
+    });
   } catch (error) {
     employeesLogger.logServerError(error, CREATE_EMPLOYEE);
-    sendEmail(formatApiErrorEmail(CREATE_EMPLOYEE, error));
+    sendEmail({ emailMessage: formatApiErrorEmail(CREATE_EMPLOYEE, error) });
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -61,7 +65,7 @@ const deleteEmployee = async (req, res) => {
     }
   } catch (error) {
     employeesLogger.logServerError(error, DELETE_EMPLOYEE);
-    sendEmail(formatApiErrorEmail(DELETE_EMPLOYEE, error));
+    sendEmail({ emailMessage: formatApiErrorEmail(DELETE_EMPLOYEE, error) });
     res.status(500).json({ code: 500, message: error.message });
   }
 };
