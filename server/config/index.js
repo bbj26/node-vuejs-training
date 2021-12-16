@@ -21,14 +21,18 @@ const development = {
 
 const config = { development };
 
+const keyify = (obj, prefix = '') =>
+  Object.keys(obj).reduce((res, el) => {
+    if (Array.isArray(obj[el])) {
+      return res;
+    } else if (typeof obj[el] === 'object' && obj[el] !== null) {
+      return [...res, ...keyify(obj[el], prefix + el + '.')];
+    }
+    return [...res, prefix + el];
+  }, []);
+
 const checkEnvironmentVarsExistance = (() => {
-  const paths = [
-    'app.PORT', 
-    'db.DB_CONNECTION', 
-    'services.email.sender',
-    'services.email.senderPassword', 
-    'services.email.recipient'
-  ];
+  const paths = keyify(config[env]);
   paths.forEach(path => {
     if (_.get(config[env], path) === undefined) {
       throw new Error(`${path} ${ENVIRONMENT_VAR_UNDEFINED}`);
