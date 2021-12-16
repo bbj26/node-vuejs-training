@@ -1,19 +1,23 @@
+const { app: { PORT }, db: { DB_CONNECTION } } = require('./config/index');
+const {
+  formatDbConnectionErrorEmail,
+  sendEmail
+} = require('./services/emailService');
 const { specs, swaggerUI } = require('./swagger');
 const cors = require('cors');
+const { DB_CONNECTED } = require('./constants/infoMessages');
 const express = require('express');
-require('dotenv').config();
 const logger = require('./winston');
 const mongoose = require('mongoose');
 const router = require('./router');
-const PORT = 4101 || process.env.PORT;
 
-const db = process.env.DB_CONNECTION;
-mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true, })
-  .then(logger.info('Successfully connected to remote MongoDB.'))
-  .catch(err =>
+mongoose.connect(DB_CONNECTION, { useUnifiedTopology: true, useNewUrlParser: true })
+  .then(logger.info(DB_CONNECTED))
+  .catch(err => {
     logger.log('fatal', `Problem with connection to DB. Error: ${err.message}` +
-      ` Details: ${err.stack}`)
-  );
+      ` Details: ${err.stack}`);
+    sendEmail(formatDbConnectionErrorEmail(err));
+  });
 
 const app = express();
 app.use(cors());

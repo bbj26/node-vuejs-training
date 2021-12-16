@@ -1,6 +1,7 @@
 const { createLogger, format, transports } = require('winston');
-require('dotenv').config();
+const { db: { DB_CONNECTION } } = require('../config');
 require('winston-mongodb');
+
 const loggingLevels = {
   levels: {
     fatal: 0,
@@ -22,7 +23,7 @@ const logger = createLogger({
     new transports.Console(),
     new transports.File({ filename: 'app.log' }),
     new transports.MongoDB({
-      db: process.env.DB_CONNECTION,
+      db: DB_CONNECTION,
       collection: 'Logs',
       format: dbFormat,
       options: { useNewUrlParser: true, useUnifiedTopology: true },

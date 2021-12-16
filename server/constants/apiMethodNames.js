@@ -8,6 +8,8 @@ const CREATE_TASK = 'createTask';
 const DELETE_TASK = 'deleteTask';
 const SET_TASK_COMPLETION = 'setTaskCompletion';
 
+const FETCH_LOGS = 'fetchLogs';
+
 module.exports = {
   FETCH_EMPLOYEES,
   CREATE_EMPLOYEE,
@@ -16,5 +18,6 @@ module.exports = {
   FETCH_EMPLOYEE_TASKS,
   CREATE_TASK,
   DELETE_TASK,
-  SET_TASK_COMPLETION
+  SET_TASK_COMPLETION,
+  FETCH_LOGS
 };
