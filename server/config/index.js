@@ -1,11 +1,17 @@
 require('dotenv').config();
-const { get } = require('lodash');
 const { ENVIRONMENT_VAR_UNDEFINED } = require('../constants/infoMessages');
+
+if (process.env.DB_CONNECTION === undefined ||
+  process.env.SENDER_EMAIL === undefined ||
+  process.env.SENDER_PASSWORD === undefined ||
+  process.env.RECIPIENT_EMAIL === undefined) {
+  throw new Error(ENVIRONMENT_VAR_UNDEFINED);
+}
 
 const env = process.env.NODE_ENV;
 const development = {
   app: {
-    PORT: process.env.PORT,
+    PORT: process.env.PORT || 4101,
   },
   db: {
     DB_CONNECTION: process.env.DB_CONNECTION,
@@ -21,26 +27,4 @@ const development = {
 
 const config = { development };
 
-const keyify = (obj, prefix = '') =>
-  Object.keys(obj).reduce((res, el) => {
-    if (Array.isArray(obj[el])) {
-      return res;
-    } else if (typeof obj[el] === 'object' && obj[el] !== null) {
-      return [...res, ...keyify(obj[el], prefix + el + '.')];
-    }
-    return [...res, prefix + el];
-  }, []);
-
-const checkEnvironmentVarsExistance = () => {
-  const paths = keyify(config[env]);
-  paths.forEach(path => {
-    if (get(config[env], path) === undefined) {
-      throw new Error(`${path} ${ENVIRONMENT_VAR_UNDEFINED}`);
-    }
-  });
-};
-
-module.exports = {
-  config: config[env],
-  checkEnvironmentVarsExistance
-};
+module.exports = config[env];

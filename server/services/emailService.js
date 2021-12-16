@@ -1,4 +1,4 @@
-const { config: { services: { email } } } = require('../config');
+const { services: { email } } = require('../config');
 const logger = require('../winston');
 const nodemailer = require('nodemailer');
 

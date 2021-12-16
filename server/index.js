@@ -1,9 +1,4 @@
-const {
-  config: { app: { PORT } },
-  config: { db: { DB_CONNECTION } },
-  checkEnvironmentVarsExistance
-} = require('./config/index');
-checkEnvironmentVarsExistance();
+const { app: { PORT }, db: { DB_CONNECTION } } = require('./config/index');
 const {
   formatDbConnectionErrorEmail,
   sendEmail
