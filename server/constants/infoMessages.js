@@ -8,6 +8,8 @@ const TASK_DELETED = 'Task successfully deleted';
 const TASK_DELETION_NOT_ALLOWED = 'Not allowed to delete task';
 const TASK_UPDATED = 'Task successfully updated';
 
+const ENVIRONMENT_VAR_UNDEFINED = '\nEnvironment variable not defined\n';
+
 module.exports = {
   EMPLOYEE_CREATED,
   EMPLOYEE_NOT_FOUND,
@@ -16,5 +18,6 @@ module.exports = {
   TASK_NOT_FOUND,
   TASK_DELETED,
   TASK_DELETION_NOT_ALLOWED,
-  TASK_UPDATED
+  TASK_UPDATED,
+  ENVIRONMENT_VAR_UNDEFINED
 };

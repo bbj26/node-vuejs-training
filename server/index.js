@@ -1,15 +1,13 @@
+const { app: { PORT }, db: { DB_CONNECTION } } = require('./config/index');
 const { specs, swaggerUI } = require('./swagger');
 const cors = require('cors');
 const express = require('express');
-require('dotenv').config();
 const logger = require('./winston');
 const mongoose = require('mongoose');
 const router = require('./router');
-const sendEmail = require('./nodemailer');
-const PORT = 4101 || process.env.PORT;
+const sendEmail = require('./services/emailService');
 
-const db = process.env.DB_CONNECTION;
-mongoose.connect(db, { useUnifiedTopology: true, useNewUrlParser: true, })
+mongoose.connect(DB_CONNECTION, { useUnifiedTopology: true, useNewUrlParser: true })
   .then(logger.info('Successfully connected to remote MongoDB.'))
   .catch(err => {
     logger.log('fatal', `Problem with connection to DB. Error: ${err.message}` +

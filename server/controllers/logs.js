@@ -1,8 +1,8 @@
+const { formatApiErrorEmail, sendEmail } = require('../services/emailService');
 const { FETCH_LOGS } = require('../constants/apiMethodNames');
 const { validationResult } = require('express-validator');
 const Log = require('../models/log');
 const logger = require('../winston');
-const sendEmail = require('../nodemailer');
 
 const fetchLogs = async (req, res) => {
   const errors = validationResult(req);
@@ -21,7 +21,7 @@ const fetchLogs = async (req, res) => {
     res.status(200).json(logs);
   } catch (error) {
     logServerError(error);
-    sendEmail(`${FETCH_LOGS} error. Details:\n${error.stack}`);
+    sendEmail(formatApiErrorEmail(FETCH_LOGS, error));
     res.status(500).json({ code: 500, message: error.message });
   }
 };
