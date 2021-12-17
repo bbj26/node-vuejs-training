@@ -6,6 +6,7 @@
   "scripts": {
     "dev:server": "nodemon ./server/index.js",
     "dev:client": "vue-cli-service serve",
+    "db:seed": "node ./server/seed/index.js",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -24,11 +25,13 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "bluebird": "^3.7.2",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "date-fns": "^2.27.0",
     "dotenv": "^10.0.0",
     "express-validator": "^6.13.0",
+    "faker": "^5.5.3",
     "mongoose": "^6.0.12",
     "nodemailer": "^6.7.2",
     "package-json-merge": "^0.0.1",

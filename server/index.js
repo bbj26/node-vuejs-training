@@ -1,4 +1,4 @@
-const { app: { PORT }, db: { DB_CONNECTION } } = require('./config/index');
+const { app: { PORT }, db: { DB_CONNECTION } } = require('./config');
 const {
   formatDbConnectionErrorEmail,
   sendEmail

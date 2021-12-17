@@ -29,7 +29,8 @@ const createEmployee = async (req, res) => {
     employeesLogger.logValidationError(error, CREATE_EMPLOYEE);
     return res.status(403).json({ code: 403, message: error.msg });
   }
-  const employeeData = { name: req.body.name };
+  const { name, email, phone, age, pet } = req.body;
+  const employeeData = { name, email, phone, age, pet };
   const employee = new Employee(employeeData);
   try {
     const savedEmployee = await employee.save();
