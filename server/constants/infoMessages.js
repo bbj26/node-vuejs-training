@@ -19,12 +19,9 @@ const SEEDING_FAILED = 'Seeding database failed.';
 const SEDDING_SUCCESS = 'Seeding database successfully finished';
 const SKIP_AUTOSEED = 'Database not empty. Skipping autoseed.';
 const START_AUTOSEED = 'Database empty. Starting auto seed...';
-const COUNT_EMPLOYEES_ERROR = `Could not get the number of documents in ` +
-  `'employees' colleciton`;
 
 module.exports = {
   AUTO_SEED,
-  COUNT_EMPLOYEES_ERROR,
   ENVIRONMENT_VAR_UNDEFINED,
   EMPLOYEE_CREATED,
   EMPLOYEE_NOT_FOUND,
