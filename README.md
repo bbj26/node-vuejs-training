@@ -30,3 +30,13 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ```
 npm run dev:server
 ```
+
+### Manually seed db with fake data
+```
+npm run db:seed
+```
+
+### Set dev environment
+```
+export NODE_ENV=development
+```
