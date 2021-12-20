@@ -10,9 +10,13 @@ const express = require('express');
 const logger = require('./winston');
 const mongoose = require('mongoose');
 const router = require('./router');
+const { autoseed } = require('./seed/auto');
 
 mongoose.connect(DB_CONNECTION, { useUnifiedTopology: true, useNewUrlParser: true })
-  .then(logger.info(DB_CONNECTED))
+  .then(() => {
+    logger.info(DB_CONNECTED);
+    autoseed();
+  })
   .catch(err => {
     logger.log('fatal', `Problem with connection to DB. Error: ${err.message}` +
       ` Details: ${err.stack}`);

@@ -12,24 +12,33 @@ const ENVIRONMENT_VAR_UNDEFINED = '\nEnvironment variable not defined\n';
 
 const DB_CONNECTED = 'Successfully connected to remote MongoDB.';
 
+const AUTO_SEED = 'Database is empty. Starting auto seed...';
 const SEEDED_EMPLOYEES = 'Database successfully seeded with fake employees data';
 const SEEDED_TASKS = 'Database successfully seeded with fake task data';
-const FAILED_SEED_EMPLOYEES = 'Could not seed database with fake employees';
-const FAILED_SEED_TASKS = 'Could not seed database with fake tasks';
+const SEEDING_FAILED = 'Seeding database failed.';
+const SEDDING_SUCCESS = 'Seeding database successfully finished';
+const SKIP_AUTOSEED = 'Database not empty. Skipping autoseed.';
+const START_AUTOSEED = 'Database empty. Starting auto seed...';
+const COUNT_EMPLOYEES_ERROR = `Could not get the number of documents in ` +
+  `'employees' colleciton`;
 
 module.exports = {
+  AUTO_SEED,
+  COUNT_EMPLOYEES_ERROR,
   ENVIRONMENT_VAR_UNDEFINED,
   EMPLOYEE_CREATED,
   EMPLOYEE_NOT_FOUND,
   EMPLOYEE_DELETED,
   DB_CONNECTED,
-  FAILED_SEED_EMPLOYEES,
-  FAILED_SEED_TASKS,
   TASK_CREATED,
   TASK_NOT_FOUND,
   TASK_DELETED,
   TASK_DELETION_NOT_ALLOWED,
   TASK_UPDATED,
   SEEDED_EMPLOYEES,
-  SEEDED_TASKS
+  SEEDED_TASKS,
+  SEEDING_FAILED,
+  SEDDING_SUCCESS,
+  SKIP_AUTOSEED,
+  START_AUTOSEED
 };

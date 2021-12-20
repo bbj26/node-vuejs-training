@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:server": "nodemon ./server/index.js",
+    "dev:server": "NODE_ENV=development nodemon ./server/index.js",
     "dev:client": "vue-cli-service serve",
-    "db:seed": "node ./server/seed/index.js",
+    "db:seed": "node ./server/seed/manual.js",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
