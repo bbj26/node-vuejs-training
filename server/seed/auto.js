@@ -13,17 +13,18 @@ const logger = require('../winston');
 const mongoose = require('mongoose');
 const NUM_OF_EMPLOYEES = 100;
 const NUM_OF_EMPLOYEE_TASKS = 4;
-const Promise = require('bluebird');
 const Task = require('../models/task');
 
 const getFakeData = () => {
   const employees = [];
   const tasks = [];
   for (let i = 0; i < NUM_OF_EMPLOYEES; i++) {
+    let firstName = faker.name.firstName();
+    let lastName = faker.name.lastName();
     const employeeData = new Employee({
       _id: new mongoose.Types.ObjectId().toHexString(),
-      name: faker.name.findName(),
-      email: faker.internet.email(),
+      name: firstName + ' ' + lastName,
+      email: faker.internet.email(firstName, lastName),
       phone: faker.phone.phoneNumberFormat(),
       age: faker.datatype.number({ min: 16, max: 70 }),
       pet: faker.animal.dog()
@@ -43,24 +44,26 @@ const getFakeData = () => {
 };
 
 const getTimeElapsed = start => {
-  return Math.round((Date.now() - start)/1000);
+  return Math.round((Date.now() - start) / 1000);
 };
 
 const seedDb = () => {
   const start = new Date();
   const { employees, tasks } = getFakeData();
-  Promise.each(employees, emp => emp.save())
+  Employee.insertMany(employees)
     .then(() => {
       logger.info(SEEDED_EMPLOYEES);
-      return Promise.each(tasks, task => task.save())
+      Task.insertMany(tasks)
         .then(() => {
           logger.info(SEEDED_TASKS);
           logger.info(SEDDING_SUCCESS);
+        })
+        .finally(() => {
+          logger.info(`Seeding took ${getTimeElapsed(start)} seconds`);
         });
     })
-    .catch(error => logger.error(`${SEEDING_FAILED}: ${error.message}`))
-    .finally(() => {
-      logger.info(`Seeding took ${getTimeElapsed(start)} seconds`);
+    .catch(error => {
+      logger.error(`${SEEDING_FAILED}: ${error.message}`);
     });
 };
 

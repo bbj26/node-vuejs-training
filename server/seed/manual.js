@@ -3,7 +3,7 @@ const {
   sendEmail
 } = require('../services/emailService');
 const { db: { DB_CONNECTION } } = require('../config');
-const { 
+const {
   logDbConnectionError,
   logDbConnectionSuccess
 } = require('../winston/dbLogger');
