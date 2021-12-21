@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Annual report</title>
+  </head>
+  <body>
+    <header>
+      <h1>Annual performance report</h1>
+    </header>
+    <div class="about">
+      <section class="key-info">
+        <h2>Employee</h2>
+        <div class="info-property-field"><%= emp.name %></div>
+        <div class="info-property-field"><%= emp.email %></div>
+        <div class="info-property-field"><%= emp.phone %></div>
+        <div class="info-property-field"><%= emp.pet %></div>
+        <div class="info-property-field"><%= emp.age %></div>
+      </section>
+      <img src="https://agilathon.com/images/agilathon_logo.png" alt="logo" class="key-info logo">
+      <section class="key-info right">
+        <h2>Company</h2>
+        <div class="info-property-field">Agilathon</div>
+        <div class="info-property-field">pr@agilathon.com</div>
+        <div class="info-property-field">+35 21 039 393</div>
+        <div class="info-property-field">Sarajevska 46</div>
+        <div class="info-property-field">Split, Croatia</div>
+      </section>
+    </div>
+    <div class="summary">
+      <table class="summary-table">
+        <tr>
+          <th colspan="3" class="table-heading">Performance summary</th>
+        </tr>
+        <tr>
+          <th>Total tasks</th>
+          <th>Completed</th>
+          <th>Failed</th>
+        </tr>
+        <tr>
+          <td>24</td>
+          <td>16</td>
+          <td>2</td>
+        </tr>
+      </table>
+    </div>
+    <div class="tasks">
+      <h3>Details</h3>
+      <% if(tasks.length) {%> <% tasks.forEach(task => {%>
+      <div class="task">
+        <h4 class="task-name"><%= task.name %></h4>
+        <div class="task-date"><%= task.createdAt %></div>
+        <div class="task-date"><%= task.deadline %></div>
+        <div class="task-completed"><%= task.completed %></div>
+      </div>
+      <% }) %> <% } else { %> 
+        <p>No task records found in the last year</p>
+        <% } %>
+    </div>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: whitesmoke;
+    color: #041464;
+  }
+  header {
+    width: 100%;
+    background-color: #041464;
+    text-align: center;
+  }
+  h1 {
+    font-size: 35px;
+    font-variant: small-caps;
+    color: white;
+    width: 100%;
+  }
+  .about {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 50px;
+    border-bottom: 2px solid black;
+  }
+  .key-info {
+    padding: 10px;
+  }
+  .logo {
+    width: 200px;
+    height: auto;
+  }
+  .right {
+    text-align: right;
+  }
+  h2 {
+    text-align: center;
+    padding-bottom: 5px;
+    width: 150px;
+    border-bottom: 1px solid black;
+  }
+  .info-property-field {
+    padding: 3px;
+    font-size: 18px;
+  }
+  table,
+  th,
+  td {
+    border: 1px solid black;
+    /* padding: 5px; */
+    width: 500px;
+    height: 50px;
+    text-align: center;
+  }
+  table {
+    margin: 20px auto;
+    width: 100%;
+  }
+  .table-heading {
+    text-transform: uppercase;
+  }
+  .tasks {
+    width: 100%;
+  }
+  .task {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 1px solid black;
+  }
+  .task-name,
+  .task-date,
+  .task-completed {
+    padding: 5px;
+    margin: 10px;
+  }
+  .task-name {
+    width: 400px;
+  }
+  .task-date {
+    width: 200px;
+  }
+  .task-completed {
+    width: 100px;
+  }
+</style>

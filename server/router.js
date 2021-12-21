@@ -4,6 +4,7 @@ const router = express.Router();
 const employeeController = require('./controllers/employees');
 const taskController = require('./controllers/tasks');
 const logController = require('./controllers/logs');
+const reportController = require('./controllers/reports');
 
 const employeesValidator = require('./validators/employeeValidator');
 const taskValidator = require('./validators/taskValidator');
@@ -25,7 +26,9 @@ router.post('/tasks/complete/:id', taskValidator.validate('validateID'),
 router.delete('/tasks/:id', taskValidator.validate('validateID'),
   taskController.deleteTask);
 
-router.post('/logs', logValidator.validate('fetchLogs'), 
+router.post('/logs', logValidator.validate('fetchLogs'),
   logController.fetchLogs);
+
+router.get('/reports', reportController.renderEmployeeReport);
 
 module.exports = router;
