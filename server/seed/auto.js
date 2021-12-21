@@ -47,24 +47,19 @@ const getTimeElapsed = start => {
   return Math.round((Date.now() - start) / 1000);
 };
 
-const seedDb = () => {
+const seedDb = async () => {
   const start = new Date();
-  const { employees, tasks } = getFakeData();
-  Employee.insertMany(employees)
-    .then(() => {
-      logger.info(SEEDED_EMPLOYEES);
-      Task.insertMany(tasks)
-        .then(() => {
-          logger.info(SEEDED_TASKS);
-          logger.info(SEDDING_SUCCESS);
-        })
-        .finally(() => {
-          logger.info(`Seeding took ${getTimeElapsed(start)} seconds`);
-        });
-    })
-    .catch(error => {
-      logger.error(`${SEEDING_FAILED}: ${error.message}`);
-    });
+  try {
+    const { employees, tasks } = getFakeData();
+    await Employee.insertMany(employees);
+    logger.info(SEEDED_EMPLOYEES);
+    await Task.insertMany(tasks);
+    logger.info(SEEDED_TASKS);
+    logger.info(SEDDING_SUCCESS);
+    logger.info(`Seeding took ${getTimeElapsed(start)} seconds`);
+  } catch (error) {
+    logger.error(`${SEEDING_FAILED}: ${error.message}`);
+  }
 };
 
 const autoseed = async () => {
