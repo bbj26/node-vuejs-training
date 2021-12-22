@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:server": "nodemon ./server/index.js",
+    "dev:server": "NODE_ENV=development nodemon ./server/index.js",
     "dev:client": "vue-cli-service serve",
+    "db:seed": "node ./server/seed/manual.js",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -29,6 +30,7 @@
     "date-fns": "^2.27.0",
     "dotenv": "^10.0.0",
     "express-validator": "^6.13.0",
+    "faker": "^5.5.3",
     "mongoose": "^6.0.12",
     "nodemailer": "^6.7.2",
     "package-json-merge": "^0.0.1",
