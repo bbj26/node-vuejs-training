@@ -8,7 +8,7 @@ const {
   logDbConnectionSuccess
 } = require('../winston/dbLogger');
 const mongoose = require('mongoose');
-const { seedDb } = require('./auto');
+const seedDb = require('.');
 
 mongoose.connect(DB_CONNECTION, { useUnifiedTopology: true, useNewUrlParser: true })
   .then(() => {
