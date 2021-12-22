@@ -15,29 +15,39 @@ const NUM_OF_EMPLOYEES = 100;
 const NUM_OF_EMPLOYEE_TASKS = 4;
 const Task = require('../models/task');
 
+const createFakeEmployee = () => {
+  let firstName = faker.name.firstName();
+  let lastName = faker.name.lastName();
+  const employeeData = new Employee({
+    _id: new mongoose.Types.ObjectId().toHexString(),
+    name: firstName + ' ' + lastName,
+    email: faker.internet.email(firstName, lastName),
+    phone: faker.phone.phoneNumberFormat(),
+    age: faker.datatype.number({ min: 16, max: 70 }),
+    pet: faker.animal.dog()
+  });
+  return employeeData;
+};
+
+const createFakeTask = (employeeId) => {
+  const taskData = new Task({
+    name: faker.lorem.sentence(),
+    employeeId: employeeId,
+    deadline: format(faker.date.future(), 'yyyy-MM-dd'),
+    completed: faker.datatype.boolean(),
+  });
+  return taskData;
+};
+
 const getFakeData = () => {
   const employees = [];
   const tasks = [];
   for (let i = 0; i < NUM_OF_EMPLOYEES; i++) {
-    let firstName = faker.name.firstName();
-    let lastName = faker.name.lastName();
-    const employeeData = new Employee({
-      _id: new mongoose.Types.ObjectId().toHexString(),
-      name: firstName + ' ' + lastName,
-      email: faker.internet.email(firstName, lastName),
-      phone: faker.phone.phoneNumberFormat(),
-      age: faker.datatype.number({ min: 16, max: 70 }),
-      pet: faker.animal.dog()
-    });
-    employees.push(employeeData);
+    const employee = createFakeEmployee();
+    employees.push(employee);
     for (let j = 0; j < NUM_OF_EMPLOYEE_TASKS; j++) {
-      const taskData = new Task({
-        name: faker.lorem.sentence(),
-        employeeId: employeeData._id,
-        deadline: format(faker.date.future(), 'yyyy-MM-dd'),
-        completed: faker.datatype.boolean(),
-      });
-      tasks.push(taskData);
+      const task = createFakeTask(employee._id);
+      tasks.push(task);
     }
   }
   return { employees, tasks };
