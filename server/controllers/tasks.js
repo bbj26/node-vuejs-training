@@ -132,11 +132,11 @@ const isExpired = (deadline) => {
   return isAfter(now, deadline);
 };
 
-
 module.exports = {
   fetchTasks,
   fetchEmployeeTasks,
   createTask,
   deleteTask,
-  setTaskCompletion
+  setTaskCompletion,
+  isExpired
 };

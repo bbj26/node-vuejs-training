@@ -29,6 +29,6 @@ router.delete('/tasks/:id', taskValidator.validate('validateID'),
 router.post('/logs', logValidator.validate('fetchLogs'),
   logController.fetchLogs);
 
-router.get('/reports', reportController.renderEmployeeReport);
+router.post('/reports', reportController.createEmployeeReport);
 
 module.exports = router;
