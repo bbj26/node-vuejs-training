@@ -40,6 +40,51 @@ const generatePdfName = (data) => {
 };
 const templatePath = path.join(__dirname, '../views/', 'report-template.ejs');
 
+const renderEjsTemplate = async (templatePath, templateData) => {
+  return new Promise((resolve, reject) => {
+    ejs.renderFile(templatePath, { templateData }, (error, data) => {
+      if (error) {
+        return reject(error);
+      } else {
+        return resolve(data);
+      }
+    });
+  });
+};
+const createPdf = async (pdfData, pathToSaveAt) => {
+  const options = {
+    format: 'A4',
+    orientation: 'portrait',
+  };
+  return new Promise((resolve, reject) => {
+    pdf.create(pdfData, options).toFile(pathToSaveAt, (error, data) => {
+      if (error) {
+        return reject(error);
+      } else {
+        return resolve(data);
+      }
+    });
+  });
+};
+const fetchAnnualReport = async (req, res) => {
+  const pdfName = req.params.pdfName;
+  const employeeId = req.params.id;
+  const pdfPath = path.join(__dirname, '../reports/', `${employeeId}/`, `${pdfName}.pdf`);
+  try {
+    fs.readFile(pdfPath, (error, data) => {
+      if (error) {
+        logger.error(`Error reading PDF file: ${error.stack}`);
+        res.status(400).send(error.message);
+      } else {
+        res.contentType('application/pdf');
+        logger.info(`Successfull operation: fetchAnnualReport. Employee id: ${employeeId}`);
+        res.send(data);
+      }
+    });
+  } catch (error) {
+    logger.error(`Internal server error: ${error.stack}`);
+  }
+};
 const createAnnualReport = async (req, res) => {
   const { employeeId } = req.body;
   try {
@@ -64,29 +109,54 @@ const createAnnualReport = async (req, res) => {
       if (isFailed(task)) templateData.failedTasks++;
     });
     templateData.activeTasks = countActiveTasks(templateData);
-    ejs.renderFile(templatePath, { templateData }, (error, data) => {
-      if (error) {
-        logger.error(`Error rendering EJS file: ${error.message}`);
+    // ejs.renderFile(templatePath, { templateData }, (error, data) => {
+    //   if (error) {
+    //     logger.error(`Error rendering EJS file: ${error.message}`);
+    //     res.status(400).send(error.message);
+    //   } else {
+    //     const options = {
+    //       format: 'A4',
+    //       orientation: 'portrait',
+    //     };
+    //     const pdfName = generatePdfName(templateData);
+    //     const reportPath = path.join(__dirname, '../reports/', `${employee._id}/`, `${pdfName}.pdf`);
+    //     const reportUrl = `http://localhost:4101/reports/${employee._id}/${pdfName}`;
+    //     pdf.create(data, options).toFile(reportPath, (error) => {
+    //       if (error) {
+    //         logger.info(`Error creating PDF file: ${error.message}`);
+    //         res.status(400).send(error.message);
+    //       } else {
+    //         logger.info(`Successfully created report for ${templateData.employee.name}`);
+    //         res.status(201).send(reportUrl);
+    //       }
+    //     });
+    //   }
+    // });
+    const pdfName = generatePdfName(templateData);
+    const reportPath = path.join(__dirname, '../reports/', `${employee._id}/`, `${pdfName}.pdf`);
+    const reportUrl = `http://localhost:4101/reports/${employee._id}/${pdfName}`;
+
+    renderEjsTemplate(templatePath, templateData).then(data => {
+      createPdf(data, reportPath).then(data => {
+        logger.info(`Successfully created report for ${templateData.employee.name}`);
+        res.status(201).send(reportUrl);
+      }).catch(error => {
+        logger.info(`Error creating PDF file: ${error.message}`);
         res.status(400).send(error.message);
-      } else {
-        const options = {
-          format: 'A4',
-          orientation: 'portrait',
-        };
-        const pdfName = generatePdfName(templateData);
-        const reportPath = path.join(__dirname, '../reports/',`${employee._id}/`, `${pdfName}.pdf`);
-        const reportUrl = `http://localhost:4101/reports/${employee._id}/${pdfName}`;
-        pdf.create(data, options).toFile(reportPath, (error) => {
-          if (error) {
-            logger.info(`Error creating PDF file: ${error.message}`);
-            res.status(400).send(error.message);
-          } else {
-            logger.info(`Successfully created report for ${templateData.employee.name}`);
-            res.status(201).send(reportUrl);
-          }
-        });
-      }
+      });
+    }).catch(error => {
+      logger.error(`Error rendering EJS file: ${error.message}`);
     });
+    //console.log(error);
+    //console.log(data);
+    //console.log(error);
+    // if (ejsTemplate.error) {
+    //   logger.error(`Error rendering EJS file: ${ejsTemplate.error.message}`);
+    //   res.status(400).send(ejsTemplate.error.message);
+    // } else {
+    //   console.log(ejsTemplate.data);
+    //   res.json(ejsTemplate.data);
+    // }
   } catch (error) {
     logger.error(`Error rendering employee report. ${error.stack}`);
     res.status(500).json({
@@ -95,28 +165,27 @@ const createAnnualReport = async (req, res) => {
     });
   }
 };
-
-const fetchAnnualReport = async (req, res) => {
-  const pdfName = req.params.pdfName;
-  const employeeId = req.params.id;
-  const pdfPath = path.join(__dirname, '../reports/', `${employeeId}/`, `${pdfName}.pdf`);
+const createDayReport = async (req, res) => {
+  const { employeeId, date } = req.body;
   try {
-    fs.readFile(pdfPath, (error, data) => {
-      if (error) {
-        logger.error(`Error reading PDF file: ${error.stack}`);
-        res.status(400).send(error.message);
-      } else {
-        res.contentType('application/pdf');
-        logger.info(`Successfull operation: fetchAnnualReport. Employee id: ${employeeId}`);
-        res.send(data);
+    const employee = await Employee.findById(employeeId);
+    let reportDate = format(new Date(date), 'yyyy-MM-dd');
+    const allTasks = await Task.find({ employeeId });
+    const tasks = allTasks.filter(task => {
+      let updatedAt = format(new Date(task.updatedAt), 'yyyy-MM-dd');
+      if (new Date(updatedAt).getTime() === new Date(reportDate).getTime()) {
+        return task;
       }
     });
+    res.json({ employeeInfo: employee, tasks: tasks });
   } catch (error) {
-    logger.error(`Internal server error: ${error.stack}`);
+    logger.error(`Internal server error. ${error.stack}`);
+    res.status(500).json({ code: 500, message: error.message });
   }
 };
 
 module.exports = {
   createAnnualReport,
-  fetchAnnualReport
+  createDayReport,
+  fetchAnnualReport,
 };
