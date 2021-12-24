@@ -29,7 +29,7 @@ router.delete('/tasks/:id', taskValidator.validate('validateID'),
 router.post('/logs', logValidator.validate('fetchLogs'),
   logController.fetchLogs);
 
-router.get('/reports/annual/:id/:pdfName', reportController.fetchAnnualReport);
+router.get('/reports/:id/:pdfName', reportController.fetchReport);
 router.post('/reports/annual', reportController.createAnnualReport);
 router.post('/reports/daily', reportController.createDayReport);
 

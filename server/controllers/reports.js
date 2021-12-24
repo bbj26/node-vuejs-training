@@ -28,7 +28,7 @@ const getTemplatePath = (type) => {
   }
 };
 const getToday = () => {
-  return format(new Date(), 'yyyy/MM/dd');
+  return format(new Date(), 'yyyy-MM-dd');
 };
 const getYearAgo = () => {
   const today = getToday();
@@ -52,11 +52,17 @@ const countActiveTasks = (data) => {
   const { tasks, completedTasks, failedTasks } = data;
   return tasks.length - completedTasks - failedTasks;
 };
-const generatePdfName = (data) => {
+const generateAnnualPdfName = (data) => {
   const { employee, completedTasks, activeTasks } = data;
   const first = employee.name.split(' ')[0];
   const last = employee.name.split(' ')[1];
   return `${first}-${last}-t${data.tasks.length}c${completedTasks}a${activeTasks}`;
+};
+const generateDailyPdfName = (data) => {
+  const { employee, reportDate } = data;
+  const first = employee.name.split(' ')[0];
+  const last = employee.name.split(' ')[1];
+  return `${first}-${last}-${reportDate}`;
 };
 const renderEjsTemplate = async (templatePath, templateData) => {
   return new Promise((resolve, reject) => {
@@ -84,7 +90,7 @@ const createPdf = async (pdfData, pathToSaveAt) => {
     });
   });
 };
-const setupTemplateData = (employee, allTasks) => {
+const setupAnnualTemplateData = (employee, allTasks) => {
   let templateData = {
     totalTasks: 0,
     completedTasks: 0,
@@ -107,14 +113,30 @@ const setupTemplateData = (employee, allTasks) => {
   templateData.totalTasks = allTasks.length;
   return templateData;
 };
+const setupDailyTemplateData = (employee, allTasks, date) => {
+  const reportDate = format(new Date(date), 'yyyy-MM-dd');
+  const templateData = {
+    employee,
+    tasks: null,
+    reportDate,
+    today: getToday(),
+  };
+  templateData.tasks = allTasks.filter(task => {
+    let updatedAt = format(new Date(task.updatedAt), 'yyyy-MM-dd');
+    if (new Date(updatedAt).getTime() === new Date(date).getTime()) {
+      return task;
+    }
+  }).sort((t1, t2) => t2.completed - t1.completed);
+  return templateData;
+};
 const generateReportPath = (employeeId, pdfName) => {
   return path.join(__dirname, '../reports', `${employeeId}/`, `${pdfName}.pdf`);
 };
 const generateReportDownloadUrl = (employeeId, pdfName) => {
-  return `${SERVER}:${PORT}/reports/annual/${employeeId}/${pdfName}`;
+  return `${SERVER}:${PORT}/reports/${employeeId}/${pdfName}`;
 };
 
-const fetchAnnualReport = async (req, res) => {
+const fetchReport = async (req, res) => {
   const pdfName = req.params.pdfName;
   const employeeId = req.params.id;
   const pdfPath = generateReportPath(employeeId, pdfName);
@@ -139,9 +161,9 @@ const createAnnualReport = async (req, res) => {
   try {
     const employee = await Employee.findOne({ _id: employeeId });
     const allTasks = await Task.find({ employeeId });
-    const templateData = Object.assign({}, setupTemplateData(employee, allTasks));
+    const templateData = Object.assign({}, setupAnnualTemplateData(employee, allTasks));
     const templatePath = getTemplatePath('annual');
-    const pdfName = generatePdfName(templateData);
+    const pdfName = generateAnnualPdfName(templateData);
     const reportPath = generateReportPath(employee._id, pdfName);
     const reportUrl = generateReportDownloadUrl(employeeId, pdfName);
     try {
@@ -166,14 +188,23 @@ const createDayReport = async (req, res) => {
   try {
     const employee = await Employee.findById(employeeId);
     const allTasks = await Task.find({ employeeId });
-    const reportDate = format(new Date(date), 'yyyy-MM-dd');
-    const tasks = allTasks.filter(task => {
-      let updatedAt = format(new Date(task.updatedAt), 'yyyy-MM-dd');
-      if (new Date(updatedAt).getTime() === new Date(reportDate).getTime()) {
-        return task;
-      }
-    });
-    res.json({ employeeInfo: employee, tasks: tasks });
+    const templateData = Object.assign({}, setupDailyTemplateData(employee, allTasks, date));
+    const templatePath = getTemplatePath('daily');
+    const pdfName = generateDailyPdfName(templateData);
+    const reportPath = generateReportPath(employee._id, pdfName);
+    const reportUrl = generateReportDownloadUrl(employeeId, pdfName);
+    try {
+      const renderedTemplate = await renderEjsTemplate(templatePath, templateData);
+      await createPdf(renderedTemplate, reportPath);
+      res.status(201).send({
+        code: 201,
+        message: REPORT_CREATED,
+        downloadUrl: reportUrl
+      });
+    } catch (error) {
+      logPdfCreationError(error);
+      res.status(400).send({ code: 400, message: error.message });
+    }
   } catch (error) {
     logServerError(error, CREATE_DAY_REPORT);
     res.status(500).json({ code: 500, message: error.message });
@@ -183,5 +214,5 @@ const createDayReport = async (req, res) => {
 module.exports = {
   createAnnualReport,
   createDayReport,
-  fetchAnnualReport,
+  fetchReport,
 };
