@@ -1,12 +1,12 @@
 const {
   CREATE_ANNUAL_REPORT,
   CREATE_DAY_REPORT,
-  FETCH_ANNUAL_REPORT
+  FETCH_REPORT
 } = require('../constants/apiMethodNames');
 const {
   logPdfCreationError,
   logReadPdfError,
-  logFetchSuccessAnnual
+  logSuccess
 } = require('../winston/reportsLogger');
 const { format, differenceInDays, isAfter } = require('date-fns');
 const { app: { SERVER }, app: { PORT } } = require('../config');
@@ -33,7 +33,7 @@ const getToday = () => {
 const getYearAgo = () => {
   const today = getToday();
   return format(new Date(today)
-    .setFullYear(new Date().getFullYear() - 1), 'yyyy/MM/dd');
+    .setFullYear(new Date().getFullYear() - 1), 'yyyy-MM-dd');
 };
 const isFailed = (task) => {
   let now = new Date();
@@ -146,13 +146,13 @@ const fetchReport = async (req, res) => {
         logReadPdfError(error);
         res.status(400).send(error.message);
       } else {
-        logFetchSuccessAnnual(employeeId);
+        logSuccess(FETCH_REPORT, employeeId);
         res.contentType('application/pdf');
         res.send(data);
       }
     });
   } catch (error) {
-    logServerError(error, FETCH_ANNUAL_REPORT);
+    logServerError(error, FETCH_REPORT);
     res.status(500).json({ code: 500, message: error.message });
   }
 };
@@ -169,6 +169,7 @@ const createAnnualReport = async (req, res) => {
     try {
       const renderedTemplate = await renderEjsTemplate(templatePath, templateData);
       await createPdf(renderedTemplate, reportPath);
+      logSuccess(CREATE_ANNUAL_REPORT, employeeId);
       res.status(201).send({
         code: 201,
         message: REPORT_CREATED,
@@ -196,6 +197,7 @@ const createDayReport = async (req, res) => {
     try {
       const renderedTemplate = await renderEjsTemplate(templatePath, templateData);
       await createPdf(renderedTemplate, reportPath);
+      logSuccess(CREATE_DAY_REPORT, employeeId);
       res.status(201).send({
         code: 201,
         message: REPORT_CREATED,

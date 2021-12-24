@@ -12,7 +12,7 @@ const FETCH_LOGS = 'fetchLogs';
 
 const CREATE_ANNUAL_REPORT = 'createAnnualReport';
 const CREATE_DAY_REPORT = 'createDayReport';
-const FETCH_ANNUAL_REPORT = 'fetchAnnualReport';
+const FETCH_REPORT = 'fetchReport';
 
 module.exports = {
   FETCH_EMPLOYEES,
@@ -26,5 +26,5 @@ module.exports = {
   FETCH_LOGS,
   CREATE_ANNUAL_REPORT,
   CREATE_DAY_REPORT,
-  FETCH_ANNUAL_REPORT
+  FETCH_REPORT
 };

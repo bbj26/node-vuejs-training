@@ -57,7 +57,7 @@
       <div class="date-item">For date: <%=templateData.reportDate %></div>
     </div>
     <div class="tasks">
-      <% templateData.tasks.forEach(task => { %>
+      <% if(templateData.tasks.length){ %> <% templateData.tasks.forEach(task => { %>
       <div class="task">
         <h3>Task: <%= task.name %></h3>
         <div>Deadline: <%= task.deadline %></div>
@@ -68,6 +68,7 @@
       </div>
       <% }); %>
     </div>
+    <% } else { %> No tasks found on selected date. <% } %>
   </body>
 </html>
 
