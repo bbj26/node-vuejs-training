@@ -20,6 +20,8 @@ const SEDDING_SUCCESS = 'Seeding database successfully finished';
 const SKIP_AUTOSEED = 'Database not empty. Skipping autoseed.';
 const START_AUTOSEED = 'Database empty. Starting auto seed...';
 
+const REPORT_CREATED = 'Report successfully created';
+
 module.exports = {
   AUTO_SEED,
   ENVIRONMENT_VAR_UNDEFINED,
@@ -37,5 +39,6 @@ module.exports = {
   SEEDING_FAILED,
   SEDDING_SUCCESS,
   SKIP_AUTOSEED,
-  START_AUTOSEED
+  START_AUTOSEED,
+  REPORT_CREATED
 };

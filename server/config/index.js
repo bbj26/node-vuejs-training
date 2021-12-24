@@ -12,6 +12,7 @@ const env = process.env.NODE_ENV;
 const development = {
   app: {
     PORT: process.env.PORT || 4101,
+    SERVER: process.env.SERVER
   },
   db: {
     DB_CONNECTION: process.env.DB_CONNECTION,
