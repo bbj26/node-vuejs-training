@@ -9,9 +9,13 @@ const logReadPdfError = (error) => {
 const logSuccess = (operation, employeeId) => {
   logger.info(`Successfull operation: ${operation}. Employee id: ${employeeId}`);
 };
-
+const logValidationError = (error, operation) => {
+  logger.error(`Operation failed: ${operation}. Invalid value ` +
+    `'${error.value}' for property '${error.param}'. Error: ${error.msg}`);
+};
 module.exports = {
   logPdfCreationError,
   logReadPdfError,
   logSuccess,
+  logValidationError
 };

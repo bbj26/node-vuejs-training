@@ -9,6 +9,7 @@ const reportController = require('./controllers/reports');
 const employeesValidator = require('./validators/employeeValidator');
 const taskValidator = require('./validators/taskValidator');
 const logValidator = require('./validators/logValidator');
+const reportValidator = require('./validators/reportValidator');
 
 router.get('/employees', employeeController.fetchEmployees);
 router.post('/employees', employeesValidator.validate('createEmployee'),
@@ -29,8 +30,11 @@ router.delete('/tasks/:id', taskValidator.validate('validateID'),
 router.post('/logs', logValidator.validate('fetchLogs'),
   logController.fetchLogs);
 
-router.get('/reports/:id/:pdfName', reportController.fetchReport);
-router.post('/reports/annual', reportController.createAnnualReport);
-router.post('/reports/daily', reportController.createDayReport);
+router.get('/reports/:id/:pdfName', reportValidator.validate('fetchReport'),
+  reportController.fetchReport);
+router.post('/reports/annual', reportValidator.validate('createAnnualReport'),
+  reportController.createAnnualReport);
+router.post('/reports/daily', reportValidator.validate('createDayReport'),
+  reportController.createDayReport);
 
 module.exports = router;

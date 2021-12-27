@@ -6,7 +6,8 @@ const {
 const {
   logPdfCreationError,
   logReadPdfError,
-  logSuccess
+  logSuccess,
+  logValidationError
 } = require('../winston/reportsLogger');
 const { format, differenceInDays, isAfter } = require('date-fns');
 const { app: { SERVER }, app: { PORT } } = require('../config');
@@ -18,6 +19,7 @@ const Task = require('../models/task');
 const path = require('path');
 const pdf = require('html-pdf');
 const { REPORT_CREATED } = require('../constants/infoMessages');
+const { validationResult } = require('express-validator');
 
 const getTemplatePath = (type) => {
   switch (type) {
@@ -139,6 +141,12 @@ const generateReportDownloadUrl = (employeeId, pdfName) => {
 const fetchReport = async (req, res) => {
   const pdfName = req.params.pdfName;
   const employeeId = req.params.id;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = errors.array()[0];
+    logValidationError(error, FETCH_REPORT);
+    return res.status(403).json({ code: 403, message: error.msg });
+  }
   const pdfPath = generateReportPath(employeeId, pdfName);
   try {
     fs.readFile(pdfPath, (error, data) => {
@@ -158,6 +166,12 @@ const fetchReport = async (req, res) => {
 };
 const createAnnualReport = async (req, res) => {
   const { employeeId } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = errors.array()[0];
+    logValidationError(error, CREATE_ANNUAL_REPORT);
+    return res.status(403).json({ code: 403, message: error.msg });
+  }
   try {
     const employee = await Employee.findOne({ _id: employeeId });
     const allTasks = await Task.find({ employeeId });
@@ -186,6 +200,12 @@ const createAnnualReport = async (req, res) => {
 };
 const createDayReport = async (req, res) => {
   const { employeeId, date } = req.body;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = errors.array()[0];
+    logValidationError(error, CREATE_DAY_REPORT);
+    return res.status(403).json({ code: 403, message: error.msg });
+  }
   try {
     const employee = await Employee.findById(employeeId);
     const allTasks = await Task.find({ employeeId });
