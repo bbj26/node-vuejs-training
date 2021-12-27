@@ -152,11 +152,11 @@ const fetchReport = async (req, res) => {
     fs.readFile(pdfPath, (error, data) => {
       if (error) {
         logReadPdfError(error);
-        res.status(400).send(error.message);
+        res.status(400).json({ code: 400, message: error.message });
       } else {
         logSuccess(FETCH_REPORT, employeeId);
         res.contentType('application/pdf');
-        res.send(data);
+        res.status(201).send(data);
       }
     });
   } catch (error) {

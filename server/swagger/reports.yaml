@@ -1,0 +1,145 @@
+/reports/{id}/{pdfName}:
+  get:
+    summary: 'Returns the PDF report by employee ID and PDF name'
+    tags: [Reports]
+    parameters:
+      - $ref: '#/parameters/id'
+      - $ref: '#/parameters/pdfName'
+    responses:
+      201:
+        $ref: '#/responses/201FetchReport'
+      400: 
+        $ref: '#/responses/400BadRequest'
+      403:
+        $ref: '#/responses/403ValidationError'
+      500:
+        $ref: '#/responses/500ServerError'
+/reports/annual:
+  post:
+    summary: 'Generate annual employee report'
+    tags: [Reports]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              employeeId:
+                type: string
+                example: '61c2ec36e65f2c0aea86d236'
+    responses:
+      201:
+        $ref: '#/responses/201AnnualSuccess'
+      400:
+        $ref: '#/responses/400BadRequest'
+      403:
+        $ref: '#/responses/403ValidationError'
+      500:
+        $ref: '#/responses/500ServerError'
+/reports/daily:
+  post:
+    summary: 'Generate employee report for specific date'
+    tags: [Reports]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              employeeId:
+                type: string
+                example: '61c2ec36e65f2c0aea86d236'
+              date:
+                type: string
+                example: '2021-12-22'
+    responses:
+      201:
+        $ref: '#/responses/201AnnualSuccess'
+      400:
+        $ref: '#/responses/400BadRequest'
+      403:
+        $ref: '#/responses/403ValidationError'
+      500:
+        $ref: '#/responses/500ServerError'
+responses:
+  201FetchReport:
+    description: 'A PDF file'
+    content:
+      application/pdf:
+        schema:
+          type: string
+          format: binary
+  201AnnualSuccess:
+    description: 'OK'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 201
+            message:
+              type: string
+              example: 'Report created'
+            downloadUrl:
+              type: string
+              example: 'http://downloadLink.com'
+  400BadRequest:
+    description: 'Error creating PDF file'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 400
+            message:
+              type: string
+              example: 'PDF creation error'
+  403ValidationError:
+    description: 'Express validation error'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 403
+            message:
+              type: string
+              example: 'Employee ID must be a valid Mongo ID'
+  500ServerError:
+    description: 'Internal server error'
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            code:
+              type: number
+              example: 500
+            message:
+              type: string
+              example: 'Server down'
+
+parameters:
+  pdfName:
+    in: path
+    name: 'pdfName'
+    schema:
+      type: string
+    required: true
+    description: 'PDF name'
+
+  id:
+    in: path
+    name: 'id'
+    schema:
+      type: string
+    required: true
+    description: 'Employee ID'
