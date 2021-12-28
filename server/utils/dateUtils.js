@@ -1,4 +1,4 @@
-const { format, differenceInDays } = require('date-fns');
+const { format, differenceInDays, getDaysInYear } = require('date-fns');
 
 const getToday = () => {
   return format(new Date(), 'yyyy-MM-dd');
@@ -8,14 +8,13 @@ const getYearAgo = () => {
   return format(new Date(today)
     .setFullYear(new Date().getFullYear() - 1), 'yyyy-MM-dd');
 };
-const isInLast365Days = (createdAt, updatedAt) => {
+const isInLastYear = (createdAt, updatedAt) => {
   const now = new Date().getTime();
   createdAt = new Date(createdAt).getTime();
   updatedAt = new Date(updatedAt).getTime();
-  if (differenceInDays(createdAt, now) < 365 ||
-    differenceInDays(updatedAt, now) < 365) {
-    return true;
-  } else return false;
+  const daysInCurrentYear = getDaysInYear(new Date(now));
+  return differenceInDays(createdAt, now) < daysInCurrentYear ||
+    differenceInDays(updatedAt, now) < daysInCurrentYear;
 };
 
-module.exports = { getToday, getYearAgo, isInLast365Days };
+module.exports = { getToday, getYearAgo, isInLastYear };

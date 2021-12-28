@@ -1,4 +1,4 @@
-const { getToday, getYearAgo, isInLast365Days } = require('./dateUtils');
+const { getToday, getYearAgo, isInLastYear } = require('./dateUtils');
 const { app: { SERVER }, app: { PORT } } = require('../config');
 const { format, isAfter } = require('date-fns');
 const ejs = require('ejs');
@@ -6,20 +6,26 @@ const path = require('path');
 const pdf = require('html-pdf');
 
 const templatePaths = {
-  annual: 'annual',
-  daily: 'daily'
+  annual: {
+    name: 'annual',
+    template: 'report-template-annual.ejs',
+  },
+  daily: {
+    name: 'daily',
+    template: 'report-template-daily.ejs'
+  }
 };
 const getTemplatePath = (type) => {
   switch (type) {
     case templatePaths.annual:
-      return path.join(__dirname, '../views/', 'report-template-annual.ejs');
+      return path.join(__dirname, '../views/', templatePaths.annual.template);
     case templatePaths.daily:
-      return path.join(__dirname, '../views/', 'report-template-daily.ejs');
+      return path.join(__dirname, '../views/', templatePaths.daily.template);
   }
 };
 const isFailed = (task) => {
-  let now = new Date();
-  let deadline = new Date(task.deadline);
+  const now = new Date();
+  const deadline = new Date(task.deadline);
   return isAfter(now, deadline) && !task.completed;
 };
 const countActiveTasks = (data) => {
@@ -65,7 +71,7 @@ const createPdf = async (pdfData, pathToSaveAt) => {
   });
 };
 const setupAnnualTemplateData = (employee, allTasks) => {
-  let templateData = {
+  const templateData = {
     totalTasks: 0,
     completedTasks: 0,
     failedTasks: 0,
@@ -75,9 +81,8 @@ const setupAnnualTemplateData = (employee, allTasks) => {
     employee,
     tasks: null
   };
-  templateData.tasks = allTasks.filter(task => {
-    return isInLast365Days(task.createdAt, task.updatedAt);
-  });
+  templateData.tasks = allTasks.filter(task =>
+    isInLastYear(task.createdAt, task.updatedAt));
   templateData.tasks.forEach(task => {
     task.createdAtFormatted = format(new Date(task.createdAt), 'yyyy-MM-dd');
     if (task.completed) templateData.completedTasks++;
@@ -96,7 +101,7 @@ const setupDailyTemplateData = (employee, allTasks, date) => {
     today: getToday(),
   };
   templateData.tasks = allTasks.filter(task => {
-    let updatedAt = format(new Date(task.updatedAt), 'yyyy-MM-dd');
+    const updatedAt = format(new Date(task.updatedAt), 'yyyy-MM-dd');
     if (new Date(updatedAt).getTime() === new Date(date).getTime()) {
       return task;
     }
