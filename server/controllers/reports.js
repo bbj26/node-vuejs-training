@@ -65,7 +65,7 @@ const createAnnualReport = async (req, res) => {
     const employee = await Employee.findOne({ _id: employeeId });
     const allTasks = await Task.find({ employeeId });
     const templateData = Object.assign({}, setupAnnualTemplateData(employee, allTasks));
-    const templatePath = getTemplatePath(templatePaths.annual);
+    const templatePath = getTemplatePath(templatePaths.annual.name);
     const pdfName = generateAnnualPdfName(templateData);
     const reportPath = generateReportPath(employee._id, pdfName);
     const reportUrl = generateReportDownloadUrl(employeeId, pdfName);
@@ -99,7 +99,7 @@ const createDayReport = async (req, res) => {
     const employee = await Employee.findById(employeeId);
     const allTasks = await Task.find({ employeeId });
     const templateData = Object.assign({}, setupDailyTemplateData(employee, allTasks, date));
-    const templatePath = getTemplatePath(templatePaths.daily);
+    const templatePath = getTemplatePath(templatePaths.daily.name);
     const pdfName = generateDailyPdfName(templateData);
     const reportPath = generateReportPath(employee._id, pdfName);
     const reportUrl = generateReportDownloadUrl(employeeId, pdfName);
