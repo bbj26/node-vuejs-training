@@ -17,9 +17,9 @@ const templatePaths = {
 };
 const getTemplatePath = (type) => {
   switch (type) {
-    case templatePaths.annual:
+    case templatePaths.annual.name:
       return path.join(__dirname, '../views/', templatePaths.annual.template);
-    case templatePaths.daily:
+    case templatePaths.daily.name:
       return path.join(__dirname, '../views/', templatePaths.daily.template);
   }
 };
