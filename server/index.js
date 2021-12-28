@@ -30,6 +30,8 @@ app.use(cors());
 app.use(express.json());
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs));
 app.use('/', router);
+app.set('view engine', 'ejs');    
+app.set('views', __dirname + '/views');
 
 app.get('/', (req, res) => {
   res.send('You accessed simple Node.js/Express server');

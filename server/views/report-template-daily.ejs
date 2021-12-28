@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Annual report</title>
+  </head>
+  <body>
+    <header>
+      <h1>Daily performance report</h1>
+    </header>
+    <div class="about">
+      <table>
+        <tr>
+          <th class="employee">Employee</th>
+          <th></th>
+          <th class="company">Company</th>
+        </tr>
+        <tr>
+          <td class="employee info">
+            <div class="info-property-field">
+              <%= templateData.employee.name %>
+            </div>
+            <div class="info-property-field">
+              <%= templateData.employee.email %>
+            </div>
+            <div class="info-property-field">
+              <%= templateData.employee.phone %>
+            </div>
+            <div class="info-property-field">
+              <%= templateData.employee.pet %>
+            </div>
+            <div class="info-property-field">
+              <%= templateData.employee.age %>
+            </div>
+          </td>
+          <td class="info">
+            <img
+              src="https://agilathon.com/images/agilathon_logo.png"
+              alt="logo"
+              class="logo"
+            />
+          </td>
+          <td class="company info">
+            <div class="info-property-field">Agilathon</div>
+            <div class="info-property-field">pr@agilathon.com</div>
+            <div class="info-property-field">+35 21 039 393</div>
+            <div class="info-property-field">Sarajevska 46</div>
+            <div class="info-property-field">Split, Croatia</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="date">
+      <div class="date-item">Report created: <%=templateData.today %></div>
+      <div class="date-item">For date: <%=templateData.reportDate %></div>
+    </div>
+    <div class="tasks">
+      <% if(templateData.tasks.length){ %> <% templateData.tasks.forEach(task => { %>
+      <div class="task">
+        <h3>Task: <%= task.name %></h3>
+        <div>Deadline: <%= task.deadline %></div>
+        <div>
+          <% if(task.completed){ %> Completed: Yes <% } else{ %> Completed: No
+          <% } %>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    <% } else { %> No tasks found on selected date. <% } %>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #041464;
+    font-size: 12px;
+    min-height: 100vh;
+  }
+  header {
+    width: 100%;
+    background-color: #041464;
+    text-align: center;
+  }
+  h1 {
+    font-size: 30px;
+    font-variant: small-caps;
+    color: white;
+    width: 100%;
+  }
+  .about {
+    width: 100%;
+    border-bottom: 2px solid #041464;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0px;
+  }
+  .info {
+    width: 300px;
+    text-align: center;
+  }
+  .employee {
+    text-align: left;
+  }
+  .company {
+    text-align: right;
+  }
+  .logo {
+    width: 200px;
+    height: auto;
+  }
+  h2 {
+    text-align: center;
+    padding-bottom: 5px;
+    width: 100px;
+    border-bottom: 1px solid #041464;
+  }
+  .info-property-field {
+    padding: 2px;
+    font-size: 10px;
+  }
+  table {
+    margin: 10px 0;
+    width: 100%;
+  }
+  .date {
+    width: 100%;
+    padding: 30px 0px;
+    text-align: left;
+  }
+  .date-item {
+    width: 100%;
+    text-align: left;
+    padding: 5px;
+  }
+  .task {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #041464;
+  }
+</style>

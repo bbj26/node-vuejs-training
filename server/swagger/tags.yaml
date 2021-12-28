@@ -5,3 +5,5 @@ tags:
     description: 'The tasks managing API'
   - name: 'Logs'
     description: The logs managing API
+  - name: 'Reports'
+    description: The reports managing API
